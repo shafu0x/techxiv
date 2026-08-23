@@ -168,21 +168,23 @@ export default async function Home({
       </a>
       <h1 className="sr-only">techxiv</h1>
       <div className="flex flex-col gap-2">
-        <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 sm:flex sm:justify-end sm:gap-3">
+        <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 sm:flex sm:justify-between">
           <div className="min-w-0 sm:w-56">
             <TitleSearch value={q} />
           </div>
-          <div className="hidden sm:contents">
-            <CategoryFilter selected={categories} />
+          <div className="flex items-center gap-3">
+            <div className="hidden sm:contents">
+              <CategoryFilter selected={categories} />
+            </div>
+            <PostFilters
+              organizations={organizations.map((org) => ({
+                slug: org.slug,
+                name: org.name,
+                logo: org.logo,
+              }))}
+              selected={slugsKnown}
+            />
           </div>
-          <PostFilters
-            organizations={organizations.map((org) => ({
-              slug: org.slug,
-              name: org.name,
-              logo: org.logo,
-            }))}
-            selected={slugsKnown}
-          />
         </div>
 
         <div className="flex flex-col gap-4">
