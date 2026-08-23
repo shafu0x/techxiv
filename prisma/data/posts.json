@@ -296,6 +296,14 @@
     "kind": "deep-dive"
   },
   {
+    "slug": "notion",
+    "title": "Building Shared Memory for AI Agents in Notion",
+    "url": "https://www.notion.com/blog/building-shared-memory-for-ai-agents-in-notion",
+    "publishedAt": "2026-08-18T12:00:00.000Z",
+    "category": "ai-agents-tooling",
+    "kind": "deep-dive"
+  },
+  {
     "slug": "openai",
     "title": "Partnering with CodeAI to prepare the first AI generation",
     "url": "https://openai.com/index/partnering-with-codeai",
@@ -838,6 +846,14 @@
     "publishedAt": "2026-08-10T14:00:00.000Z",
     "category": "business-culture",
     "kind": "report"
+  },
+  {
+    "slug": "notion",
+    "title": "Rebuilding Notion’s lexical search reindexer",
+    "url": "https://www.notion.com/blog/rebuilding-notions-lexical-search-reindexer",
+    "publishedAt": "2026-08-10T14:00:00.000Z",
+    "category": "data-observability",
+    "kind": "deep-dive"
   },
   {
     "slug": "cloudflare",
@@ -4368,6 +4384,14 @@
     "kind": "announcement"
   },
   {
+    "slug": "notion",
+    "title": "Building observability into Notion’s dead-letter queue",
+    "url": "https://www.notion.com/blog/building-observability-into-notions-dead-letter-queue",
+    "publishedAt": "2026-06-04T19:00:00.000Z",
+    "category": "data-observability",
+    "kind": "deep-dive"
+  },
+  {
     "slug": "vercel",
     "title": "Updates to Legal Terms",
     "url": "https://vercel.com/changelog/updates-to-legal-terms-june-2026",
@@ -6752,6 +6776,14 @@
     "kind": "deep-dive"
   },
   {
+    "slug": "notion",
+    "title": "Enabling Multi-Region Data Systems at Notion",
+    "url": "https://www.notion.com/blog/enabling-multi-region-data-systems-at-notion",
+    "publishedAt": "2026-04-09T16:00:00.000Z",
+    "category": "infrastructure",
+    "kind": "deep-dive"
+  },
+  {
     "slug": "vercel",
     "title": "Zero-configuration Django support",
     "url": "https://vercel.com/changelog/zero-configuration-django-support",
@@ -6974,6 +7006,14 @@
     "publishedAt": "2026-04-02T16:00:49.000Z",
     "category": "ai-models-research",
     "kind": "announcement"
+  },
+  {
+    "slug": "notion",
+    "title": "How Notion catches breaking schema changes before they reach production",
+    "url": "https://www.notion.com/blog/how-notion-catches-breaking-schema-changes",
+    "publishedAt": "2026-04-02T16:00:00.000Z",
+    "category": "developer-experience",
+    "kind": "deep-dive"
   },
   {
     "slug": "vercel",
@@ -7510,6 +7550,14 @@
     "publishedAt": "2026-03-18T18:19:33.000Z",
     "category": "web-frontend",
     "kind": "deep-dive"
+  },
+  {
+    "slug": "notion",
+    "title": "Updating the design of Notion pages",
+    "url": "https://www.notion.com/blog/updating-the-design-of-notion-pages",
+    "publishedAt": "2026-03-18T16:00:00.000Z",
+    "category": "web-frontend",
+    "kind": "announcement"
   },
   {
     "slug": "vercel",
@@ -8336,6 +8384,14 @@
     "kind": "announcement"
   },
   {
+    "slug": "notion",
+    "title": "How we built security into Custom Agents",
+    "url": "https://www.notion.com/blog/how-we-built-security-into-custom-agents",
+    "publishedAt": "2026-02-27T20:00:00.000Z",
+    "category": "security",
+    "kind": "deep-dive"
+  },
+  {
     "slug": "vercel",
     "title": "Keeping community human while scaling with agents",
     "url": "https://vercel.com/blog/keeping-community-human-while-scaling-with-agents",
@@ -8598,6 +8654,14 @@
     "publishedAt": "2026-02-20T13:00:00.000Z",
     "category": "ai-agents-tooling",
     "kind": "report"
+  },
+  {
+    "slug": "notion",
+    "title": "Two years of vector search at Notion: 10x scale, 1/10th cost",
+    "url": "https://www.notion.com/blog/two-years-of-vector-search-at-notion",
+    "publishedAt": "2026-02-19T17:00:00.000Z",
+    "category": "data-observability",
+    "kind": "deep-dive"
   },
   {
     "slug": "deepmind",
@@ -8876,6 +8940,14 @@
     "title": "Beyond rate limits: scaling access to Codex and Sora",
     "url": "https://openai.com/index/beyond-rate-limits",
     "publishedAt": "2026-02-13T09:00:00.000Z",
+    "category": "infrastructure",
+    "kind": "deep-dive"
+  },
+  {
+    "slug": "notion",
+    "title": "Balancing cost and reliability for Spark on Kubernetes",
+    "url": "https://www.notion.com/blog/balancing-cost-and-reliability-for-spark-on-kubernetes",
+    "publishedAt": "2026-02-12T17:00:00.000Z",
     "category": "infrastructure",
     "kind": "deep-dive"
   },
@@ -10088,6 +10160,14 @@
     "kind": "release-note"
   },
   {
+    "slug": "notion",
+    "title": "Meet Scruff: Notion’s AI Teammate for Security Teams",
+    "url": "https://www.notion.com/blog/meet-scruff-securitys-new-ai-teammate",
+    "publishedAt": "2026-01-12T08:00:00.000Z",
+    "category": "security",
+    "kind": "announcement"
+  },
+  {
     "slug": "vercel",
     "title": "How to build agents with filesystems and bash",
     "url": "https://vercel.com/blog/how-to-build-agents-with-filesystems-and-bash",
@@ -10636,6 +10716,14 @@
     "title": "How to Make and Use Custom Emoji on Discord",
     "url": "https://discord.com/blog/beginners-guide-to-custom-emojis",
     "publishedAt": "2025-12-12T00:00:00.000Z",
+    "category": "web-frontend",
+    "kind": "deep-dive"
+  },
+  {
+    "slug": "notion",
+    "title": "How we made Notion available offline",
+    "url": "https://www.notion.com/blog/how-we-made-notion-available-offline",
+    "publishedAt": "2025-12-11T17:00:00.000Z",
     "category": "web-frontend",
     "kind": "deep-dive"
   },
@@ -15248,6 +15336,14 @@
     "kind": "release-note"
   },
   {
+    "slug": "notion",
+    "title": "Notion’s hosted MCP server: an inside look",
+    "url": "https://www.notion.com/blog/notions-hosted-mcp-server-an-inside-look",
+    "publishedAt": "2025-07-15T07:00:00.000Z",
+    "category": "ai-agents-tooling",
+    "kind": "deep-dive"
+  },
+  {
     "slug": "openai",
     "title": "Intellectual freedom by design",
     "url": "https://openai.com/global-affairs/intellectual-freedom-by-design",
@@ -16158,6 +16254,14 @@
     "publishedAt": "2025-05-30T13:00:00.000Z",
     "category": "security",
     "kind": "release-note"
+  },
+  {
+    "slug": "notion",
+    "title": "Speed, Structure, and Smarts: The Notion AI Way",
+    "url": "https://www.notion.com/blog/speed-structure-and-smarts-the-notion-ai-way",
+    "publishedAt": "2025-05-29T23:00:00.000Z",
+    "category": "ai-agents-tooling",
+    "kind": "deep-dive"
   },
   {
     "slug": "figma",
@@ -17864,6 +17968,14 @@
     "kind": "announcement"
   },
   {
+    "slug": "notion",
+    "title": "Custom ESLint ratcheting: how Notion modernizes code without slowing down development",
+    "url": "https://www.notion.com/blog/how-we-evolved-our-code-notions-ratcheting-system-using-custom-eslint-rules",
+    "publishedAt": "2025-03-03T14:00:00.000Z",
+    "category": "developer-experience",
+    "kind": "deep-dive"
+  },
+  {
     "slug": "vercel",
     "title": "How Fluid compute works on Vercel",
     "url": "https://vercel.com/blog/how-fluid-compute-works-on-vercel",
@@ -18542,6 +18654,14 @@
     "publishedAt": "2025-02-01T00:00:00.000Z",
     "category": "security",
     "kind": "report"
+  },
+  {
+    "slug": "notion",
+    "title": "How we built custom emoji",
+    "url": "https://www.notion.com/blog/how-we-built-custom-emoji",
+    "publishedAt": "2025-02-01T00:00:00.000Z",
+    "category": "web-frontend",
+    "kind": "deep-dive"
   },
   {
     "slug": "vercel",
@@ -19840,6 +19960,14 @@
     "kind": "report"
   },
   {
+    "slug": "notion",
+    "title": "A brief history of Notion’s data catalog",
+    "url": "https://www.notion.com/blog/a-brief-history-of-notions-data-catalog",
+    "publishedAt": "2024-10-09T13:00:00.000Z",
+    "category": "data-observability",
+    "kind": "deep-dive"
+  },
+  {
     "slug": "openai",
     "title": "OpenAI and Hearst Content Partnership",
     "url": "https://openai.com/index/hearst",
@@ -20125,6 +20253,14 @@
     "url": "https://fly.io/blog/ai-gpu-clusters-from-your-laptop-livebook",
     "publishedAt": "2024-09-24T00:00:00.000Z",
     "category": "developer-experience",
+    "kind": "deep-dive"
+  },
+  {
+    "slug": "notion",
+    "title": "Observability for Notion’s Redis Queue",
+    "url": "https://www.notion.com/blog/observability-for-notions-redis-queue",
+    "publishedAt": "2024-09-23T13:00:00.000Z",
+    "category": "data-observability",
     "kind": "deep-dive"
   },
   {
@@ -20816,6 +20952,14 @@
     "kind": "deep-dive"
   },
   {
+    "slug": "notion",
+    "title": "Notion engineers sped up Notion's browser speed with WASM SQLite",
+    "url": "https://www.notion.com/blog/how-we-sped-up-notion-in-the-browser-with-wasm-sqlite",
+    "publishedAt": "2024-07-10T07:00:00.000Z",
+    "category": "languages-performance",
+    "kind": "deep-dive"
+  },
+  {
     "slug": "openai",
     "title": "OpenAI and Los Alamos National Laboratory announce research partnership",
     "url": "https://openai.com/index/openai-and-los-alamos-national-laboratory-work-together",
@@ -20852,6 +20996,14 @@
     "title": "Unlocking Efficiency and Performance: Navigating the Spark 3 and EMR 6 Upgrade Journey at Slack",
     "url": "https://slack.engineering/unlocking-efficiency-and-performance-navigating-the-spark-3-and-emr-6-upgrade-journey-at-slack",
     "publishedAt": "2024-07-02T09:00:00.000Z",
+    "category": "data-observability",
+    "kind": "deep-dive"
+  },
+  {
+    "slug": "notion",
+    "title": "How Notion build and grew our data lake to keep up with rapid growth",
+    "url": "https://www.notion.com/blog/building-and-scaling-notions-data-lake",
+    "publishedAt": "2024-07-01T07:00:00.000Z",
     "category": "data-observability",
     "kind": "deep-dive"
   },
@@ -21536,6 +21688,14 @@
     "kind": "announcement"
   },
   {
+    "slug": "notion",
+    "title": "How we optimized Notion for Android and enhanced the mobile experience",
+    "url": "https://www.notion.com/blog/notion-on-android-is-now-more-than-twice-as-fast-to-launch",
+    "publishedAt": "2024-05-01T07:00:00.000Z",
+    "category": "web-frontend",
+    "kind": "deep-dive"
+  },
+  {
     "slug": "openai",
     "title": "IUVM: Iran-linked influence content network",
     "url": "https://openai.com/index/disrupting-malicious-uses-of-ai-iuvm",
@@ -22100,6 +22260,14 @@
     "title": "Improving health literacy and patient well-being",
     "url": "https://openai.com/index/lifespan",
     "publishedAt": "2024-03-06T08:00:00.000Z",
+    "category": "business-culture",
+    "kind": "report"
+  },
+  {
+    "slug": "notion",
+    "title": "Gen Z is changing the way we work. Are companies prepared?",
+    "url": "https://www.notion.com/blog/gen-z-is-changing-the-way-we-work-are-companies-prepared",
+    "publishedAt": "2024-03-05T17:00:00.000Z",
     "category": "business-culture",
     "kind": "report"
   },
@@ -23557,6 +23725,14 @@
     "url": "https://engineering.fb.com/2023/07/17/video-engineering/hdr-video-reels-meta",
     "publishedAt": "2023-07-17T16:00:15.000Z",
     "category": "web-frontend",
+    "kind": "deep-dive"
+  },
+  {
+    "slug": "notion",
+    "title": "The Great Re-shard: adding Postgres capacity (again) with zero downtime",
+    "url": "https://www.notion.com/blog/the-great-re-shard",
+    "publishedAt": "2023-07-17T07:00:00.000Z",
+    "category": "data-observability",
     "kind": "deep-dive"
   },
   {
@@ -26504,6 +26680,14 @@
     "kind": "deep-dive"
   },
   {
+    "slug": "notion",
+    "title": "Creating the Notion API",
+    "url": "https://www.notion.com/blog/creating-the-notion-api",
+    "publishedAt": "2022-01-20T08:00:00.000Z",
+    "category": "developer-experience",
+    "kind": "deep-dive"
+  },
+  {
     "slug": "meta",
     "title": "FOQS: Making a distributed priority queue disaster-ready",
     "url": "https://engineering.fb.com/2022/01/18/production-engineering/foqs-disaster-ready",
@@ -26824,6 +27008,14 @@
     "kind": "deep-dive"
   },
   {
+    "slug": "notion",
+    "title": "Herding elephants: lessons learned from sharding Postgres at Notion",
+    "url": "https://www.notion.com/blog/sharding-postgres-at-notion",
+    "publishedAt": "2021-10-06T07:00:00.000Z",
+    "category": "data-observability",
+    "kind": "deep-dive"
+  },
+  {
     "slug": "meta",
     "title": "More details about the October 4 outage",
     "url": "https://engineering.fb.com/2021/10/05/networking-traffic/outage-details",
@@ -26990,6 +27182,14 @@
     "publishedAt": "2021-08-12T13:00:00.000Z",
     "category": "developer-experience",
     "kind": "release-note"
+  },
+  {
+    "slug": "notion",
+    "title": "Migrating Notion's marketing site to Next.js",
+    "url": "https://www.notion.com/blog/migrating-notion-marketing-to-next-js",
+    "publishedAt": "2021-08-11T23:00:00.000Z",
+    "category": "web-frontend",
+    "kind": "deep-dive"
   },
   {
     "slug": "slack",
@@ -27269,6 +27469,14 @@
     "url": "https://engineering.fb.com/2021/05/20/networking-traffic/peering-automation",
     "publishedAt": "2021-05-20T16:00:09.000Z",
     "category": "infrastructure",
+    "kind": "deep-dive"
+  },
+  {
+    "slug": "notion",
+    "title": "Exploring Notion's Data Model: A Block-Based Architecture",
+    "url": "https://www.notion.com/blog/data-model-behind-notion",
+    "publishedAt": "2021-05-18T07:00:00.000Z",
+    "category": "data-observability",
     "kind": "deep-dive"
   },
   {

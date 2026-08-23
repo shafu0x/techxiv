@@ -124,5 +124,11 @@
     "name": "Amazon",
     "blogUrl": "https://www.amazon.science/blog",
     "simpleIcon": "amazon"
+  },
+  {
+    "slug": "notion",
+    "name": "Notion",
+    "blogUrl": "https://www.notion.com/blog/topic/tech",
+    "simpleIcon": "notion"
   }
 ]

@@ -45,6 +45,7 @@ export function PostFilters({
     ? ordered
     : ordered.filter((org) => picked.includes(org.slug));
   const shownOrgs = activeOrgs.slice(0, MAX_STACKED_LOGOS);
+  const singleOrg = !allSelected && activeOrgs.length === 1 ? activeOrgs[0] : null;
 
   return (
     <div className={cn("flex items-center transition-opacity", pending && "opacity-60")}>
@@ -59,18 +60,31 @@ export function PostFilters({
             // Fixed width so changing the selection never reflows the toolbar.
             className="h-9 w-40 justify-between gap-2 px-2.5 font-normal"
           >
-            <AvatarGroup className="-space-x-1">
-              {shownOrgs.map((org) => (
-                <Avatar key={org.slug} className="size-5 bg-muted">
-                  <AvatarImage src={org.logo} alt={org.name} className="object-contain p-0.5" />
+            {singleOrg ? (
+              <span className="flex min-w-0 items-center gap-1.5">
+                <Avatar className="size-5 bg-muted">
+                  <AvatarImage
+                    src={singleOrg.logo}
+                    alt=""
+                    className="object-contain p-0.5"
+                  />
                 </Avatar>
-              ))}
-              {activeOrgs.length > shownOrgs.length ? (
-                <AvatarGroupCount className="size-5 text-[0.625rem]">
-                  +{activeOrgs.length - shownOrgs.length}
-                </AvatarGroupCount>
-              ) : null}
-            </AvatarGroup>
+                <span className="truncate text-sm">{singleOrg.name}</span>
+              </span>
+            ) : (
+              <AvatarGroup className="-space-x-1">
+                {shownOrgs.map((org) => (
+                  <Avatar key={org.slug} className="size-5 bg-muted">
+                    <AvatarImage src={org.logo} alt={org.name} className="object-contain p-0.5" />
+                  </Avatar>
+                ))}
+                {activeOrgs.length > shownOrgs.length ? (
+                  <AvatarGroupCount className="size-5 text-[0.625rem]">
+                    +{activeOrgs.length - shownOrgs.length}
+                  </AvatarGroupCount>
+                ) : null}
+              </AvatarGroup>
+            )}
             <ChevronDownIcon className="size-4 shrink-0 text-muted-foreground" />
           </Button>
         </PopoverTrigger>

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Heart } from "lucide-react";
 import { CategoryFilter } from "@/components/category-filter";
 import { PostFilters } from "@/components/post-filters";
+import { TitleSearch } from "@/components/title-search";
 import { Card } from "@/components/ui/card";
 import {
   Pagination,
@@ -78,7 +79,7 @@ function relativeTime(date: Date) {
 export default async function Home({
   searchParams,
 }: {
-  searchParams: Promise<{ page?: string; orgs?: string; cats?: string }>;
+  searchParams: Promise<{ page?: string; orgs?: string; cats?: string; q?: string }>;
 }) {
   const params = await searchParams;
   const prisma = getPrisma();
@@ -87,6 +88,7 @@ export default async function Home({
   const categories = (params.cats?.split(",") ?? []).filter(
     (value): value is Category => CATEGORIES.includes(value as Category),
   );
+  const q = params.q?.trim() ?? "";
 
   const where = {
     ...(slugs.length > 0 ? { organization: { slug: { in: slugs } } } : {}),
@@ -100,6 +102,7 @@ export default async function Home({
           },
         }
       : {}),
+    ...(q ? { title: { contains: q, mode: "insensitive" as const } } : {}),
   };
 
   const requested = Number(params.page);
@@ -143,6 +146,9 @@ export default async function Home({
     if (slugsKnown.length > 0) {
       query.set("orgs", slugsKnown.join(","));
     }
+    if (q) {
+      query.set("q", q);
+    }
     if (pageNumber > 1) {
       query.set("page", String(pageNumber));
     }
@@ -160,9 +166,12 @@ export default async function Home({
         Skip to posts
       </a>
       <div className="flex flex-col gap-2">
-        <div className="flex items-center justify-between gap-3">
-          <h1 className="text-lg font-medium tracking-tight">techxiv</h1>
-          <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2 sm:flex-nowrap sm:gap-3">
+          <h1 className="shrink-0 text-lg font-medium tracking-tight">techxiv</h1>
+          <div className="order-last w-full sm:order-0 sm:ml-auto sm:w-56">
+            <TitleSearch value={q} />
+          </div>
+          <div className="ml-auto flex items-center gap-2 sm:ml-0">
             <CategoryFilter selected={categories} />
             <PostFilters
               organizations={organizations.map((org) => ({
