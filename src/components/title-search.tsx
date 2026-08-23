@@ -16,33 +16,32 @@ const DEBOUNCE_MS = 200;
 export function TitleSearch({ value }: { value: string }) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const searchParamsRef = useRef(searchParams);
-
-  useEffect(() => {
-    searchParamsRef.current = searchParams;
-  });
-
   const [pending, startTransition] = useTransition();
-  const [query, setQuery] = useState(value);
-  const [prevValue, setPrevValue] = useState(value);
   const inputRef = useRef<HTMLInputElement>(null);
-  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  const [query, setQuery] = useState(value);
+  // Last value this component pushed into the URL, so we can tell our own
+  // navigations apart from external ones (back/forward, "Clear filters").
+  const [committed, setCommitted] = useState(value);
+  const [prevValue, setPrevValue] = useState(value);
+
+  // Adopt external URL changes, but never clobber typing that happened while
+  // one of our own navigations was still in flight.
   if (value !== prevValue) {
     setPrevValue(value);
-    setQuery(value);
+    if (value !== committed) {
+      setCommitted(value);
+      setQuery(value);
+    }
   }
 
   const commit = useCallback(
     (next: string) => {
-      const trimmed = next.trim();
-      if (trimmed === value) {
-        return;
-      }
+      setCommitted(next);
 
-      const params = new URLSearchParams(searchParamsRef.current);
-      if (trimmed) {
-        params.set("q", trimmed);
+      const params = new URLSearchParams(searchParams);
+      if (next) {
+        params.set("q", next);
       } else {
         params.delete("q");
       }
@@ -53,23 +52,18 @@ export function TitleSearch({ value }: { value: string }) {
         router.replace(search ? `/?${search}` : "/", { scroll: false });
       });
     },
-    [router, value],
+    [router, searchParams],
   );
 
   useEffect(() => {
-    const trimmed = query.trim();
-    if (trimmed === value) {
+    const next = query.trim();
+    if (next === committed) {
       return;
     }
 
-    debounceRef.current = setTimeout(() => commit(query), DEBOUNCE_MS);
-    return () => {
-      if (debounceRef.current) {
-        clearTimeout(debounceRef.current);
-        debounceRef.current = null;
-      }
-    };
-  }, [query, value, commit]);
+    const timeout = setTimeout(() => commit(next), DEBOUNCE_MS);
+    return () => clearTimeout(timeout);
+  }, [query, committed, commit]);
 
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
@@ -84,12 +78,11 @@ export function TitleSearch({ value }: { value: string }) {
   }, []);
 
   function clear() {
-    if (debounceRef.current) {
-      clearTimeout(debounceRef.current);
-      debounceRef.current = null;
-    }
     setQuery("");
-    commit("");
+    if (committed !== "") {
+      commit("");
+    }
+    inputRef.current?.focus();
   }
 
   return (
@@ -102,6 +95,12 @@ export function TitleSearch({ value }: { value: string }) {
         type="text"
         value={query}
         onChange={(event) => setQuery(event.target.value)}
+        onKeyDown={(event) => {
+          if (event.key === "Escape" && query) {
+            event.preventDefault();
+            clear();
+          }
+        }}
         placeholder="Search titles"
         aria-label="Search titles"
         autoComplete="off"

@@ -76,19 +76,24 @@ function relativeTime(date: Date) {
   return "just now";
 }
 
+// Next.js passes repeated query keys (?q=a&q=b) as arrays; take the first.
+function first(value: string | string[] | undefined) {
+  return Array.isArray(value) ? value[0] : value;
+}
+
 export default async function Home({
   searchParams,
 }: {
-  searchParams: Promise<{ page?: string; orgs?: string; cats?: string; q?: string }>;
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
   const params = await searchParams;
   const prisma = getPrisma();
 
-  const slugs = (params.orgs?.split(",") ?? []).filter(Boolean);
-  const categories = (params.cats?.split(",") ?? []).filter(
+  const slugs = (first(params.orgs)?.split(",") ?? []).filter(Boolean);
+  const categories = (first(params.cats)?.split(",") ?? []).filter(
     (value): value is Category => CATEGORIES.includes(value as Category),
   );
-  const q = params.q?.trim() ?? "";
+  const q = first(params.q)?.trim() ?? "";
 
   const where = {
     ...(slugs.length > 0 ? { organization: { slug: { in: slugs } } } : {}),
@@ -105,7 +110,7 @@ export default async function Home({
     ...(q ? { title: { contains: q, mode: "insensitive" as const } } : {}),
   };
 
-  const requested = Number(params.page);
+  const requested = Number(first(params.page));
   const tentative = Number.isFinite(requested)
     ? Math.max(1, Math.trunc(requested))
     : 1;
