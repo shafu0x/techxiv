@@ -90,8 +90,8 @@ export default async function Home({
   const prisma = getPrisma();
 
   const slugs = (first(params.orgs)?.split(",") ?? []).filter(Boolean);
-  const categories = (first(params.cats)?.split(",") ?? []).filter(
-    (value): value is Category => CATEGORIES.includes(value as Category),
+  const categories = (first(params.cats)?.split(",") ?? []).filter((value): value is Category =>
+    CATEGORIES.includes(value as Category),
   );
   const q = first(params.q)?.trim() ?? "";
 
@@ -101,9 +101,7 @@ export default async function Home({
     ...(categories.length > 0
       ? {
           category: {
-            in: categories.map(
-              (value) => value.replace(/-/g, "_") as PrismaCategory,
-            ),
+            in: categories.map((value) => value.replace(/-/g, "_") as PrismaCategory),
           },
         }
       : {}),
@@ -111,9 +109,7 @@ export default async function Home({
   };
 
   const requested = Number(first(params.page));
-  const tentative = Number.isFinite(requested)
-    ? Math.max(1, Math.trunc(requested))
-    : 1;
+  const tentative = Number.isFinite(requested) ? Math.max(1, Math.trunc(requested)) : 1;
 
   const [organizations, total, firstPage] = await Promise.all([
     prisma.organization.findMany({ orderBy: { name: "asc" } }),
@@ -163,42 +159,37 @@ export default async function Home({
   }
 
   return (
-    <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-8 px-4 pt-[max(0.75rem,env(safe-area-inset-top))] pb-[max(2rem,env(safe-area-inset-bottom))] sm:gap-10 sm:px-6 sm:pt-4 sm:pb-16">
+    <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-8 px-4 pt-4 pb-[max(2rem,env(safe-area-inset-bottom))] sm:gap-10 sm:px-6 sm:pt-6 sm:pb-16">
       <a
         href="#posts"
         className="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-50 focus:rounded-md focus:bg-card focus:px-3 focus:py-2 focus:text-sm"
       >
         Skip to posts
       </a>
+      <h1 className="sr-only">techxiv</h1>
       <div className="flex flex-col gap-2">
-        <div className="flex flex-wrap items-center gap-2 sm:flex-nowrap sm:gap-3">
-          <h1 className="shrink-0 text-lg font-medium tracking-tight">techxiv</h1>
-          <div className="order-last w-full sm:order-0 sm:ml-auto sm:w-56">
+        <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 sm:flex sm:justify-end sm:gap-3">
+          <div className="min-w-0 sm:w-56">
             <TitleSearch value={q} />
           </div>
-          <div className="ml-auto flex items-center gap-2 sm:ml-0">
+          <div className="hidden sm:contents">
             <CategoryFilter selected={categories} />
-            <PostFilters
-              organizations={organizations.map((org) => ({
-                slug: org.slug,
-                name: org.name,
-                logo: org.logo,
-              }))}
-              selected={slugsKnown}
-            />
           </div>
+          <PostFilters
+            organizations={organizations.map((org) => ({
+              slug: org.slug,
+              name: org.name,
+              logo: org.logo,
+            }))}
+            selected={slugsKnown}
+          />
         </div>
 
         <div className="flex flex-col gap-4">
           {posts.length === 0 ? (
             <Card className="items-center gap-2 py-12 text-center">
-              <p className="text-sm font-medium">
-                No posts match these filters.
-              </p>
-              <Link
-                href="/"
-                className="text-sm text-muted-foreground underline"
-              >
+              <p className="text-sm font-medium">No posts match these filters.</p>
+              <Link href="/" className="text-sm text-muted-foreground underline">
                 Clear filters
               </Link>
             </Card>
@@ -269,10 +260,7 @@ export default async function Home({
 
                 {visiblePages(page, pageCount).map((item, index) =>
                   item === "…" ? (
-                    <PaginationItem
-                      key={`ellipsis-${index}`}
-                      className="hidden sm:block"
-                    >
+                    <PaginationItem key={`ellipsis-${index}`} className="hidden sm:block">
                       <PaginationEllipsis />
                     </PaginationItem>
                   ) : (
@@ -306,7 +294,7 @@ export default async function Home({
         </div>
       </div>
 
-      <footer className="mt-auto pt-4 text-center text-sm text-muted-foreground">
+      <footer className="-mt-4 text-center text-sm text-muted-foreground sm:-mt-6">
         <p className="inline-flex flex-wrap items-center justify-center gap-1.5">
           Made with
           <Heart className="size-3.5 fill-current" aria-hidden="true" />

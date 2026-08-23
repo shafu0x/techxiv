@@ -69,7 +69,12 @@ export function CategoryFilter({ selected }: { selected: Category[] }) {
     picked.length === 1 ? { category: picked[0], Icon: CATEGORY_ICONS[picked[0]] } : null;
 
   return (
-    <div className={cn("flex items-center transition-opacity", pending && "opacity-60")}>
+    <div
+      className={cn(
+        "flex w-full items-center transition-opacity sm:w-auto",
+        pending && "opacity-60",
+      )}
+    >
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button
@@ -79,34 +84,39 @@ export function CategoryFilter({ selected }: { selected: Category[] }) {
             aria-expanded={open}
             aria-label="Filter by category"
             // Fixed width so changing the selection never reflows the toolbar.
-            className="h-9 w-40 justify-between gap-2 px-2.5 font-normal"
+            className="h-11 w-full justify-center px-2 font-normal sm:h-9 sm:w-40 sm:justify-between sm:gap-2 sm:px-2.5"
           >
             {allSelected ? (
               <span className="flex min-w-0 items-center gap-1.5">
                 <Tags className="size-4 shrink-0 text-muted-foreground" />
-                <span className="truncate text-sm">All topics</span>
+                <span className="hidden truncate text-sm sm:inline">All topics</span>
               </span>
             ) : single ? (
               <span className="flex min-w-0 items-center gap-1.5">
                 <single.Icon className="size-4 shrink-0" />
-                <span className="truncate text-sm">
+                <span className="hidden truncate text-sm sm:inline">
                   {CATEGORY_SHORT_LABELS[single.category]}
                 </span>
               </span>
             ) : (
               <span className="flex min-w-0 items-center gap-1.5">
-                {shown.map((category) => {
+                {shown.map((category, index) => {
                   const Icon = CATEGORY_ICONS[category];
-                  return <Icon key={category} className="size-4 shrink-0" />;
+                  return (
+                    <Icon
+                      key={category}
+                      className={cn("size-4 shrink-0", index > 0 && "hidden sm:block")}
+                    />
+                  );
                 })}
                 {picked.length > shown.length ? (
-                  <span className="text-xs text-muted-foreground tabular-nums">
+                  <span className="hidden text-xs text-muted-foreground tabular-nums sm:inline">
                     +{picked.length - shown.length}
                   </span>
                 ) : null}
               </span>
             )}
-            <ChevronDownIcon className="size-4 shrink-0 text-muted-foreground" />
+            <ChevronDownIcon className="hidden size-4 shrink-0 text-muted-foreground sm:block" />
           </Button>
         </PopoverTrigger>
         <PopoverContent align="start" className="w-auto min-w-56 p-0">

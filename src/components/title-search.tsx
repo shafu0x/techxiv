@@ -86,7 +86,7 @@ export function TitleSearch({ value }: { value: string }) {
   }
 
   return (
-    <InputGroup className={cn("h-9 transition-opacity", pending && "opacity-60")}>
+    <InputGroup className={cn("h-11 transition-opacity sm:h-9", pending && "opacity-60")}>
       <InputGroupAddon>
         <SearchIcon className="size-4 shrink-0 opacity-50" />
       </InputGroupAddon>
@@ -104,7 +104,7 @@ export function TitleSearch({ value }: { value: string }) {
         placeholder="Search titles"
         aria-label="Search titles"
         autoComplete="off"
-        className="h-9"
+        className="h-11 sm:h-9"
       />
       {query ? (
         <InputGroupAddon align="inline-end">

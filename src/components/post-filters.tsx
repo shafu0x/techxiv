@@ -41,14 +41,12 @@ export function PostFilters({
     a.slug === "anthropic" ? -1 : b.slug === "anthropic" ? 1 : 0,
   );
   // With nothing checked every organization is included, so the trigger shows them all.
-  const activeOrgs = allSelected
-    ? ordered
-    : ordered.filter((org) => picked.includes(org.slug));
+  const activeOrgs = allSelected ? ordered : ordered.filter((org) => picked.includes(org.slug));
   const shownOrgs = activeOrgs.slice(0, MAX_STACKED_LOGOS);
   const singleOrg = !allSelected && activeOrgs.length === 1 ? activeOrgs[0] : null;
 
   return (
-    <div className={cn("flex items-center transition-opacity", pending && "opacity-60")}>
+    <div className={cn("flex w-auto items-center transition-opacity", pending && "opacity-60")}>
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button
@@ -58,18 +56,14 @@ export function PostFilters({
             aria-expanded={open}
             aria-label="Filter by organization"
             // Fixed width so changing the selection never reflows the toolbar.
-            className="h-9 w-40 justify-between gap-2 px-2.5 font-normal"
+            className="h-11 w-auto justify-center px-3 font-normal sm:h-9 sm:w-40 sm:justify-between sm:gap-2 sm:px-2.5"
           >
             {singleOrg ? (
               <span className="flex min-w-0 items-center gap-1.5">
                 <Avatar className="size-5 bg-muted">
-                  <AvatarImage
-                    src={singleOrg.logo}
-                    alt=""
-                    className="object-contain p-0.5"
-                  />
+                  <AvatarImage src={singleOrg.logo} alt="" className="object-contain p-0.5" />
                 </Avatar>
-                <span className="truncate text-sm">{singleOrg.name}</span>
+                <span className="hidden truncate text-sm sm:inline">{singleOrg.name}</span>
               </span>
             ) : (
               <AvatarGroup className="-space-x-1">
@@ -85,7 +79,7 @@ export function PostFilters({
                 ) : null}
               </AvatarGroup>
             )}
-            <ChevronDownIcon className="size-4 shrink-0 text-muted-foreground" />
+            <ChevronDownIcon className="hidden size-4 shrink-0 text-muted-foreground sm:block" />
           </Button>
         </PopoverTrigger>
         <PopoverContent align="end" className="w-64 p-0">
