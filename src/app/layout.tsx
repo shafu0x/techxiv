@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { Analytics } from "@vercel/analytics/next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ClickNotifier } from "@/components/click-notifier";
 import { Header } from "@/components/header";
@@ -41,6 +42,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <ClickNotifier />
         <Header />
         {children}
+        <Analytics />
       </body>
     </html>
   );
