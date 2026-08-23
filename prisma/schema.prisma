@@ -1,0 +1,28 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Organization {
+  id      String @id @default(cuid())
+  slug    String @unique
+  name    String
+  blogUrl String
+  logo    String
+  posts   Post[]
+}
+
+model Post {
+  id             String       @id @default(cuid())
+  title          String
+  url            String       @unique
+  publishedAt    DateTime
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  organizationId String
+
+  @@index([publishedAt])
+}

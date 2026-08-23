@@ -1,0 +1,12 @@
+{
+  "ignore": [
+    "src/generated/**",
+    "prisma/scrape.ts",
+    "prisma/fill-remaining.ts",
+    "prisma/fill-dates.ts",
+    "scripts/**"
+  ],
+  "ignoreIssues": {
+    "src/components/ui/**": ["exports", "types", "nsExports", "nsTypes"]
+  }
+}

@@ -1,0 +1,122 @@
+[
+  {
+    "slug": "anthropic",
+    "name": "Anthropic",
+    "blogUrl": "https://www.anthropic.com/engineering",
+    "simpleIcon": "anthropic"
+  },
+  {
+    "slug": "openai",
+    "name": "OpenAI",
+    "blogUrl": "https://openai.com/news/research/",
+    "simpleIcon": "openai"
+  },
+  {
+    "slug": "spotify",
+    "name": "Spotify",
+    "blogUrl": "https://engineering.atspotify.com",
+    "simpleIcon": "spotify"
+  },
+  {
+    "slug": "netflix",
+    "name": "Netflix",
+    "blogUrl": "https://netflixtechblog.com",
+    "simpleIcon": "netflix"
+  },
+  {
+    "slug": "vercel",
+    "name": "Vercel",
+    "blogUrl": "https://vercel.com/blog",
+    "simpleIcon": "vercel"
+  },
+  {
+    "slug": "stripe",
+    "name": "Stripe",
+    "blogUrl": "https://stripe.com/blog/engineering",
+    "simpleIcon": "stripe"
+  },
+  {
+    "slug": "cloudflare",
+    "name": "Cloudflare",
+    "blogUrl": "https://blog.cloudflare.com",
+    "simpleIcon": "cloudflare"
+  },
+  {
+    "slug": "jane-street",
+    "name": "Jane Street",
+    "blogUrl": "https://blog.janestreet.com",
+    "simpleIcon": "janestreet"
+  },
+  {
+    "slug": "flyio",
+    "name": "Fly.io",
+    "blogUrl": "https://fly.io/blog",
+    "simpleIcon": "flydotio"
+  },
+  {
+    "slug": "discord",
+    "name": "Discord",
+    "blogUrl": "https://discord.com/category/engineering",
+    "simpleIcon": "discord"
+  },
+  {
+    "slug": "uber",
+    "name": "Uber",
+    "blogUrl": "https://www.uber.com/blog/engineering/",
+    "simpleIcon": "uber"
+  },
+  {
+    "slug": "meta",
+    "name": "Meta",
+    "blogUrl": "https://engineering.fb.com",
+    "simpleIcon": "meta"
+  },
+  {
+    "slug": "dropbox",
+    "name": "Dropbox",
+    "blogUrl": "https://dropbox.tech",
+    "simpleIcon": "dropbox"
+  },
+  {
+    "slug": "datadog",
+    "name": "Datadog",
+    "blogUrl": "https://www.datadoghq.com/blog/engineering/",
+    "simpleIcon": "datadog"
+  },
+  {
+    "slug": "shopify",
+    "name": "Shopify",
+    "blogUrl": "https://shopify.engineering/latest",
+    "simpleIcon": "shopify"
+  },
+  {
+    "slug": "github",
+    "name": "GitHub",
+    "blogUrl": "https://github.blog/engineering",
+    "simpleIcon": "github"
+  },
+  {
+    "slug": "figma",
+    "name": "Figma",
+    "blogUrl": "https://www.figma.com/blog/engineering/",
+    "simpleIcon": "figma"
+  },
+  {
+    "slug": "deepmind",
+    "name": "DeepMind",
+    "blogUrl": "https://deepmind.google/blog/",
+    "simpleIcon": "deepmind"
+  },
+  {
+    "slug": "linkedin",
+    "name": "LinkedIn",
+    "blogUrl": "https://www.linkedin.com/blog/engineering",
+    "simpleIcon": "linkedin"
+  },
+  {
+    "slug": "doordash",
+    "name": "DoorDash",
+    "blogUrl": "https://careersatdoordash.com/engineering-blog/",
+    "simpleIcon": "doordash"
+  }
+]

@@ -1,0 +1,1118 @@
+[
+  {
+    "slug": "vercel",
+    "title": "How Ora benchmarks every major AI agent on Vercel",
+    "url": "https://vercel.com/customers/how-ora-benchmarks-every-major-ai-agent-on-vercel",
+    "publishedAt": "2026-08-21T21:00:00.000Z"
+  },
+  {
+    "slug": "netflix",
+    "title": "A Tale of Two Flink Autoscalers",
+    "url": "https://netflixtechblog.com/a-tale-of-two-flink-autoscalers-e9f6a1b1492b",
+    "publishedAt": "2026-08-21T16:01:01.000Z"
+  },
+  {
+    "slug": "deepmind",
+    "title": "From Atari to EVE Online: Building on 15 Years of AI Research in Games",
+    "url": "https://deepmind.google/blog/from-atari-to-eve-online-building-on-15-years-of-ai-research-in-games/",
+    "publishedAt": "2026-08-21T11:59:48.000Z"
+  },
+  {
+    "slug": "cloudflare",
+    "title": "Say it once: introducing Bot Preference Sync",
+    "url": "https://blog.cloudflare.com/bot-preference-sync/",
+    "publishedAt": "2026-08-21T04:00:00.000Z"
+  },
+  {
+    "slug": "openai",
+    "title": "Introducing AI Futures",
+    "url": "https://openai.com/index/introducing-ai-futures",
+    "publishedAt": "2026-08-20T07:00:00.000Z"
+  },
+  {
+    "slug": "vercel",
+    "title": "How v0 authenticates to Snowflake without exposing the user's OAuth token",
+    "url": "https://vercel.com/blog/how-v0-authenticates-to-snowflake-without-exposing-the-users-oauth-token",
+    "publishedAt": "2026-08-20T04:00:00.000Z"
+  },
+  {
+    "slug": "cloudflare",
+    "title": "From all-or-nothing to task-based OAuth consent",
+    "url": "https://blog.cloudflare.com/task-based-oauth-consent/",
+    "publishedAt": "2026-08-20T04:00:00.000Z"
+  },
+  {
+    "slug": "openai",
+    "title": "Stampli cuts launch hours by 68% using ChatGPT Work",
+    "url": "https://openai.com/index/stampli",
+    "publishedAt": "2026-08-20T00:00:00.000Z"
+  },
+  {
+    "slug": "openai",
+    "title": "Offering Zero Data Retention for frontier models",
+    "url": "https://openai.com/index/offering-zero-data-retention-for-frontier-models",
+    "publishedAt": "2026-08-19T19:00:00.000Z"
+  },
+  {
+    "slug": "openai",
+    "title": "Replit expands access to software creation with GPT-5.6 Luna",
+    "url": "https://openai.com/index/replit",
+    "publishedAt": "2026-08-19T07:00:00.000Z"
+  },
+  {
+    "slug": "cloudflare",
+    "title": "A revisit of remote Spectre attacks on Cloudflare Workers",
+    "url": "https://blog.cloudflare.com/revisiting-spectre-attacks-on-workers/",
+    "publishedAt": "2026-08-19T04:00:00.000Z"
+  },
+  {
+    "slug": "shopify",
+    "title": "Gisting: Compressing LLM Agent context to \u2191 throughput and \u2193 cost",
+    "url": "https://shopify.engineering/gisting",
+    "publishedAt": "2026-08-19T04:00:00.000Z"
+  },
+  {
+    "slug": "vercel",
+    "title": "Introducing Vercel for Slack",
+    "url": "https://vercel.com/blog/introducing-vercel-for-slack",
+    "publishedAt": "2026-08-19T00:00:00.000Z"
+  },
+  {
+    "slug": "stripe",
+    "title": "Why global workers are driving demand for stablecoin payouts",
+    "url": "https://stripe.com/blog/why-global-workers-are-driving-demand-for-stablecoin-payouts",
+    "publishedAt": "2026-08-19T00:00:00.000Z"
+  },
+  {
+    "slug": "openai",
+    "title": "ChatGPT Ads expands across Europe",
+    "url": "https://openai.com/index/chatgpt-ads-expands-across-europe",
+    "publishedAt": "2026-08-18T22:00:00.000Z"
+  },
+  {
+    "slug": "openai",
+    "title": "Strengthening democratic oversight in national security",
+    "url": "https://openai.com/index/strengthening-democratic-oversight-in-national-security",
+    "publishedAt": "2026-08-18T19:00:00.000Z"
+  },
+  {
+    "slug": "dropbox",
+    "title": "Improving infrastructure efficiency for growing demand in the age of AI",
+    "url": "https://dropbox.tech/infrastructure/improving-infrastructure-efficiency-for-growing-demand-in-the-age-of-ai",
+    "publishedAt": "2026-08-18T17:00:00.000Z"
+  },
+  {
+    "slug": "openai",
+    "title": "Partnering with CodeAI to prepare the first AI generation",
+    "url": "https://openai.com/index/partnering-with-codeai",
+    "publishedAt": "2026-08-18T11:00:00.000Z"
+  },
+  {
+    "slug": "openai",
+    "title": "Pacing model development in an era of cyber-critical capabilities",
+    "url": "https://openai.com/index/pacing-model-development-cyber-capabilities",
+    "publishedAt": "2026-08-18T11:00:00.000Z"
+  },
+  {
+    "slug": "openai",
+    "title": "Introducing ChatGPT for Teens: Built for learning, backed by protections",
+    "url": "https://openai.com/index/chatgpt-for-teens",
+    "publishedAt": "2026-08-18T11:00:00.000Z"
+  },
+  {
+    "slug": "cloudflare",
+    "title": "BGP Role model: tracking the adoption of RFC 9234",
+    "url": "https://blog.cloudflare.com/rfc9234-bgp-role-model/",
+    "publishedAt": "2026-08-18T04:00:00.000Z"
+  },
+  {
+    "slug": "openai",
+    "title": "How NVIDIA scales expertise with ChatGPT Work",
+    "url": "https://openai.com/index/nvidia/chatgpt-work",
+    "publishedAt": "2026-08-18T00:00:00.000Z"
+  },
+  {
+    "slug": "vercel",
+    "title": "$1 million hacker challenge for Vercel Sandbox",
+    "url": "https://vercel.com/blog/one-million-dollar-hacker-challenge-for-vercel-sandbox",
+    "publishedAt": "2026-08-18T00:00:00.000Z"
+  },
+  {
+    "slug": "stripe",
+    "title": "New currency capabilities for global businesses to cut FX costs",
+    "url": "https://stripe.com/blog/reduce-fx-costs-with-stripe",
+    "publishedAt": "2026-08-17T00:00:00.000Z"
+  },
+  {
+    "slug": "discord",
+    "title": "A letter to the Discord community in Brazil",
+    "url": "https://discord.com/blog/a-letter-to-the-discord-community-in-brazil",
+    "publishedAt": "2026-08-17T00:00:00.000Z"
+  },
+  {
+    "slug": "cloudflare",
+    "title": "How Cloudflare detects MCP traffic and helps secure it",
+    "url": "https://blog.cloudflare.com/mcp-security-updates/",
+    "publishedAt": "2026-08-14T04:00:00.000Z"
+  },
+  {
+    "slug": "cloudflare",
+    "title": "Secure all your internal vibe-coded applications \u2014 in one click",
+    "url": "https://blog.cloudflare.com/workers-protected-by-access/",
+    "publishedAt": "2026-08-14T04:00:00.000Z"
+  },
+  {
+    "slug": "deepmind",
+    "title": "Introducing Gemini 3.7 Flash",
+    "url": "https://deepmind.google/blog/introducing-gemini-3-7-flash/",
+    "publishedAt": "2026-08-13T17:04:18.000Z"
+  },
+  {
+    "slug": "cloudflare",
+    "title": "Total eclipse of the Internet: traffic impacts in Iceland, Spain, and Portugal",
+    "url": "https://blog.cloudflare.com/total-eclipse-internet-traffic-iceland-spain-portugal/",
+    "publishedAt": "2026-08-13T04:00:00.000Z"
+  },
+  {
+    "slug": "cloudflare",
+    "title": "Certificate Transparency Monitoring is now generally available",
+    "url": "https://blog.cloudflare.com/certificate-transparency-monitoring-ga/",
+    "publishedAt": "2026-08-13T04:00:00.000Z"
+  },
+  {
+    "slug": "deepmind",
+    "title": "Putting sign language AI into users\u2019 hands",
+    "url": "https://deepmind.google/blog/putting-sign-language-ai-into-users-hands/",
+    "publishedAt": "2026-08-12T14:01:59.000Z"
+  },
+  {
+    "slug": "shopify",
+    "title": "How we raised mobile end-to-end test stability to 98%",
+    "url": "https://shopify.engineering/mobile-e2e-testing",
+    "publishedAt": "2026-08-12T04:00:00.000Z"
+  },
+  {
+    "slug": "meta",
+    "title": "How We\u2019re Building Scam Alert on WhatsApp With End-to-End Encryption and Verifiability Guarantees",
+    "url": "https://engineering.fb.com/2026/08/12/security/how-were-building-scam-alert-whatsapp/",
+    "publishedAt": "2026-08-12T00:00:00.000Z"
+  },
+  {
+    "slug": "vercel",
+    "title": "Building a software factory for AI SDK",
+    "url": "https://vercel.com/blog/building-a-software-factory-for-ai-sdk",
+    "publishedAt": "2026-08-12T00:00:00.000Z"
+  },
+  {
+    "slug": "vercel",
+    "title": "How we migrated the database behind every Vercel build",
+    "url": "https://vercel.com/blog/how-we-migrated-the-database-behind-every-vercel-build",
+    "publishedAt": "2026-08-11T22:00:00.000Z"
+  },
+  {
+    "slug": "vercel",
+    "title": "Everything hackable will get hacked",
+    "url": "https://vercel.com/blog/everything-hackable-will-get-hacked",
+    "publishedAt": "2026-08-11T07:00:00.000Z"
+  },
+  {
+    "slug": "vercel",
+    "title": "DeepSeek overtakes Google on volume, cost per token falls 13.6%",
+    "url": "https://vercel.com/blog/deepseek-overtakes-google-on-volume-cost-per-token-falls",
+    "publishedAt": "2026-08-11T04:00:00.000Z"
+  },
+  {
+    "slug": "cloudflare",
+    "title": "Cloudflare DDoS Threat Report H1 2026: 1 Tbps attacks soar as DNS floods and geopolitical tensions drive a new wave",
+    "url": "https://blog.cloudflare.com/ddos-threat-report-2026-h1/",
+    "publishedAt": "2026-08-11T04:00:00.000Z"
+  },
+  {
+    "slug": "vercel",
+    "title": "A sandbox without a network boundary is only half a sandbox",
+    "url": "https://vercel.com/blog/a-sandbox-without-a-network-boundary-is-only-half-a-sandbox",
+    "publishedAt": "2026-08-11T00:00:00.000Z"
+  },
+  {
+    "slug": "stripe",
+    "title": "Mapping the AI economy",
+    "url": "https://stripe.com/blog/mapping-the-ai-economy",
+    "publishedAt": "2026-08-11T00:00:00.000Z"
+  },
+  {
+    "slug": "discord",
+    "title": "Link Discord and WoW to Keep the Guild Chatting Wherever You Are",
+    "url": "https://discord.com/blog/link-world-of-warcraft-with-discord",
+    "publishedAt": "2026-08-11T00:00:00.000Z"
+  },
+  {
+    "slug": "cloudflare",
+    "title": "Everything we launched during Agents Week",
+    "url": "https://blog.cloudflare.com/agents-week-review-august-2026/",
+    "publishedAt": "2026-08-10T04:00:00.000Z"
+  },
+  {
+    "slug": "netflix",
+    "title": "How and Why Netflix Built a Real-Time Distributed Graph: Part 3 \u2014 Querying the graph with gRPC\u2026",
+    "url": "https://netflixtechblog.com/how-and-why-netflix-built-a-real-time-distributed-graph-part-3-querying-the-graph-with-grpc-0f3468349607",
+    "publishedAt": "2026-08-07T16:01:02.000Z"
+  },
+  {
+    "slug": "deepmind",
+    "title": "WeatherNext: AI model achieves breakthrough in forecasting cyclones",
+    "url": "https://deepmind.google/blog/weathernext-ai-model-achieves-breakthrough-in-forecasting-cyclones/",
+    "publishedAt": "2026-08-06T15:06:15.000Z"
+  },
+  {
+    "slug": "uber",
+    "title": "Zero-Sum by Design: 10 Years of Uber\u2019s Payments Platform",
+    "url": "https://www.uber.com/us/en/blog/ubers-payments-platform/",
+    "publishedAt": "2026-08-06T04:00:00.000Z"
+  },
+  {
+    "slug": "vercel",
+    "title": "Introducing Agent Plugins",
+    "url": "https://vercel.com/blog/introducing-agent-plugins",
+    "publishedAt": "2026-08-06T00:00:00.000Z"
+  },
+  {
+    "slug": "discord",
+    "title": "Discord Patch Notes: August 4, 2026",
+    "url": "https://discord.com/blog/discord-patch-notes-august-4-2026",
+    "publishedAt": "2026-08-06T00:00:00.000Z"
+  },
+  {
+    "slug": "discord",
+    "title": "General Availability of Mobile Platform Support Arrives in Discord Social SDK Version 1.10",
+    "url": "https://discord.com/blog/mobile-platform-support-arrives-in-discord-social-sdk",
+    "publishedAt": "2026-08-06T00:00:00.000Z"
+  },
+  {
+    "slug": "meta",
+    "title": "From User Sequences to Scaling Laws: A Multi-Stage Architecture for Meta\u2019s Ads Ranking",
+    "url": "https://engineering.fb.com/2026/08/05/ml-applications/from-user-sequences-to-scaling-laws-a-multi-stage-architecture-for-metas-ads-ranking/",
+    "publishedAt": "2026-08-05T04:00:00.000Z"
+  },
+  {
+    "slug": "figma",
+    "title": "Better code, fewer tokens: The benefits of Code Connect in MCP",
+    "url": "https://www.figma.com/blog/the-benefits-of-code-connect-in-mcp/",
+    "publishedAt": "2026-08-05T04:00:00.000Z"
+  },
+  {
+    "slug": "jane-street",
+    "title": "Can you reverse engineer an ASIC?",
+    "url": "https://blog.janestreet.com/can-you-reverse-engineer-an-asic/",
+    "publishedAt": "2026-08-05T04:00:00.000Z"
+  },
+  {
+    "slug": "shopify",
+    "title": "Sidekick's continual learning loop",
+    "url": "https://shopify.engineering/sidekicks-continual-learning-loop",
+    "publishedAt": "2026-08-05T04:00:00.000Z"
+  },
+  {
+    "slug": "discord",
+    "title": "Squircles, Styles, and Spacing: How Your Feedback is Helping Improve Mobile",
+    "url": "https://discord.com/blog/improving-mobile-with-squircles-styles-and-spacing",
+    "publishedAt": "2026-08-04T00:00:00.000Z"
+  },
+  {
+    "slug": "meta",
+    "title": "GEM Training: How Meta Doubled the Efficiency of Its LLM-Scale Ads Foundation Model",
+    "url": "https://engineering.fb.com/2026/08/03/ml-applications/training-gem-at-llm-scale-meta-ads-recommendation-foundation-model/",
+    "publishedAt": "2026-08-03T04:00:00.000Z"
+  },
+  {
+    "slug": "spotify",
+    "title": "When Can LLMs Replace Humans in A/B Tests?",
+    "url": "https://engineering.atspotify.com/2026/8/when-can-llms-replace-humans-in-a-b-tests",
+    "publishedAt": "2026-08-01T00:00:00.000Z"
+  },
+  {
+    "slug": "netflix",
+    "title": "Modeling Device Capabilities for Analytics",
+    "url": "https://netflixtechblog.com/modeling-device-capabilities-for-analytics-e7607acebde8",
+    "publishedAt": "2026-07-31T16:01:02.000Z"
+  },
+  {
+    "slug": "github",
+    "title": "Architecture & optimization",
+    "url": "https://github.blog/engineering/architecture-optimization/",
+    "publishedAt": "2026-07-31T00:00:00.000Z"
+  },
+  {
+    "slug": "netflix",
+    "title": "GenRec: Towards LLM-Native Recommendation at Netflix",
+    "url": "https://netflixtechblog.com/genrec-towards-llm-native-recommendation-at-netflix-f20be6f643e3",
+    "publishedAt": "2026-07-30T20:10:15.000Z"
+  },
+  {
+    "slug": "deepmind",
+    "title": "Gemini Robotics ER 2: powering robotics with video understanding, task orchestration, and multi-robot collaboration",
+    "url": "https://deepmind.google/blog/gemini-robotics-er-2-powering-robotics-with-video-understanding-task-orchestration-and-multi-robot-collaboration/",
+    "publishedAt": "2026-07-30T15:00:59.000Z"
+  },
+  {
+    "slug": "deepmind",
+    "title": "We\u2019re launching Lyria 3.5 in Google Flow Music, with advances across musicality, lyrics, vocals, and creative control",
+    "url": "https://deepmind.google/blog/were-launching-lyria-35-in-google-flow-music-with-advances-across-musicality-lyrics-vocals-and-creative-control/",
+    "publishedAt": "2026-07-29T16:02:10.000Z"
+  },
+  {
+    "slug": "figma",
+    "title": "Skip to main content",
+    "url": "https://www.figma.com/blog/engineering/",
+    "publishedAt": "2026-07-29T04:00:00.000Z"
+  },
+  {
+    "slug": "figma",
+    "title": "How we secure Figma\u2019s internal systems with agents",
+    "url": "https://www.figma.com/blog/how-we-secure-figmas-internal-systems-with-agents/",
+    "publishedAt": "2026-07-29T04:00:00.000Z"
+  },
+  {
+    "slug": "shopify",
+    "title": "Building an agentic harness that outlasts the model",
+    "url": "https://shopify.engineering/building-an-agentic-harness-that-outlasts-the-model",
+    "publishedAt": "2026-07-29T04:00:00.000Z"
+  },
+  {
+    "slug": "discord",
+    "title": "Introducing Profile Frames: Decorative Borders to Make Your Discord Profile Museum-Worthy",
+    "url": "https://discord.com/blog/introducing-profile-frames-decorative-borders-to-make-your-discord-profile-museum-worthy",
+    "publishedAt": "2026-07-29T00:00:00.000Z"
+  },
+  {
+    "slug": "deepmind",
+    "title": "Gemini Robotics 2 brings whole body intelligence to robots",
+    "url": "https://deepmind.google/blog/gemini-robotics-2-brings-whole-body-intelligence-to-robots/",
+    "publishedAt": "2026-07-28T13:21:37.000Z"
+  },
+  {
+    "slug": "flyio",
+    "title": "Turn And Face The Strange",
+    "url": "https://fly.io/blog/kurt-scott-money-sprites/",
+    "publishedAt": "2026-07-24T00:00:00.000Z"
+  },
+  {
+    "slug": "figma",
+    "title": "How Figma stays ahead of vulnerabilities with agents",
+    "url": "https://www.figma.com/blog/how-figma-stays-ahead-of-vulnerabilities-with-agents/",
+    "publishedAt": "2026-07-23T04:00:00.000Z"
+  },
+  {
+    "slug": "deepmind",
+    "title": "Accelerating the frontiers of scientific discovery: Google\u2019s $40M commitment to the Genesis Mission",
+    "url": "https://deepmind.google/blog/accelerating-the-frontiers-of-scientific-discovery-googles-40m-commitment-to-the-genesis-mission/",
+    "publishedAt": "2026-07-22T13:38:54.000Z"
+  },
+  {
+    "slug": "stripe",
+    "title": "Analyzing the evidence that helps businesses win \u201cproduct not received\u201d disputes",
+    "url": "https://stripe.com/blog/analyzing-the-evidence-that-helps-businesses-win-product-not-received-disputes",
+    "publishedAt": "2026-07-21T00:00:00.000Z"
+  },
+  {
+    "slug": "dropbox",
+    "title": "How our universal content processing platform Riviera evolved for AI and beyond",
+    "url": "https://dropbox.tech/infrastructure/how-our-universal-content-processing-platform-riviera-evolved-for-ai-and-beyond",
+    "publishedAt": "2026-07-20T15:00:00.000Z"
+  },
+  {
+    "slug": "netflix",
+    "title": "In-House LLM Serving at Netflix",
+    "url": "https://netflixtechblog.com/in-house-llm-serving-at-netflix-a5a8e799ea2c",
+    "publishedAt": "2026-07-17T21:32:39.000Z"
+  },
+  {
+    "slug": "shopify",
+    "title": "Upgrading Checkout Blocks app to Polaris web components",
+    "url": "https://shopify.engineering/upgrading-checkout-blocks-app-to-polaris-web-components",
+    "publishedAt": "2026-07-16T04:00:00.000Z"
+  },
+  {
+    "slug": "meta",
+    "title": "Exploring Hierarchical Interest Representation For Meta Ads Deep Funnel Optimization",
+    "url": "https://engineering.fb.com/2026/07/15/ai-research/exploring-hierarchical-interest-representation-for-meta-ads-deep-funnel-optimization/",
+    "publishedAt": "2026-07-15T04:00:00.000Z"
+  },
+  {
+    "slug": "datadog",
+    "title": "Datadog named a Leader in the Gartner\u00ae Magic Quadrant\u2122 for Observability Platforms",
+    "url": "https://www.datadoghq.com/resources/gartner-magic-quadrant-observability-platforms-2026/?utm_source=inbound&utm_medium=corpsite-display&utm_campaign=dg-apm-ww-announcement-corpsite-announcement-gartnermq2026-obsplat",
+    "publishedAt": "2026-07-15T04:00:00.000Z"
+  },
+  {
+    "slug": "shopify",
+    "title": "Inside Shopify Hack Days: Building a prototype for music-playing pages",
+    "url": "https://shopify.engineering/hack-days",
+    "publishedAt": "2026-07-14T04:00:00.000Z"
+  },
+  {
+    "slug": "netflix",
+    "title": "Building Service Topology at Scale: Architecture, Challenges, and Lessons Learned",
+    "url": "https://netflixtechblog.com/building-service-topology-at-scale-architecture-challenges-and-lessons-learned-f4b792f3f0d8",
+    "publishedAt": "2026-07-13T22:44:11.000Z"
+  },
+  {
+    "slug": "meta",
+    "title": "Modernizing the Meta Ads Service With an Open-Source Kernel Scheduler",
+    "url": "https://engineering.fb.com/2026/07/13/ml-applications/modernizing-the-meta-ads-service-with-an-open-source-kernel-scheduler/",
+    "publishedAt": "2026-07-13T04:00:00.000Z"
+  },
+  {
+    "slug": "uber",
+    "title": "GitFarm: Git as a Service for Large-Scale Monorepos",
+    "url": "https://www.uber.com/us/en/blog/gitfarm-as-a-service/",
+    "publishedAt": "2026-07-09T04:00:00.000Z"
+  },
+  {
+    "slug": "github",
+    "title": "Machine learning",
+    "url": "https://github.blog/ai-and-ml/machine-learning/",
+    "publishedAt": "2026-07-08T00:00:00.000Z"
+  },
+  {
+    "slug": "meta",
+    "title": "Meta\u2019s AI Storage Blueprint at Scale",
+    "url": "https://engineering.fb.com/2026/07/01/data-infrastructure/metas-ai-storage-blueprint-at-scale/",
+    "publishedAt": "2026-07-01T04:00:00.000Z"
+  },
+  {
+    "slug": "figma",
+    "title": "Building accessibility into a canvas-based product",
+    "url": "https://www.figma.com/blog/building-accessibility-into-a-canvas-based-product/",
+    "publishedAt": "2026-07-01T04:00:00.000Z"
+  },
+  {
+    "slug": "spotify",
+    "title": "Indexing the Data Lake for Online Point Queries",
+    "url": "https://engineering.atspotify.com/2026/7/indexing-the-data-lake-for-online-point-queries",
+    "publishedAt": "2026-07-01T00:00:00.000Z"
+  },
+  {
+    "slug": "meta",
+    "title": "10 Years of Meta\u2019s Commitment to Python",
+    "url": "https://engineering.fb.com/2026/06/30/open-source/10-years-of-metas-commitment-to-python/",
+    "publishedAt": "2026-06-30T04:00:00.000Z"
+  },
+  {
+    "slug": "netflix",
+    "title": "GenPage: Towards End-to-End Generative Homepage Construction at Netflix",
+    "url": "https://netflixtechblog.com/genpage-towards-end-to-end-generative-homepage-construction-at-netflix-77146fba8a08",
+    "publishedAt": "2026-06-29T13:01:02.000Z"
+  },
+  {
+    "slug": "dropbox",
+    "title": "How we used DSPy to turn AI evaluations into better responses in Dash chat",
+    "url": "https://dropbox.tech/machine-learning/how-we-turned-ai-evaluations-into-better-responses-in-dash-chat",
+    "publishedAt": "2026-06-25T16:30:00.000Z"
+  },
+  {
+    "slug": "meta",
+    "title": "Privacy-Aware Infrastructure in the AI-Native Era: An Asset Classification Case Study",
+    "url": "https://engineering.fb.com/2026/06/25/security/privacy-aware-infrastructure-in-the-ai-native-era-an-asset-classification-case-study/",
+    "publishedAt": "2026-06-25T04:00:00.000Z"
+  },
+  {
+    "slug": "uber",
+    "title": "Zone-Failure-Resilient OpenSearch at Uber",
+    "url": "https://www.uber.com/us/en/blog/zone-failure-resilient/",
+    "publishedAt": "2026-06-25T04:00:00.000Z"
+  },
+  {
+    "slug": "meta",
+    "title": "How Meta Engineered Ultra-Narrow Batteries for AI Glasses",
+    "url": "https://engineering.fb.com/2026/06/23/production-engineering/how-meta-built-ultra-narrow-batteries-for-ai-glasses-meta-tech-podcast/",
+    "publishedAt": "2026-06-23T04:00:00.000Z"
+  },
+  {
+    "slug": "uber",
+    "title": "Scaling Verify with Wallet for Identity Verification at Uber",
+    "url": "https://www.uber.com/us/en/blog/scaling-verify-wallet/",
+    "publishedAt": "2026-06-23T04:00:00.000Z"
+  },
+  {
+    "slug": "netflix",
+    "title": "Toward More Controllable AI Video Editing: An Early Research Exploration at Netflix",
+    "url": "https://netflixtechblog.com/toward-more-controllable-ai-video-editing-an-early-research-exploration-at-netflix-eb8160ed60a2",
+    "publishedAt": "2026-06-23T00:31:01.000Z"
+  },
+  {
+    "slug": "stripe",
+    "title": "Four travel and hospitality trends from HITEC 2026",
+    "url": "https://stripe.com/blog/trends-from-hitec",
+    "publishedAt": "2026-06-23T00:00:00.000Z"
+  },
+  {
+    "slug": "netflix",
+    "title": "How Netflix Simplified Batch Compute with Kueue",
+    "url": "https://netflixtechblog.com/how-netflix-simplified-batch-compute-with-kueue-87860682629c",
+    "publishedAt": "2026-06-22T21:35:01.000Z"
+  },
+  {
+    "slug": "meta",
+    "title": "Adopting AV1 for Real-Time Communication (RTC) at Scale",
+    "url": "https://engineering.fb.com/2026/06/22/video-engineering/adopting-av1-for-real-time-communication-rtc-meta/",
+    "publishedAt": "2026-06-22T04:00:00.000Z"
+  },
+  {
+    "slug": "netflix",
+    "title": "The Data Canary: How Netflix Validates Catalog Metadata",
+    "url": "https://netflixtechblog.com/the-data-canary-how-netflix-validates-catalog-metadata-18b699d58e36",
+    "publishedAt": "2026-06-19T23:54:17.000Z"
+  },
+  {
+    "slug": "stripe",
+    "title": "What Link data tells us about AI spending",
+    "url": "https://stripe.com/blog/what-link-data-tells-us-about-ai-spending",
+    "publishedAt": "2026-06-18T00:00:00.000Z"
+  },
+  {
+    "slug": "shopify",
+    "title": "Clustering billions of products for agentic commerce with Catalog API",
+    "url": "https://shopify.engineering/catalog-clustering",
+    "publishedAt": "2026-06-17T04:00:00.000Z"
+  },
+  {
+    "slug": "jane-street",
+    "title": "Using OxCaml to implement type-safe reference counting between OCaml and Python",
+    "url": "https://blog.janestreet.com/oxcaml-typesafe-reference-counting-python/",
+    "publishedAt": "2026-06-15T04:00:00.000Z"
+  },
+  {
+    "slug": "shopify",
+    "title": "Teaching Sidekick to say no: automated data curation with LLM judge consensus",
+    "url": "https://shopify.engineering/sidekick-curation",
+    "publishedAt": "2026-06-15T04:00:00.000Z"
+  },
+  {
+    "slug": "dropbox",
+    "title": "How Dropbox uses MCP and Dash to close the design-to-code security gap",
+    "url": "https://dropbox.tech/security/dropbox-mcp-dash-design-code-security",
+    "publishedAt": "2026-06-12T18:00:00.000Z"
+  },
+  {
+    "slug": "uber",
+    "title": "Simplifying Data and Product Integrations with a Data Abstraction Layer",
+    "url": "https://www.uber.com/us/en/blog/data-abstraction-layer/",
+    "publishedAt": "2026-06-11T04:00:00.000Z"
+  },
+  {
+    "slug": "stripe",
+    "title": "Stripe Projects adds new agent integrations, more providers, and custom developer controls",
+    "url": "https://stripe.com/blog/stripe-projects-adds-new-agents-providers-developer-controls",
+    "publishedAt": "2026-06-11T00:00:00.000Z"
+  },
+  {
+    "slug": "shopify",
+    "title": "Quick: An internal hosting platform for the AI era",
+    "url": "https://shopify.engineering/quick",
+    "publishedAt": "2026-06-10T04:00:00.000Z"
+  },
+  {
+    "slug": "flyio",
+    "title": "Building Agents that Don't Break Themselves",
+    "url": "https://fly.io/blog/building-agents-that-dont-break-themselves/",
+    "publishedAt": "2026-06-08T00:00:00.000Z"
+  },
+  {
+    "slug": "stripe",
+    "title": "New ways to turn global demand into revenue",
+    "url": "https://stripe.com/blog/new-ways-to-turn-global-demand-into-revenue",
+    "publishedAt": "2026-06-04T00:00:00.000Z"
+  },
+  {
+    "slug": "stripe",
+    "title": "The future of agentic commerce is here",
+    "url": "https://stripe.events/acnext_seattle",
+    "publishedAt": "2026-06-04T00:00:00.000Z"
+  },
+  {
+    "slug": "stripe",
+    "title": "Rethinking risk in the age of AI",
+    "url": "https://stripe.events/stripeforumseattle1",
+    "publishedAt": "2026-06-04T00:00:00.000Z"
+  },
+  {
+    "slug": "spotify",
+    "title": "Encoding Your Domain Expert: The Context Layer Behind Spotify's Data Assistant",
+    "url": "https://engineering.atspotify.com/2026/6/encoding-your-domain-expert-the-context-layer-behind-spotifys-data-assistant",
+    "publishedAt": "2026-06-01T00:00:00.000Z"
+  },
+  {
+    "slug": "spotify",
+    "title": "Coding Is No Longer the Constraint: Scaling Developer Experience to Teams and Agents at Spotify",
+    "url": "https://engineering.atspotify.com/2026/6/code-with-claude-coding-is-no-longer-the-constraint",
+    "publishedAt": "2026-06-01T00:00:00.000Z"
+  },
+  {
+    "slug": "dropbox",
+    "title": "Beyond code generation: rethinking engineering productivity in the age of AI agents",
+    "url": "https://dropbox.tech/culture/beyond-code-generation-rethinking-engineering-productivity-in-the-age-of-ai-agents",
+    "publishedAt": "2026-05-28T18:00:00.000Z"
+  },
+  {
+    "slug": "uber",
+    "title": "Modernizing Artifact Storage at Uber",
+    "url": "https://www.uber.com/us/en/blog/modernizing-artifact-storage/",
+    "publishedAt": "2026-05-28T04:00:00.000Z"
+  },
+  {
+    "slug": "jane-street",
+    "title": "strace-ui, Bonsai_term, and the TUI renaissance",
+    "url": "https://blog.janestreet.com/strace-ui-bonsai-term-and-the-tui-renaissance/",
+    "publishedAt": "2026-05-26T04:00:00.000Z"
+  },
+  {
+    "slug": "figma",
+    "title": "Product management",
+    "url": "https://www.figma.com/blog/product-management/",
+    "publishedAt": "2026-05-22T04:00:00.000Z"
+  },
+  {
+    "slug": "dropbox",
+    "title": "Introducing Nova, our internal platform for coding agents",
+    "url": "https://dropbox.tech/machine-learning/introducing-nova-our-internal-platform-for-coding-agents",
+    "publishedAt": "2026-05-21T16:00:00.000Z"
+  },
+  {
+    "slug": "uber",
+    "title": "Beyond Prediction: Solving the Multiple Knapsack Problem at Scale: How Uber Optimizes Incentives",
+    "url": "https://www.uber.com/us/en/blog/solving-multiple-knapsack/",
+    "publishedAt": "2026-05-14T04:00:00.000Z"
+  },
+  {
+    "slug": "github",
+    "title": "Application development",
+    "url": "https://github.blog/developer-skills/application-development/",
+    "publishedAt": "2026-05-13T00:00:00.000Z"
+  },
+  {
+    "slug": "shopify",
+    "title": "We replaced Redis with MySQL for inventory reservations\u2014and it scaled",
+    "url": "https://shopify.engineering/scaling-inventory-reservations",
+    "publishedAt": "2026-05-12T04:00:00.000Z"
+  },
+  {
+    "slug": "uber",
+    "title": "Zero-Growth Stack, Real Gains: How Stack Allocation Can Save 10% CPU in Go",
+    "url": "https://www.uber.com/us/en/blog/zero-growth-stack/",
+    "publishedAt": "2026-05-07T04:00:00.000Z"
+  },
+  {
+    "slug": "spotify",
+    "title": "Better Experiments with LLM Evals \u2014 A funnel, not a fork",
+    "url": "https://engineering.atspotify.com/2026/5/better-experiments-with-llm-evals-a-funnel-not-a-fork",
+    "publishedAt": "2026-05-01T00:00:00.000Z"
+  },
+  {
+    "slug": "spotify",
+    "title": "Building a Natural Language Interface to the Spotify Ads API with Claude Code Plugins",
+    "url": "https://engineering.atspotify.com/2026/5/spotify-ads-api-claude-plugins",
+    "publishedAt": "2026-05-01T00:00:00.000Z"
+  },
+  {
+    "slug": "anthropic",
+    "title": "An update on recent Claude Code quality reports",
+    "url": "https://www.anthropic.com/engineering/april-23-postmortem",
+    "publishedAt": "2026-04-23T04:00:00.000Z"
+  },
+  {
+    "slug": "jane-street",
+    "title": "Using group theory to explore the space of positional encodings for attention",
+    "url": "https://blog.janestreet.com/using-group-theory-to-explore-positional-encodings-attention/",
+    "publishedAt": "2026-04-22T04:00:00.000Z"
+  },
+  {
+    "slug": "github",
+    "title": "GitHub Education",
+    "url": "https://github.blog/developer-skills/github-education/",
+    "publishedAt": "2026-04-10T00:00:00.000Z"
+  },
+  {
+    "slug": "anthropic",
+    "title": "Scaling Managed Agents: Decoupling the brain from the hands",
+    "url": "https://www.anthropic.com/engineering/managed-agents",
+    "publishedAt": "2026-04-08T04:00:00.000Z"
+  },
+  {
+    "slug": "dropbox",
+    "title": "Improving storage efficiency in Magic Pocket, our immutable blob store",
+    "url": "https://dropbox.tech/infrastructure/improving-storage-efficiency-in-magic-pocket-our-immutable-blob-store",
+    "publishedAt": "2026-04-02T17:00:00.000Z"
+  },
+  {
+    "slug": "spotify",
+    "title": "Background Coding Agents: Supercharging Downstream Consumer Dataset Migrations (Honk, Part 4)",
+    "url": "https://engineering.atspotify.com/2026/4/background-coding-agents-dataset-migrations-honk-part-4",
+    "publishedAt": "2026-04-01T00:00:00.000Z"
+  },
+  {
+    "slug": "spotify",
+    "title": "Let\u2019s Talk Agentic Development: Spotify x Anthropic Live",
+    "url": "https://engineering.atspotify.com/2026/4/anthropic-agentic-development",
+    "publishedAt": "2026-04-01T00:00:00.000Z"
+  },
+  {
+    "slug": "dropbox",
+    "title": "Reducing our monorepo size to improve developer velocity",
+    "url": "https://dropbox.tech/infrastructure/reducing-our-monorepo-size-to-improve-developer-velocity",
+    "publishedAt": "2026-03-25T17:00:00.000Z"
+  },
+  {
+    "slug": "anthropic",
+    "title": "How we built Claude Code auto mode: a safer way to skip permissions",
+    "url": "https://www.anthropic.com/engineering/claude-code-auto-mode",
+    "publishedAt": "2026-03-25T04:00:00.000Z"
+  },
+  {
+    "slug": "anthropic",
+    "title": "Harness design for long-running application development",
+    "url": "https://www.anthropic.com/engineering/harness-design-long-running-apps",
+    "publishedAt": "2026-03-24T04:00:00.000Z"
+  },
+  {
+    "slug": "dropbox",
+    "title": "How we optimized Dash&#039;s relevance judge with DSPy",
+    "url": "https://dropbox.tech/machine-learning/optimizing-dropbox-dash-relevance-judge-with-dspy",
+    "publishedAt": "2026-03-17T17:00:00.000Z"
+  },
+  {
+    "slug": "linkedin",
+    "title": "Driving data enhancement & recruitment success with LinkedIn\u2019s unified integrations",
+    "url": "https://www.linkedin.com/blog/engineering/talent/driving-data-enhancement-and-recruitment-success-with-linkedins-unified-integrations",
+    "publishedAt": "2026-03-10T04:00:00.000Z"
+  },
+  {
+    "slug": "flyio",
+    "title": "Unfortunately, Sprites Now Speak MCP",
+    "url": "https://fly.io/blog/unfortunately-mcp/",
+    "publishedAt": "2026-03-10T00:00:00.000Z"
+  },
+  {
+    "slug": "anthropic",
+    "title": "Eval awareness in Claude Opus 4.6\u2019s BrowseComp performance",
+    "url": "https://www.anthropic.com/engineering/eval-awareness-browsecomp",
+    "publishedAt": "2026-03-06T05:00:00.000Z"
+  },
+  {
+    "slug": "spotify",
+    "title": "Inside the Archive: The Tech Behind Your 2025 Wrapped Highlights",
+    "url": "https://engineering.atspotify.com/2026/3/inside-the-archive-2025-wrapped",
+    "publishedAt": "2026-03-01T00:00:00.000Z"
+  },
+  {
+    "slug": "dropbox",
+    "title": "Using LLMs to amplify human labeling and improve Dash search relevance",
+    "url": "https://dropbox.tech/machine-learning/llm-human-labeling-improving-search-relevance-dropbox-dash",
+    "publishedAt": "2026-02-26T17:00:00.000Z"
+  },
+  {
+    "slug": "jane-street",
+    "title": "Results from the Advent of FPGA Challenge",
+    "url": "https://blog.janestreet.com/advent-of-fpga-challenge-2025-results/",
+    "publishedAt": "2026-02-11T05:00:00.000Z"
+  },
+  {
+    "slug": "anthropic",
+    "title": "Quantifying infrastructure noise in agentic coding evals",
+    "url": "https://www.anthropic.com/engineering/infrastructure-noise",
+    "publishedAt": "2026-02-05T05:00:00.000Z"
+  },
+  {
+    "slug": "anthropic",
+    "title": "Building a C compiler with a team of parallel Claudes",
+    "url": "https://www.anthropic.com/engineering/building-c-compiler",
+    "publishedAt": "2026-02-05T05:00:00.000Z"
+  },
+  {
+    "slug": "jane-street",
+    "title": "I design with Claude more than Figma now",
+    "url": "https://blog.janestreet.com/i-design-with-claude-code-more-than-figma-now-index/",
+    "publishedAt": "2026-02-05T05:00:00.000Z"
+  },
+  {
+    "slug": "spotify",
+    "title": "Our Multi-Agent Architecture for Smarter Advertising",
+    "url": "https://engineering.atspotify.com/2026/2/our-multi-agent-architecture-for-smarter-advertising",
+    "publishedAt": "2026-02-01T00:00:00.000Z"
+  },
+  {
+    "slug": "flyio",
+    "title": "Litestream Writable VFS",
+    "url": "https://fly.io/blog/litestream-writable-vfs/",
+    "publishedAt": "2026-01-29T00:00:00.000Z"
+  },
+  {
+    "slug": "github",
+    "title": "Programming languages & frameworks",
+    "url": "https://github.blog/developer-skills/programming-languages-and-frameworks/",
+    "publishedAt": "2026-01-27T00:00:00.000Z"
+  },
+  {
+    "slug": "anthropic",
+    "title": "Designing AI-resistant technical evaluations",
+    "url": "https://www.anthropic.com/engineering/AI-resistant-technical-evaluations",
+    "publishedAt": "2026-01-21T05:00:00.000Z"
+  },
+  {
+    "slug": "flyio",
+    "title": "The Design & Implementation of Sprites",
+    "url": "https://fly.io/blog/design-and-implementation/",
+    "publishedAt": "2026-01-14T00:00:00.000Z"
+  },
+  {
+    "slug": "anthropic",
+    "title": "Demystifying evals for AI agents",
+    "url": "https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents",
+    "publishedAt": "2026-01-09T05:00:00.000Z"
+  },
+  {
+    "slug": "flyio",
+    "title": "Code And Let Live",
+    "url": "https://fly.io/blog/code-and-let-live/",
+    "publishedAt": "2026-01-09T00:00:00.000Z"
+  },
+  {
+    "slug": "flyio",
+    "title": "Litestream VFS",
+    "url": "https://fly.io/blog/litestream-vfs/",
+    "publishedAt": "2025-12-11T00:00:00.000Z"
+  },
+  {
+    "slug": "discord",
+    "title": "Engineering & DevelopersDiscord Patch Notes: December 8, 2025",
+    "url": "https://discord.com/blog/discord-patch-notes-december-8-2025",
+    "publishedAt": "2025-12-08T05:00:00.000Z"
+  },
+  {
+    "slug": "jane-street",
+    "title": "Getting from tested to battle-tested",
+    "url": "https://blog.janestreet.com/getting-from-tested-to-battle-tested/",
+    "publishedAt": "2025-12-03T05:00:00.000Z"
+  },
+  {
+    "slug": "anthropic",
+    "title": "Effective harnesses for long-running agents",
+    "url": "https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents",
+    "publishedAt": "2025-11-26T05:00:00.000Z"
+  },
+  {
+    "slug": "jane-street",
+    "title": "Advent of FPGA \u2014 A Jane Street Challenge",
+    "url": "https://blog.janestreet.com/advent-of-fpga-challenge-2025/",
+    "publishedAt": "2025-11-24T05:00:00.000Z"
+  },
+  {
+    "slug": "flyio",
+    "title": "You Should Write An Agent",
+    "url": "https://fly.io/blog/everyone-write-an-agent/",
+    "publishedAt": "2025-11-06T00:00:00.000Z"
+  },
+  {
+    "slug": "flyio",
+    "title": "Corrosion",
+    "url": "https://fly.io/blog/corrosion/",
+    "publishedAt": "2025-10-22T00:00:00.000Z"
+  },
+  {
+    "slug": "flyio",
+    "title": "Kurt Got Got",
+    "url": "https://fly.io/blog/kurt-got-got/",
+    "publishedAt": "2025-10-08T00:00:00.000Z"
+  },
+  {
+    "slug": "github",
+    "title": "Platform security",
+    "url": "https://github.blog/engineering/platform-security/",
+    "publishedAt": "2025-09-15T00:00:00.000Z"
+  },
+  {
+    "slug": "discord",
+    "title": "Engineering & DevelopersDiscord Patch Notes: September 3, 2025",
+    "url": "https://discord.com/blog/discord-patch-notes-september-3-2025",
+    "publishedAt": "2025-09-03T04:00:00.000Z"
+  },
+  {
+    "slug": "discord",
+    "title": "Engineering & DevelopersDiscord Patch Notes: August 4, 2025",
+    "url": "https://discord.com/blog/discord-patch-notes-august-4-2025",
+    "publishedAt": "2025-08-04T04:00:00.000Z"
+  },
+  {
+    "slug": "deepmind",
+    "title": "SIMA 2An agent that plays, reasons, and learns with you",
+    "url": "https://deepmind.google/blog/sima-2-an-agent-that-plays-reasons-and-learns-with-you-in-virtual-3d-worlds/",
+    "publishedAt": "2025-08-01T04:00:00.000Z"
+  },
+  {
+    "slug": "linkedin",
+    "title": "Accelerating LinkedIn Sales Navigator's search system with Spark transformations",
+    "url": "https://www.linkedin.com/blog/engineering/infrastructure/optimizing-linkedin-sales-navigators-search-pipeline-with-spark",
+    "publishedAt": "2025-07-23T04:00:00.000Z"
+  },
+  {
+    "slug": "discord",
+    "title": "Engineering & DevelopersDiscord Patch Notes: July 7, 2025",
+    "url": "https://discord.com/blog/discord-patch-notes-july-7-2025",
+    "publishedAt": "2025-07-07T04:00:00.000Z"
+  },
+  {
+    "slug": "jane-street",
+    "title": "A Higgs-bugson in the Linux Kernel",
+    "url": "https://blog.janestreet.com/a-higgs-bugson-in-the-linux-kernel/",
+    "publishedAt": "2025-07-02T04:00:00.000Z"
+  },
+  {
+    "slug": "figma",
+    "title": "Canvas, meet code: Building Figma\u2019s code layers",
+    "url": "https://www.figma.com/blog/building-figmas-code-layers/",
+    "publishedAt": "2025-06-25T04:00:00.000Z"
+  },
+  {
+    "slug": "linkedin",
+    "title": "Introducing Northguard and Xinfra: scalable log storage at LinkedIn",
+    "url": "https://www.linkedin.com/blog/engineering/infrastructure/introducing-northguard-and-xinfra",
+    "publishedAt": "2025-06-25T04:00:00.000Z"
+  },
+  {
+    "slug": "github",
+    "title": "Engineering principles",
+    "url": "https://github.blog/engineering/engineering-principles/",
+    "publishedAt": "2025-05-13T00:00:00.000Z"
+  },
+  {
+    "slug": "datadog",
+    "title": "Infrastructure Monitoring",
+    "url": "https://www.datadoghq.com/product/infrastructure-monitoring/",
+    "publishedAt": "2025-03-12T04:00:00.000Z"
+  },
+  {
+    "slug": "datadog",
+    "title": "Network Monitoring",
+    "url": "https://www.datadoghq.com/product/network-monitoring/",
+    "publishedAt": "2025-03-12T04:00:00.000Z"
+  },
+  {
+    "slug": "datadog",
+    "title": "Container Monitoring",
+    "url": "https://www.datadoghq.com/product/container-monitoring/",
+    "publishedAt": "2025-03-12T04:00:00.000Z"
+  },
+  {
+    "slug": "datadog",
+    "title": "Cloud Cost Management",
+    "url": "https://www.datadoghq.com/product/cloud-cost-management/",
+    "publishedAt": "2025-03-12T04:00:00.000Z"
+  },
+  {
+    "slug": "datadog",
+    "title": "Application Performance Monitoring",
+    "url": "https://www.datadoghq.com/product/apm/",
+    "publishedAt": "2025-03-10T04:00:00.000Z"
+  },
+  {
+    "slug": "datadog",
+    "title": "Universal Service Monitoring",
+    "url": "https://www.datadoghq.com/product/universal-service-monitoring/",
+    "publishedAt": "2025-03-10T04:00:00.000Z"
+  },
+  {
+    "slug": "datadog",
+    "title": "Continuous Profiler",
+    "url": "https://www.datadoghq.com/product/code-profiling/",
+    "publishedAt": "2025-03-10T04:00:00.000Z"
+  },
+  {
+    "slug": "datadog",
+    "title": "Storage Management",
+    "url": "https://www.datadoghq.com/product/storage-management/",
+    "publishedAt": "2025-02-07T05:00:00.000Z"
+  },
+  {
+    "slug": "jane-street",
+    "title": "How we accidentally built a better build system for OCaml",
+    "url": "https://blog.janestreet.com/how-we-accidentally-built-a-better-build-system-for-ocaml-index/",
+    "publishedAt": "2025-01-24T05:00:00.000Z"
+  },
+  {
+    "slug": "linkedin",
+    "title": "Stateful Workload Operator: Stateful Systems on Kubernetes at LinkedIn",
+    "url": "https://www.linkedin.com/blog/engineering/infrastructure/stateful-workload-operator-stateful-systems-on-kubernetes-at-linkedin",
+    "publishedAt": "2024-11-12T05:00:00.000Z"
+  },
+  {
+    "slug": "figma",
+    "title": "How we built AI search in Figma",
+    "url": "https://www.figma.com/blog/how-we-built-ai-search-in-figma/",
+    "publishedAt": "2024-10-25T04:00:00.000Z"
+  },
+  {
+    "slug": "figma",
+    "title": "The infrastructure behind AI search in Figma",
+    "url": "https://www.figma.com/blog/the-infrastructure-behind-ai-search-in-figma/",
+    "publishedAt": "2024-10-15T04:00:00.000Z"
+  },
+  {
+    "slug": "linkedin",
+    "title": "Scalable Automated Config-Driven Data Validation",
+    "url": "https://www.linkedin.com/blog/engineering/data-management/scalable-automated-config-driven-data-validation",
+    "publishedAt": "2024-03-07T05:00:00.000Z"
+  },
+  {
+    "slug": "github",
+    "title": "How AI code generation works",
+    "url": "https://github.blog/ai-and-ml/generative-ai/how-ai-code-generation-works/",
+    "publishedAt": "2024-02-22T00:00:00.000Z"
+  },
+  {
+    "slug": "linkedin",
+    "title": "Improving Recruiting Efficiency with a Hybrid Bulk Data Processing Framework",
+    "url": "https://www.linkedin.com/blog/engineering/data-streaming-processing/improving-recruiting-efficiency-with-hybrid-bulk-data-processing-framework",
+    "publishedAt": "2024-01-19T05:00:00.000Z"
+  },
+  {
+    "slug": "linkedin",
+    "title": "Revolutionizing Real-Time Streaming Processing: 4 Trillion Events",
+    "url": "https://www.linkedin.com/blog/engineering/data-streaming-processing/revolutionizing-real-time-streaming-processing--4-trillion-event",
+    "publishedAt": "2023-10-19T04:00:00.000Z"
+  },
+  {
+    "slug": "linkedin",
+    "title": "Declarative Data Pipelines with Hoptimator",
+    "url": "https://www.linkedin.com/blog/engineering/data-streaming-processing/declarative-data-pipelines-with-hoptimator",
+    "publishedAt": "2023-06-26T04:00:00.000Z"
+  },
+  {
+    "slug": "linkedin",
+    "title": "Unified Streaming And Batch Pipelines At LinkedIn: Reducing Processing time by 94% with Apache Beam",
+    "url": "https://www.linkedin.com/blog/engineering/data-streaming-processing/unified-streaming-and-batch-pipelines-at-linkedin-reducing-proc",
+    "publishedAt": "2023-03-23T04:00:00.000Z"
+  },
+  {
+    "slug": "github",
+    "title": "How we use GitHub to be more productive, collaborative, and secure",
+    "url": "https://github.blog/engineering/how-we-use-github-to-be-more-productive-collaborative-and-secure/",
+    "publishedAt": "2022-12-20T00:00:00.000Z"
+  },
+  {
+    "slug": "deepmind",
+    "title": "AlphaFoldPredict protein structures with high accuracy",
+    "url": "https://deepmind.google/science/alphafold/",
+    "publishedAt": "2022-10-01T04:00:00.000Z"
+  },
+  {
+    "slug": "linkedin",
+    "title": "Real-Time Analytics on Network Flow Data with Apache Pinot",
+    "url": "https://www.linkedin.com/blog/engineering/analytics/real-time-analytics-on-network-flow-data-with-apache-pinot",
+    "publishedAt": "2022-09-13T04:00:00.000Z"
+  },
+  {
+    "slug": "datadog",
+    "title": "Kubernetes Autoscaling",
+    "url": "https://www.datadoghq.com/product/kubernetes-autoscaling/",
+    "publishedAt": "2001-01-01T00:00:00.000Z"
+  }
+]
