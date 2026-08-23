@@ -84,20 +84,28 @@ export default async function Home({
   const prisma = getPrisma();
 
   const slugs = (params.orgs?.split(",") ?? []).filter(Boolean);
-  const categories = (params.cats?.split(",") ?? []).filter((value): value is Category =>
-    CATEGORIES.includes(value as Category),
+  const categories = (params.cats?.split(",") ?? []).filter(
+    (value): value is Category => CATEGORIES.includes(value as Category),
   );
 
   const where = {
     ...(slugs.length > 0 ? { organization: { slug: { in: slugs } } } : {}),
     // Enum members are snake_case in the client but kebab-case in the URL.
     ...(categories.length > 0
-      ? { category: { in: categories.map((value) => value.replace(/-/g, "_") as PrismaCategory) } }
+      ? {
+          category: {
+            in: categories.map(
+              (value) => value.replace(/-/g, "_") as PrismaCategory,
+            ),
+          },
+        }
       : {}),
   };
 
   const requested = Number(params.page);
-  const tentative = Number.isFinite(requested) ? Math.max(1, Math.trunc(requested)) : 1;
+  const tentative = Number.isFinite(requested)
+    ? Math.max(1, Math.trunc(requested))
+    : 1;
 
   const [organizations, total, firstPage] = await Promise.all([
     prisma.organization.findMany({ orderBy: { name: "asc" } }),
@@ -170,8 +178,13 @@ export default async function Home({
         <div className="flex flex-col gap-4">
           {posts.length === 0 ? (
             <Card className="items-center gap-2 py-12 text-center">
-              <p className="text-sm font-medium">No posts match these filters.</p>
-              <Link href="/" className="text-sm text-muted-foreground underline">
+              <p className="text-sm font-medium">
+                No posts match these filters.
+              </p>
+              <Link
+                href="/"
+                className="text-sm text-muted-foreground underline"
+              >
                 Clear filters
               </Link>
             </Card>
@@ -242,7 +255,10 @@ export default async function Home({
 
                 {visiblePages(page, pageCount).map((item, index) =>
                   item === "…" ? (
-                    <PaginationItem key={`ellipsis-${index}`} className="hidden sm:block">
+                    <PaginationItem
+                      key={`ellipsis-${index}`}
+                      className="hidden sm:block"
+                    >
                       <PaginationEllipsis />
                     </PaginationItem>
                   ) : (

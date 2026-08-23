@@ -37,10 +37,13 @@ export function PostFilters({
   const { selected: picked, pending, commit } = useFilterSelection(selected, "orgs");
 
   const allSelected = picked.length === 0;
+  const ordered = [...organizations].sort((a, b) =>
+    a.slug === "anthropic" ? -1 : b.slug === "anthropic" ? 1 : 0,
+  );
   // With nothing checked every organization is included, so the trigger shows them all.
   const activeOrgs = allSelected
-    ? organizations
-    : organizations.filter((org) => picked.includes(org.slug));
+    ? ordered
+    : ordered.filter((org) => picked.includes(org.slug));
   const shownOrgs = activeOrgs.slice(0, MAX_STACKED_LOGOS);
 
   return (
@@ -93,7 +96,7 @@ export function PostFilters({
               </CommandGroup>
               <CommandSeparator />
               <CommandGroup>
-                {organizations.map((org) => {
+                {ordered.map((org) => {
                   const checked = picked.includes(org.slug);
                   return (
                     <CommandItem

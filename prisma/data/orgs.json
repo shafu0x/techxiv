@@ -118,5 +118,11 @@
     "name": "Slack",
     "blogUrl": "https://slack.engineering/",
     "simpleIcon": "slack"
+  },
+  {
+    "slug": "amazon",
+    "name": "Amazon",
+    "blogUrl": "https://www.amazon.science/blog",
+    "simpleIcon": "amazon"
   }
 ]

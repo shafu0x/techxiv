@@ -84,11 +84,13 @@ async function main() {
     const category = post.category.replace(/-/g, "_") as Category;
     const kind = post.kind.replace(/-/g, "_") as Kind;
 
+    const url = post.url.replace(/\/+$/, "");
+
     await prisma.post.upsert({
-      where: { url: post.url },
+      where: { url },
       create: {
         title: post.title,
-        url: post.url,
+        url,
         publishedAt: new Date(post.publishedAt),
         category,
         kind,
@@ -106,7 +108,7 @@ async function main() {
 
   // The data files are the source of truth, so drop anything a re-scrape removed.
   const prunedPosts = await prisma.post.deleteMany({
-    where: { url: { notIn: posts.map((post) => post.url) } },
+    where: { url: { notIn: posts.map((post) => post.url.replace(/\/+$/, "")) } },
   });
   const prunedOrgs = await prisma.organization.deleteMany({
     where: { slug: { notIn: orgs.map((org) => org.slug) } },

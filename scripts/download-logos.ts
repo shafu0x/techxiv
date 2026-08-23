@@ -6,6 +6,7 @@ const WIKI: Record<string, string> = {
   "jane-street": "Jane Street Capital Logo.svg",
   // Simple Icons dropped the Slack mark over trademark concerns.
   slack: "Slack icon 2019.svg",
+  amazon: "Amazon icon.svg",
 };
 
 function isDark(hex: string) {

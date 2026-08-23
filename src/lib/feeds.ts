@@ -14,6 +14,7 @@ export const FEEDS: Record<string, string> = {
   github: "https://github.blog/engineering/feed/",
   deepmind: "https://deepmind.google/blog/rss.xml",
   slack: "https://slack.engineering/feed/",
+  amazon: "https://www.amazon.science/index.rss",
 };
 
 export type FeedPost = {
@@ -36,11 +37,11 @@ const NAMED_ENTITIES: Record<string, string> = {
 function decode(value: string) {
   return value
     .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, "$1")
+    .replace(/&([a-z]+);/gi, (match, name: string) => NAMED_ENTITIES[name.toLowerCase()] ?? match)
     .replace(/&#x([0-9a-f]+);/gi, (_, hex: string) =>
       String.fromCodePoint(Number.parseInt(hex, 16)),
     )
     .replace(/&#(\d+);/g, (_, code: string) => String.fromCodePoint(Number(code)))
-    .replace(/&([a-z]+);/gi, (match, name: string) => NAMED_ENTITIES[name.toLowerCase()] ?? match)
     .trim();
 }
 
