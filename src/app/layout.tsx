@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { ClickNotifier } from "@/components/click-notifier";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -13,9 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Engineering Blogs",
-  description:
-    "Hand-picked engineering posts from the companies that still write them.",
+  title: "techxiv",
+  description: "Engineering posts from the companies that still write them.",
 };
 
 export const viewport: Viewport = {
@@ -30,6 +30,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`dark ${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col bg-background text-foreground">
+        <ClickNotifier />
         {children}
       </body>
     </html>

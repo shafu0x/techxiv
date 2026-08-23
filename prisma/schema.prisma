@@ -21,8 +21,33 @@ model Post {
   title          String
   url            String       @unique
   publishedAt    DateTime
+  category       Category
+  kind           Kind
   organization   Organization @relation(fields: [organizationId], references: [id])
   organizationId String
 
   @@index([publishedAt])
+  @@index([category, publishedAt])
+  @@index([kind, publishedAt])
+}
+
+/// What the post is about.
+enum Category {
+  ai_models_research    @map("ai-models-research")
+  ai_agents_tooling     @map("ai-agents-tooling")
+  infrastructure
+  data_observability    @map("data-observability")
+  web_frontend          @map("web-frontend")
+  languages_performance @map("languages-performance")
+  security
+  developer_experience  @map("developer-experience")
+  business_culture      @map("business-culture")
+}
+
+/// What shape of post it is.
+enum Kind {
+  deep_dive    @map("deep-dive")
+  announcement
+  release_note @map("release-note")
+  report
 }

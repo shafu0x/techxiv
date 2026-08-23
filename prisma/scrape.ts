@@ -1,6 +1,7 @@
 import { execFileSync } from "node:child_process";
 import { readFile, writeFile } from "node:fs/promises";
 import orgs from "./data/orgs.json";
+import { FEEDS, fetchFeedPosts } from "../src/lib/feeds";
 
 type Link = {
   href: string;
@@ -13,26 +14,6 @@ type Post = {
   title: string;
   url: string;
   publishedAt: string;
-};
-
-const SKIP =
-  /\b(hiring|career|changelog|newsletter|podcast|webinar|intern experience)\b/i;
-
-const FEEDS: Record<string, string> = {
-  openai: "https://openai.com/news/rss.xml",
-  spotify: "https://engineering.atspotify.com/feed/",
-  netflix: "https://netflixtechblog.com/feed",
-  vercel: "https://vercel.com/atom",
-  stripe: "https://stripe.com/blog/feed.rss",
-  cloudflare: "https://blog.cloudflare.com/rss/",
-  "jane-street": "https://blog.janestreet.com/feed.xml",
-  flyio: "https://fly.io/blog/feed.xml",
-  discord: "https://discord.com/blog/rss.xml",
-  uber: "https://www.uber.com/blog/engineering/rss/",
-  dropbox: "https://dropbox.tech/feed",
-  shopify: "https://shopify.engineering/blogs/engineering.atom",
-  linkedin: "https://www.linkedin.com/blog/engineering/rss",
-  doordash: "https://careersatdoordash.com/engineering-blog/feed/",
 };
 
 function run(args: string[]) {
@@ -61,19 +42,7 @@ function cleanTitle(raw: string) {
   const lines = raw
     .split("\n")
     .map((line) => line.trim())
-    .filter(
-      (line) =>
-        line.length > 8 &&
-        !/^(featured|engineering|blog|security|general|customers|read more|learn more)$/i.test(
-          line,
-        ) &&
-        !/^\d{1,2}\s+(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)/i.test(
-          line,
-        ) &&
-        !/^(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\s+\d/i.test(
-          line,
-        ),
-    );
+    .filter((line) => line.length > 8);
   return (lines[0] ?? raw).replace(/\s+/g, " ").slice(0, 160);
 }
 
@@ -135,9 +104,7 @@ function looksLikeArticle(orgHost: string, href: string) {
     path.endsWith("/engineering/") ||
     path.endsWith("/news") ||
     path.endsWith("/news/") ||
-    /\/(tag|tags|category|author|authors|page|topic|topics|feed|rss)\//.test(
-      path,
-    )
+    /\/(tag|tags|category|author|authors|page|topic|topics|feed|rss)\//.test(path)
   ) {
     return false;
   }
@@ -156,69 +123,8 @@ function extractLinks(): Link[] {
         title: text,
         datetime: time?.getAttribute("datetime") || (time?.textContent || "").trim(),
       };
-    }).filter((row) => row.title.length > 12 && row.title.length < 400))
+    }).filter((row) => row.title.length > 8 && row.title.length < 400))
   `);
-}
-
-function decode(value: string) {
-  return value
-    .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, "$1")
-    .replace(/&amp;/g, "&")
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">")
-    .replace(/&quot;/g, '"')
-    .replace(/&#39;/g, "'")
-    .trim();
-}
-
-async function postsFromFeed(slug: string, feedUrl: string) {
-  const response = await fetch(feedUrl, {
-    headers: { "user-agent": "Mozilla/5.0" },
-  });
-  if (!response.ok) {
-    return [];
-  }
-
-  const xml = await response.text();
-  const items = xml.match(/<(?:item|entry)\b[\s\S]*?<\/(?:item|entry)>/gi) ?? [];
-  const posts: Post[] = [];
-
-  for (const item of items) {
-    const title = decode(
-      item.match(/<title[^>]*>([\s\S]*?)<\/title>/i)?.[1] ?? "",
-    );
-    const url = decode(
-      item.match(/<link[^>]*href="([^"]+)"/i)?.[1] ??
-        item.match(/<link[^>]*>([\s\S]*?)<\/link>/i)?.[1] ??
-        "",
-    );
-    const publishedAt =
-      item.match(
-        /<(?:pubDate|published|updated|dc:date)[^>]*>([\s\S]*?)<\/(?:pubDate|published|updated|dc:date)>/i,
-      )?.[1] ?? "";
-
-    if (
-      !title ||
-      !url ||
-      SKIP.test(title) ||
-      Number.isNaN(Date.parse(publishedAt))
-    ) {
-      continue;
-    }
-
-    posts.push({
-      slug,
-      title: cleanTitle(title),
-      url: url.split("?")[0],
-      publishedAt: new Date(publishedAt).toISOString(),
-    });
-
-    if (posts.length >= 10) {
-      break;
-    }
-  }
-
-  return posts;
 }
 
 function pickFromLinks(slug: string, host: string, links: Link[]) {
@@ -226,23 +132,13 @@ function pickFromLinks(slug: string, host: string, links: Link[]) {
   const posts: Post[] = [];
 
   for (const link of links) {
-    if (posts.length >= 10) {
-      break;
-    }
-
     const url = link.href.split("#")[0].split("?")[0];
     const title = cleanTitle(link.title);
-    if (
-      seen.has(url) ||
-      !looksLikeArticle(host, url) ||
-      title.length < 16 ||
-      SKIP.test(title)
-    ) {
+    if (seen.has(url) || !looksLikeArticle(host, url) || !title) {
       continue;
     }
 
-    const publishedAt =
-      link.datetime || dateFromText(link.title) || dateFromUrl(url);
+    const publishedAt = link.datetime || dateFromText(link.title) || dateFromUrl(url);
     if (!publishedAt || Number.isNaN(Date.parse(publishedAt))) {
       continue;
     }
@@ -277,34 +173,32 @@ async function main() {
   }
 
   for (const org of orgs) {
-    const already = bySlug.get(org.slug) ?? [];
-    if (already.length >= 8) {
-      console.log(`skip ${org.slug} (${already.length} already)`);
-      continue;
-    }
-
     console.log(`scraping ${org.slug}`);
     const host = new URL(org.blogUrl).hostname.replace(/^www\./, "");
     let found: Post[] = [];
 
-    try {
-      run(["open", org.blogUrl]);
-      run(["wait", "2500"]);
-      found = pickFromLinks(org.slug, host, extractLinks());
-    } catch (error) {
-      console.log(`  browser failed: ${error}`);
+    if (FEEDS[org.slug]) {
+      const feedPosts = await fetchFeedPosts(FEEDS[org.slug]);
+      found = feedPosts.map((post) => ({ slug: org.slug, ...post }));
+      console.log(`  feed ${found.length}`);
     }
 
-    if (found.length < 5 && FEEDS[org.slug]) {
-      const feedPosts = await postsFromFeed(org.slug, FEEDS[org.slug]);
-      console.log(`  feed +${feedPosts.length}`);
-      found = [...found, ...feedPosts];
+    if (found.length === 0) {
+      try {
+        run(["open", org.blogUrl]);
+        run(["wait", "2500"]);
+        found = pickFromLinks(org.slug, host, extractLinks());
+        console.log(`  browser ${found.length}`);
+      } catch (error) {
+        console.log(`  browser failed: ${error}`);
+      }
     }
 
+    const already = bySlug.get(org.slug) ?? [];
     const seen = new Set(already.map((post) => post.url));
     const merged = [...already];
     for (const post of found) {
-      if (seen.has(post.url) || merged.length >= 10) {
+      if (seen.has(post.url)) {
         continue;
       }
       seen.add(post.url);

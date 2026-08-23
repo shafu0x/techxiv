@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { config } from "dotenv";
 import { PrismaNeonHttp } from "@prisma/adapter-neon";
-import { PrismaClient } from "../src/generated/prisma/client";
+import { type Category, type Kind, PrismaClient } from "../src/generated/prisma/client";
 
 config({ path: ".env.local" });
 
@@ -18,6 +18,8 @@ type PostRow = {
   title: string;
   url: string;
   publishedAt: string;
+  category: string;
+  kind: string;
 };
 
 async function main() {
@@ -74,6 +76,13 @@ async function main() {
     if (!organizationId) {
       throw new Error(`Unknown organization slug ${post.slug}`);
     }
+    if (!post.category || !post.kind) {
+      throw new Error(`Missing labels for ${post.url}. Run scripts/classify-posts.ts first.`);
+    }
+
+    // Enum members are snake_case in the client but kebab-case in the data files.
+    const category = post.category.replace(/-/g, "_") as Category;
+    const kind = post.kind.replace(/-/g, "_") as Kind;
 
     await prisma.post.upsert({
       where: { url: post.url },
@@ -81,15 +90,31 @@ async function main() {
         title: post.title,
         url: post.url,
         publishedAt: new Date(post.publishedAt),
+        category,
+        kind,
         organizationId,
       },
       update: {
         title: post.title,
         publishedAt: new Date(post.publishedAt),
+        category,
+        kind,
         organizationId,
       },
     });
   }
+
+  // The data files are the source of truth, so drop anything a re-scrape removed.
+  const prunedPosts = await prisma.post.deleteMany({
+    where: { url: { notIn: posts.map((post) => post.url) } },
+  });
+  const prunedOrgs = await prisma.organization.deleteMany({
+    where: { slug: { notIn: orgs.map((org) => org.slug) } },
+  });
+
+  console.log(
+    `seeded ${orgs.length} orgs and ${posts.length} posts, pruned ${prunedOrgs.count} orgs and ${prunedPosts.count} posts`,
+  );
 
   await prisma.$disconnect();
 }

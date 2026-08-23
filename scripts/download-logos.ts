@@ -4,7 +4,34 @@ import orgs from "../prisma/data/orgs.json";
 const WIKI: Record<string, string> = {
   openai: "OpenAI logo 2025 (symbol).svg",
   "jane-street": "Jane Street Capital Logo.svg",
+  // Simple Icons dropped the Slack mark over trademark concerns.
+  slack: "Slack icon 2019.svg",
 };
+
+function isDark(hex: string) {
+  const value =
+    hex.length === 4
+      ? hex
+          .slice(1)
+          .split("")
+          .map((char) => char + char)
+          .join("")
+      : hex.slice(1);
+  const [r, g, b] = [0, 2, 4].map((i) => Number.parseInt(value.slice(i, i + 2), 16));
+  return (0.299 * r + 0.587 * g + 0.114 * b) / 255 < 0.2;
+}
+
+// Simple Icons serves each brand's own color, which is invisible for the
+// black-branded logos on a dark background.
+function lightenForDarkBackground(svg: string) {
+  if (!/fill\s*=/.test(svg)) {
+    return svg.replace(/<svg\b/, '<svg fill="#ffffff"');
+  }
+
+  return svg.replace(/fill="(#[0-9a-f]{3,6})"/gi, (match, hex: string) =>
+    isDark(hex) ? 'fill="#ffffff"' : match,
+  );
+}
 
 async function saveFromUrl(url: string, slug: string) {
   const response = await fetch(url, {
@@ -27,7 +54,10 @@ async function saveFromUrl(url: string, slug: string) {
       : type.includes("png")
         ? "png"
         : "svg";
-  await writeFile(`public/orgs/${slug}.${ext}`, buffer);
+  const contents =
+    ext === "svg" ? Buffer.from(lightenForDarkBackground(buffer.toString("utf8"))) : buffer;
+
+  await writeFile(`public/orgs/${slug}.${ext}`, contents);
   console.log(`saved public/orgs/${slug}.${ext} (${url})`);
   return true;
 }

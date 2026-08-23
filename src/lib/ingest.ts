@@ -1,95 +1,48 @@
+import { classifyPosts, type Label } from "./classify";
+import { FEEDS, fetchFeedPosts } from "./feeds";
 import { getPrisma } from "./prisma";
-
-const SKIP =
-  /\b(hiring|career|changelog|newsletter|podcast|webinar|intern experience)\b/i;
-
-const FEEDS: Record<string, string> = {
-  openai: "https://openai.com/news/rss.xml",
-  spotify: "https://engineering.atspotify.com/feed/",
-  netflix: "https://netflixtechblog.com/feed",
-  vercel: "https://vercel.com/atom",
-  stripe: "https://stripe.com/blog/feed.rss",
-  cloudflare: "https://blog.cloudflare.com/rss/",
-  "jane-street": "https://blog.janestreet.com/feed.xml",
-  flyio: "https://fly.io/blog/feed.xml",
-  discord: "https://discord.com/blog/rss.xml",
-  uber: "https://www.uber.com/blog/engineering/rss/",
-  meta: "https://engineering.fb.com/feed/",
-  dropbox: "https://dropbox.tech/feed",
-  datadog: "https://www.datadoghq.com/blog/engineering/index.xml",
-  shopify: "https://shopify.engineering/blogs/engineering.atom",
-  github: "https://github.blog/engineering/feed/",
-  deepmind: "https://deepmind.google/blog/rss.xml",
-  linkedin: "https://www.linkedin.com/blog/engineering/rss",
-  doordash: "https://careersatdoordash.com/engineering-blog/feed/",
-};
+import type { Category, Kind } from "../generated/prisma/client";
 
 const HTML_INDEXES: Record<string, string> = {
   anthropic: "https://www.anthropic.com/engineering",
+  shopify: "https://shopify.engineering/latest",
+  figma: "https://www.figma.com/blog/engineering/",
+  uber: "https://www.uber.com/blog/engineering/",
+  linkedin: "https://www.linkedin.com/blog/engineering",
 };
 
 const HEADERS = { "user-agent": "Mozilla/5.0 (compatible; TechBlogsBot/1.0)" };
-const THIRTY_DAYS = 30 * 24 * 60 * 60 * 1000;
 
 type FoundPost = {
+  slug: string;
   title: string;
   url: string;
   publishedAt: Date;
   organizationId: string;
 };
 
+const NAMED_ENTITIES: Record<string, string> = {
+  amp: "&",
+  lt: "<",
+  gt: ">",
+  quot: '"',
+  apos: "'",
+  nbsp: " ",
+};
+
 function decode(value: string) {
   return value
     .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, "$1")
-    .replace(/&amp;/g, "&")
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">")
-    .replace(/&quot;/g, '"')
-    .replace(/&#39;/g, "'")
+    .replace(/&#x([0-9a-f]+);/gi, (_, hex: string) =>
+      String.fromCodePoint(Number.parseInt(hex, 16)),
+    )
+    .replace(/&#(\d+);/g, (_, code: string) => String.fromCodePoint(Number(code)))
+    .replace(/&([a-z]+);/gi, (match, name: string) => NAMED_ENTITIES[name.toLowerCase()] ?? match)
     .trim();
 }
 
 function cleanTitle(raw: string) {
   return raw.replace(/\s+/g, " ").slice(0, 160);
-}
-
-function postsFromFeed(xml: string, organizationId: string, cutoff: Date) {
-  const items = xml.match(/<(?:item|entry)\b[\s\S]*?<\/(?:item|entry)>/gi) ?? [];
-  const posts: FoundPost[] = [];
-
-  for (const item of items) {
-    if (posts.length >= 10) {
-      break;
-    }
-
-    const title = cleanTitle(
-      decode(item.match(/<title[^>]*>([\s\S]*?)<\/title>/i)?.[1] ?? ""),
-    );
-    const url = decode(
-      item.match(/<link[^>]*href="([^"]+)"/i)?.[1] ??
-        item.match(/<link[^>]*>([\s\S]*?)<\/link>/i)?.[1] ??
-        "",
-    ).split("?")[0];
-    const publishedRaw =
-      item.match(
-        /<(?:pubDate|published|updated|dc:date)[^>]*>([\s\S]*?)<\/(?:pubDate|published|updated|dc:date)>/i,
-      )?.[1] ?? "";
-    const publishedAt = new Date(publishedRaw);
-
-    if (
-      !title ||
-      !url ||
-      SKIP.test(title) ||
-      Number.isNaN(publishedAt.getTime()) ||
-      publishedAt <= cutoff
-    ) {
-      continue;
-    }
-
-    posts.push({ title, url, publishedAt, organizationId });
-  }
-
-  return posts;
 }
 
 function articleHrefs(html: string, pageUrl: string) {
@@ -119,6 +72,7 @@ function articleHrefs(html: string, pageUrl: string) {
 
 async function postsFromHtml(
   pageUrl: string,
+  slug: string,
   organizationId: string,
   existing: Set<string>,
 ) {
@@ -128,21 +82,19 @@ async function postsFromHtml(
   }
 
   const host = new URL(pageUrl).hostname.replace(/^www\./, "");
-  const candidates = articleHrefs(await response.text(), pageUrl).filter(
-    (href) => {
-      const path = new URL(href).pathname;
-      return (
-        href.includes(host) &&
-        path.split("/").filter(Boolean).length >= 2 &&
-        !/\/(tag|tags|category|author|page|topic|feed|rss)\//i.test(path) &&
-        !existing.has(href) &&
-        !existing.has(`${href}/`)
-      );
-    },
-  );
+  const candidates = articleHrefs(await response.text(), pageUrl).filter((href) => {
+    const path = new URL(href).pathname;
+    return (
+      href.includes(host) &&
+      path.split("/").filter(Boolean).length >= 2 &&
+      !/\/(tag|tags|category|author|page|topic|feed|rss)\//i.test(path) &&
+      !existing.has(href) &&
+      !existing.has(`${href}/`)
+    );
+  });
 
   const posts: FoundPost[] = [];
-  for (const url of candidates.slice(0, 3)) {
+  for (const url of candidates) {
     const article = await fetch(url, { headers: HEADERS });
     if (!article.ok) {
       continue;
@@ -156,11 +108,12 @@ async function postsFromHtml(
           "",
       ),
     );
-    if (!title || SKIP.test(title)) {
+    if (!title) {
       continue;
     }
 
     posts.push({
+      slug,
       title,
       url,
       publishedAt: new Date(),
@@ -175,46 +128,32 @@ export async function ingestNewPosts() {
   const prisma = getPrisma();
   const orgs = await prisma.organization.findMany();
   const rows = await prisma.post.findMany({
-    select: { url: true, publishedAt: true, organizationId: true },
+    select: { url: true, organizationId: true },
   });
 
   const existing = new Set(rows.map((row) => row.url.replace(/\/$/, "")));
-  const latestByOrg = new Map<string, Date>();
-  for (const row of rows) {
-    const prev = latestByOrg.get(row.organizationId);
-    if (!prev || row.publishedAt > prev) {
-      latestByOrg.set(row.organizationId, row.publishedAt);
-    }
-  }
-
   const found: FoundPost[] = [];
   const errors: string[] = [];
 
   await Promise.all(
     orgs.map(async (org) => {
-      const cutoff =
-        latestByOrg.get(org.id) ?? new Date(Date.now() - THIRTY_DAYS);
-
       try {
         if (FEEDS[org.slug]) {
-          const response = await fetch(FEEDS[org.slug], { headers: HEADERS });
-          if (!response.ok) {
-            throw new Error(`${FEEDS[org.slug]} → ${response.status}`);
-          }
+          const posts = await fetchFeedPosts(FEEDS[org.slug], existing);
           found.push(
-            ...postsFromFeed(await response.text(), org.id, cutoff),
+            ...posts.map((post) => ({
+              slug: org.slug,
+              title: post.title,
+              url: post.url,
+              publishedAt: new Date(post.publishedAt),
+              organizationId: org.id,
+            })),
           );
           return;
         }
 
         if (HTML_INDEXES[org.slug]) {
-          found.push(
-            ...(await postsFromHtml(
-              HTML_INDEXES[org.slug],
-              org.id,
-              existing,
-            )),
-          );
+          found.push(...(await postsFromHtml(HTML_INDEXES[org.slug], org.slug, org.id, existing)));
         }
       } catch (error) {
         const message = error instanceof Error ? error.message : String(error);
@@ -234,14 +173,38 @@ export async function ingestNewPosts() {
     return true;
   });
 
+  const labels: Map<string, Label> = created.length > 0 ? await classifyPosts(created) : new Map();
+
   let inserted = 0;
+  let unlabeled = 0;
   for (const post of created) {
+    const label = labels.get(post.title);
+    if (!label) {
+      // category and kind are required, so an unlabeled post cannot be stored.
+      // Leaving it out means the next run retries it instead of losing it.
+      unlabeled += 1;
+      continue;
+    }
+
     try {
-      await prisma.post.create({ data: post });
+      await prisma.post.create({
+        data: {
+          title: post.title,
+          url: post.url,
+          publishedAt: post.publishedAt,
+          organizationId: post.organizationId,
+          category: label.category.replace(/-/g, "_") as Category,
+          kind: label.kind.replace(/-/g, "_") as Kind,
+        },
+      });
       inserted += 1;
     } catch (error) {
       console.error("ingest insert failed", post.url, error);
     }
+  }
+
+  if (unlabeled > 0) {
+    errors.push(`${unlabeled} posts skipped: classification failed`);
   }
 
   return { inserted, scanned: found.length, errors };

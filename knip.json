@@ -1,11 +1,6 @@
 {
-  "ignore": [
-    "src/generated/**",
-    "prisma/scrape.ts",
-    "prisma/fill-remaining.ts",
-    "prisma/fill-dates.ts",
-    "scripts/**"
-  ],
+  "ignore": ["src/generated/**", "prisma/scrape.ts", "scripts/**"],
+  "ignoreDependencies": ["@prisma/client"],
   "ignoreIssues": {
     "src/components/ui/**": ["exports", "types", "nsExports", "nsTypes"]
   }

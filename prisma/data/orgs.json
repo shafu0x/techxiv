@@ -114,9 +114,9 @@
     "simpleIcon": "linkedin"
   },
   {
-    "slug": "doordash",
-    "name": "DoorDash",
-    "blogUrl": "https://careersatdoordash.com/engineering-blog/",
-    "simpleIcon": "doordash"
+    "slug": "slack",
+    "name": "Slack",
+    "blogUrl": "https://slack.engineering/",
+    "simpleIcon": "slack"
   }
 ]
