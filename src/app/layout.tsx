@@ -17,6 +17,13 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "techxiv",
   description: "Engineering posts from the companies that still write them.",
+  openGraph: {
+    siteName: "techxiv",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+  },
 };
 
 export const viewport: Viewport = {
