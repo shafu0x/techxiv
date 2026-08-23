@@ -2,7 +2,7 @@
 
 import { after } from "next/server";
 
-const DISCORD_AVATAR_URL = "https://www.shafu.me/pfp.jpg";
+const DISCORD_AVATAR_URL = "https://techxiv.xyz/icon";
 
 export async function sendDiscordNotification(content: string): Promise<void> {
   const webhookUrl = process.env.DISCORD_WEBHOOK_URL?.trim();
