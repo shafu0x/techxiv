@@ -28,7 +28,7 @@ import {
   CommandSeparator,
 } from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { CATEGORIES, CATEGORY_LABELS, type Category } from "@/lib/taxonomy";
+import { CATEGORY_LABELS, VISIBLE_CATEGORIES, type Category } from "@/lib/taxonomy";
 import { cn } from "@/lib/utils";
 
 const CATEGORY_ICONS: Record<Category, LucideIcon> = {
@@ -141,7 +141,7 @@ export function CategoryFilter({ selected }: { selected: Category[] }) {
               </CommandGroup>
               <CommandSeparator />
               <CommandGroup>
-                {CATEGORIES.map((category) => {
+                {VISIBLE_CATEGORIES.map((category) => {
                   const checked = picked.includes(category);
                   const Icon = CATEGORY_ICONS[category];
                   return (
