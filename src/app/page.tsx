@@ -15,8 +15,8 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { getPrisma } from "@/lib/prisma";
-import { CATEGORIES, type Category } from "@/lib/taxonomy";
-import type { Category as PrismaCategory } from "@/generated/prisma/client";
+import { HIDDEN_CATEGORIES, HIDDEN_KINDS, VISIBLE_CATEGORIES, type Category } from "@/lib/taxonomy";
+import type { Category as PrismaCategory, Kind as PrismaKind } from "@/generated/prisma/client";
 
 const PAGE_SIZE = 20;
 
@@ -91,11 +91,18 @@ export default async function Home({
 
   const slugs = (first(params.orgs)?.split(",") ?? []).filter(Boolean);
   const categories = (first(params.cats)?.split(",") ?? []).filter((value): value is Category =>
-    CATEGORIES.includes(value as Category),
+    VISIBLE_CATEGORIES.includes(value as Category),
   );
   const q = first(params.q)?.trim() ?? "";
 
   const where = {
+    ...(HIDDEN_KINDS.length > 0
+      ? {
+          kind: {
+            notIn: HIDDEN_KINDS.map((value) => value.replace(/-/g, "_") as PrismaKind),
+          },
+        }
+      : {}),
     ...(slugs.length > 0 ? { organization: { slug: { in: slugs } } } : {}),
     // Enum members are snake_case in the client but kebab-case in the URL.
     ...(categories.length > 0
@@ -104,7 +111,13 @@ export default async function Home({
             in: categories.map((value) => value.replace(/-/g, "_") as PrismaCategory),
           },
         }
-      : {}),
+      : HIDDEN_CATEGORIES.length > 0
+        ? {
+            category: {
+              notIn: HIDDEN_CATEGORIES.map((value) => value.replace(/-/g, "_") as PrismaCategory),
+            },
+          }
+        : {}),
     ...(q ? { title: { contains: q, mode: "insensitive" as const } } : {}),
   };
 
