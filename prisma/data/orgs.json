@@ -130,5 +130,11 @@
     "name": "Notion",
     "blogUrl": "https://www.notion.com/blog/topic/tech",
     "simpleIcon": "notion"
+  },
+  {
+    "slug": "cursor",
+    "name": "Cursor",
+    "blogUrl": "https://cursor.com/blog",
+    "simpleIcon": "cursor"
   }
 ]

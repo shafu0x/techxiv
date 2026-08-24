@@ -35,6 +35,10 @@ const HTML_INDEXES: Record<string, { index: string; article: RegExp }> = {
     index: "https://www.notion.com/blog/topic/tech",
     article: /^\/blog\/[a-z0-9-]+$/i,
   },
+  cursor: {
+    index: "https://cursor.com/blog",
+    article: /^\/blog\/[a-z0-9-]+$/i,
+  },
 };
 
 const HEADERS = { "user-agent": "Mozilla/5.0 (compatible; TechBlogsBot/1.0)" };

@@ -304,6 +304,14 @@
     "kind": "deep-dive"
   },
   {
+    "slug": "cursor",
+    "title": "Git at any scale",
+    "url": "https://cursor.com/blog/git-at-any-scale",
+    "publishedAt": "2026-08-18T12:00:00.000Z",
+    "category": "developer-experience",
+    "kind": "deep-dive"
+  },
+  {
     "slug": "openai",
     "title": "Partnering with CodeAI to prepare the first AI generation",
     "url": "https://openai.com/index/partnering-with-codeai",
@@ -456,6 +464,14 @@
     "kind": "release-note"
   },
   {
+    "slug": "cursor",
+    "title": "Cursor is now a part of SpaceX",
+    "url": "https://cursor.com/blog/joining-spacex",
+    "publishedAt": "2026-08-14T12:00:00.000Z",
+    "category": "business-culture",
+    "kind": "announcement"
+  },
+  {
     "slug": "cloudflare",
     "title": "How Cloudflare detects MCP traffic and helps secure it",
     "url": "https://blog.cloudflare.com/mcp-security-updates",
@@ -472,6 +488,14 @@
     "kind": "announcement"
   },
   {
+    "slug": "cursor",
+    "title": "Firetiger joins Cursor",
+    "url": "https://cursor.com/blog/firetiger",
+    "publishedAt": "2026-08-13T19:00:00.000Z",
+    "category": "business-culture",
+    "kind": "announcement"
+  },
+  {
     "slug": "spotify",
     "title": "When Can LLMs Replace Humans in A/B Tests?",
     "url": "https://engineering.atspotify.com/2026/8/when-can-llms-replace-humans-in-a-b-tests",
@@ -485,6 +509,22 @@
     "url": "https://deepmind.google/blog/introducing-gemini-3-7-flash",
     "publishedAt": "2026-08-13T17:04:18.000Z",
     "category": "ai-models-research",
+    "kind": "announcement"
+  },
+  {
+    "slug": "cursor",
+    "title": "Cursor earns AIUC-1 certification for agent security and reliability",
+    "url": "https://cursor.com/blog/aiuc-1",
+    "publishedAt": "2026-08-13T12:00:00.000Z",
+    "category": "business-culture",
+    "kind": "announcement"
+  },
+  {
+    "slug": "cursor",
+    "title": "Cloud agents start 3x faster with builds",
+    "url": "https://cursor.com/blog/builds",
+    "publishedAt": "2026-08-13T12:00:00.000Z",
+    "category": "ai-agents-tooling",
     "kind": "announcement"
   },
   {
@@ -670,6 +710,14 @@
     "publishedAt": "2026-08-12T00:00:00.000Z",
     "category": "business-culture",
     "kind": "report"
+  },
+  {
+    "slug": "cursor",
+    "title": "Introducing Grok 4.6",
+    "url": "https://cursor.com/blog/grok-4-6",
+    "publishedAt": "2026-08-12T00:00:00.000Z",
+    "category": "ai-models-research",
+    "kind": "announcement"
   },
   {
     "slug": "vercel",
@@ -1096,6 +1144,14 @@
     "kind": "announcement"
   },
   {
+    "slug": "cursor",
+    "title": "How Cursor Router chooses the right model for the task",
+    "url": "https://cursor.com/blog/how-cursor-router-works",
+    "publishedAt": "2026-08-06T12:00:00.000Z",
+    "category": "ai-agents-tooling",
+    "kind": "deep-dive"
+  },
+  {
     "slug": "openai",
     "title": "Improving GPT‑5.6 Sol in ChatGPT—and expanding access to GPT-5.6 Luna for free users",
     "url": "https://openai.com/index/improving-gpt-5-6-sol-in-chatgpt",
@@ -1334,6 +1390,14 @@
     "publishedAt": "2026-08-04T16:47:18.000Z",
     "category": "developer-experience",
     "kind": "deep-dive"
+  },
+  {
+    "slug": "cursor",
+    "title": "Mixture-of-Kittens: our open-source MoE megakernel for NVL72s",
+    "url": "https://cursor.com/blog/mixture-of-kittens",
+    "publishedAt": "2026-08-04T12:00:00.000Z",
+    "category": "ai-models-research",
+    "kind": "announcement"
   },
   {
     "slug": "vercel",
@@ -1616,6 +1680,14 @@
     "kind": "release-note"
   },
   {
+    "slug": "cursor",
+    "title": "How we set up our cloud agent environment",
+    "url": "https://cursor.com/blog/cloud-agent-environment",
+    "publishedAt": "2026-07-30T12:00:00.000Z",
+    "category": "ai-agents-tooling",
+    "kind": "deep-dive"
+  },
+  {
     "slug": "openai",
     "title": "Advancing the price-performance frontier with GPT-5.6",
     "url": "https://openai.com/index/advancing-the-price-performance-frontier-with-gpt-5-6",
@@ -1838,6 +1910,22 @@
     "publishedAt": "2026-07-28T13:21:37.000Z",
     "category": "ai-models-research",
     "kind": "announcement"
+  },
+  {
+    "slug": "cursor",
+    "title": "Introducing Cursor Start",
+    "url": "https://cursor.com/blog/cursor-start-india",
+    "publishedAt": "2026-07-28T12:00:00.000Z",
+    "category": "ai-agents-tooling",
+    "kind": "announcement"
+  },
+  {
+    "slug": "cursor",
+    "title": "How Vercel used Cursor to build Queues",
+    "url": "https://cursor.com/blog/vercel",
+    "publishedAt": "2026-07-28T12:00:00.000Z",
+    "category": "business-culture",
+    "kind": "report"
   },
   {
     "slug": "vercel",
@@ -2120,6 +2208,14 @@
     "kind": "deep-dive"
   },
   {
+    "slug": "cursor",
+    "title": "Introducing Cursor Router",
+    "url": "https://cursor.com/blog/router",
+    "publishedAt": "2026-07-22T00:00:00.000Z",
+    "category": "ai-agents-tooling",
+    "kind": "announcement"
+  },
+  {
     "slug": "openai",
     "title": "Introducing the ChatGPT for small business program",
     "url": "https://openai.com/index/introducing-chatgpt-small-business-program",
@@ -2238,6 +2334,14 @@
     "publishedAt": "2026-07-20T15:00:00.000Z",
     "category": "infrastructure",
     "kind": "deep-dive"
+  },
+  {
+    "slug": "cursor",
+    "title": "Agent swarms and the new model economics",
+    "url": "https://cursor.com/blog/agent-swarm-model-economics",
+    "publishedAt": "2026-07-20T12:00:00.000Z",
+    "category": "ai-agents-tooling",
+    "kind": "report"
   },
   {
     "slug": "openai",
@@ -2568,6 +2672,14 @@
     "kind": "report"
   },
   {
+    "slug": "cursor",
+    "title": "Grok 4.5 Model Card",
+    "url": "https://cursor.com/blog/grok-4-5-model-card",
+    "publishedAt": "2026-07-14T00:00:00.000Z",
+    "category": "ai-models-research",
+    "kind": "report"
+  },
+  {
     "slug": "netflix",
     "title": "Building Service Topology at Scale: Architecture, Challenges, and Lessons Learned",
     "url": "https://netflixtechblog.com/building-service-topology-at-scale-architecture-challenges-and-lessons-learned-f4b792f3f0d8",
@@ -2864,6 +2976,14 @@
     "kind": "announcement"
   },
   {
+    "slug": "cursor",
+    "title": "Introducing Grok 4.5",
+    "url": "https://cursor.com/blog/grok-4-5",
+    "publishedAt": "2026-07-08T00:00:00.000Z",
+    "category": "ai-models-research",
+    "kind": "announcement"
+  },
+  {
     "slug": "vercel",
     "title": "You can now view the Activity Log at a project-level",
     "url": "https://vercel.com/changelog/you-can-now-view-the-activity-log-at-a-project-level",
@@ -2918,6 +3038,14 @@
     "publishedAt": "2026-07-07T00:00:00.000Z",
     "category": "developer-experience",
     "kind": "release-note"
+  },
+  {
+    "slug": "cursor",
+    "title": "CFOs and the new economics of AI",
+    "url": "https://cursor.com/blog/cfo-council",
+    "publishedAt": "2026-07-06T12:00:00.000Z",
+    "category": "business-culture",
+    "kind": "report"
   },
   {
     "slug": "deepmind",
@@ -3232,6 +3360,14 @@
     "kind": "announcement"
   },
   {
+    "slug": "cursor",
+    "title": "Build from anywhere with Cursor for iOS",
+    "url": "https://cursor.com/blog/ios-mobile-app",
+    "publishedAt": "2026-06-29T12:00:00.000Z",
+    "category": "developer-experience",
+    "kind": "announcement"
+  },
+  {
     "slug": "vercel",
     "title": "Vercel Functions can now be up to 5GB in package size",
     "url": "https://vercel.com/changelog/vercel-functions-can-now-be-up-to-5-gb-in-package-size",
@@ -3342,6 +3478,22 @@
     "publishedAt": "2026-06-25T13:00:00.000Z",
     "category": "ai-agents-tooling",
     "kind": "announcement"
+  },
+  {
+    "slug": "cursor",
+    "title": "Reward hacking is swamping model intelligence gains",
+    "url": "https://cursor.com/blog/reward-hacking-coding-benchmarks",
+    "publishedAt": "2026-06-25T12:00:00.000Z",
+    "category": "ai-models-research",
+    "kind": "report"
+  },
+  {
+    "slug": "cursor",
+    "title": "How Notion used the Cursor SDK to embed coding agents",
+    "url": "https://cursor.com/blog/notion",
+    "publishedAt": "2026-06-25T12:00:00.000Z",
+    "category": "business-culture",
+    "kind": "report"
   },
   {
     "slug": "vercel",
@@ -3461,6 +3613,14 @@
     "url": "https://openai.com/index/helping-build-shared-standards-for-advanced-ai",
     "publishedAt": "2026-06-23T13:00:00.000Z",
     "category": "security",
+    "kind": "report"
+  },
+  {
+    "slug": "cursor",
+    "title": "Coinbase reduces time from idea to production by 90% with Cursor",
+    "url": "https://cursor.com/blog/coinbase",
+    "publishedAt": "2026-06-23T12:00:00.000Z",
+    "category": "business-culture",
     "kind": "report"
   },
   {
@@ -3888,6 +4048,14 @@
     "kind": "release-note"
   },
   {
+    "slug": "cursor",
+    "title": "How Wayfair cut ML model costs by 90% (twice!) with Cursor",
+    "url": "https://cursor.com/blog/wayfair",
+    "publishedAt": "2026-06-15T12:00:00.000Z",
+    "category": "business-culture",
+    "kind": "report"
+  },
+  {
     "slug": "vercel",
     "title": "Auth0 joins the Vercel Marketplace",
     "url": "https://vercel.com/changelog/auth0-joins-the-vercel-marketplace",
@@ -4005,6 +4173,14 @@
     "url": "https://slack.engineering/agentic-testing-where-agents-fit-in-the-e2e-testing-stack",
     "publishedAt": "2026-06-11T14:15:28.000Z",
     "category": "developer-experience",
+    "kind": "deep-dive"
+  },
+  {
+    "slug": "cursor",
+    "title": "Governing agent autonomy with Auto-review",
+    "url": "https://cursor.com/blog/agent-autonomy-auto-review",
+    "publishedAt": "2026-06-11T12:00:00.000Z",
+    "category": "ai-agents-tooling",
     "kind": "deep-dive"
   },
   {
@@ -4134,6 +4310,14 @@
     "publishedAt": "2026-06-10T12:00:00.000Z",
     "category": "security",
     "kind": "report"
+  },
+  {
+    "slug": "cursor",
+    "title": "Bugbot is now over 3x faster, 22% cheaper, and finds 10% more bugs",
+    "url": "https://cursor.com/blog/bugbot-updates-june-2026",
+    "publishedAt": "2026-06-10T12:00:00.000Z",
+    "category": "ai-agents-tooling",
+    "kind": "announcement"
   },
   {
     "slug": "deepmind",
@@ -4384,6 +4568,14 @@
     "kind": "announcement"
   },
   {
+    "slug": "cursor",
+    "title": "Direct agents with visual prompts in Design Mode",
+    "url": "https://cursor.com/blog/design-mode",
+    "publishedAt": "2026-06-05T00:00:00.000Z",
+    "category": "ai-agents-tooling",
+    "kind": "announcement"
+  },
+  {
     "slug": "notion",
     "title": "Building observability into Notion’s dead-letter queue",
     "url": "https://www.notion.com/blog/building-observability-into-notions-dead-letter-queue",
@@ -4520,6 +4712,14 @@
     "kind": "report"
   },
   {
+    "slug": "cursor",
+    "title": "Introducing organizations for Cursor Enterprise",
+    "url": "https://cursor.com/blog/organizations",
+    "publishedAt": "2026-06-03T12:00:00.000Z",
+    "category": "developer-experience",
+    "kind": "announcement"
+  },
+  {
     "slug": "openai",
     "title": "A blueprint for democratic governance of frontier AI",
     "url": "https://openai.com/index/frontier-safety-blueprint",
@@ -4558,6 +4758,14 @@
     "publishedAt": "2026-06-02T12:00:00.000Z",
     "category": "business-culture",
     "kind": "report"
+  },
+  {
+    "slug": "cursor",
+    "title": "What we’ve learned building cloud agents",
+    "url": "https://cursor.com/blog/cloud-agent-lessons",
+    "publishedAt": "2026-06-02T12:00:00.000Z",
+    "category": "ai-agents-tooling",
+    "kind": "deep-dive"
   },
   {
     "slug": "openai",
@@ -4694,6 +4902,14 @@
     "publishedAt": "2026-06-01T07:00:00.000Z",
     "category": "ai-models-research",
     "kind": "release-note"
+  },
+  {
+    "slug": "cursor",
+    "title": "Improvements to Teams Pricing",
+    "url": "https://cursor.com/blog/teams-pricing-june-2026",
+    "publishedAt": "2026-06-01T07:00:00.000Z",
+    "category": "business-culture",
+    "kind": "announcement"
   },
   {
     "slug": "vercel",
@@ -4952,6 +5168,14 @@
     "kind": "deep-dive"
   },
   {
+    "slug": "cursor",
+    "title": "Faire doubles PR throughput with Cursor Cloud Agents",
+    "url": "https://cursor.com/blog/faire",
+    "publishedAt": "2026-05-26T12:00:00.000Z",
+    "category": "business-culture",
+    "kind": "report"
+  },
+  {
     "slug": "jane-street",
     "title": "strace-ui, Bonsai_term, and the TUI renaissance",
     "url": "https://blog.janestreet.com/strace-ui-bonsai-term-and-the-tui-renaissance",
@@ -5004,6 +5228,14 @@
     "title": "OpenAI, Grupo Folha and Grupo UOL announce strategic content partnership",
     "url": "https://openai.com/index/grupo-folha-grupo-uol-partnership",
     "publishedAt": "2026-05-25T00:00:00.000Z",
+    "category": "business-culture",
+    "kind": "announcement"
+  },
+  {
+    "slug": "cursor",
+    "title": "Cursor named a Leader in the 2026 Gartner® Magic Quadrant™ for Enterprise AI Coding Agents",
+    "url": "https://cursor.com/blog/cursor-leads-gartner-mq-2026",
+    "publishedAt": "2026-05-22T12:00:00.000Z",
     "category": "business-culture",
     "kind": "announcement"
   },
@@ -5248,6 +5480,14 @@
     "kind": "announcement"
   },
   {
+    "slug": "cursor",
+    "title": "Introducing Composer 2.5",
+    "url": "https://cursor.com/blog/composer-2-5",
+    "publishedAt": "2026-05-18T00:00:00.000Z",
+    "category": "ai-agents-tooling",
+    "kind": "announcement"
+  },
+  {
     "slug": "deepmind",
     "title": "Simulate real-world places with Project Genie and Street View",
     "url": "https://deepmind.google/blog/simulate-real-world-places-with-project-genie-and-street-view",
@@ -5472,6 +5712,14 @@
     "kind": "deep-dive"
   },
   {
+    "slug": "cursor",
+    "title": "Development environments for your cloud agents",
+    "url": "https://cursor.com/blog/cloud-agent-development-environments",
+    "publishedAt": "2026-05-13T12:00:00.000Z",
+    "category": "ai-agents-tooling",
+    "kind": "announcement"
+  },
+  {
     "slug": "openai",
     "title": "Building a safe, effective sandbox to enable Codex on Windows",
     "url": "https://openai.com/index/building-codex-windows-sandbox",
@@ -5612,6 +5860,22 @@
     "title": "How ChatGPT adoption broadened in early 2026",
     "url": "https://openai.com/signals/research/2026q1-update",
     "publishedAt": "2026-05-11T15:00:00.000Z",
+    "category": "business-culture",
+    "kind": "report"
+  },
+  {
+    "slug": "cursor",
+    "title": "Updates to Bugbot for Teams and Individuals",
+    "url": "https://cursor.com/blog/may-2026-bugbot-changes",
+    "publishedAt": "2026-05-11T12:00:00.000Z",
+    "category": "ai-agents-tooling",
+    "kind": "release-note"
+  },
+  {
+    "slug": "cursor",
+    "title": "Beyond efficiency: PayPal expands what's possible to build with AI",
+    "url": "https://cursor.com/blog/paypal",
+    "publishedAt": "2026-05-11T12:00:00.000Z",
     "category": "business-culture",
     "kind": "report"
   },
@@ -5864,6 +6128,14 @@
     "kind": "report"
   },
   {
+    "slug": "cursor",
+    "title": "Bootstrapping Composer with autoinstall",
+    "url": "https://cursor.com/blog/bootstrapping-composer-with-autoinstall",
+    "publishedAt": "2026-05-06T00:00:00.000Z",
+    "category": "ai-agents-tooling",
+    "kind": "deep-dive"
+  },
+  {
     "slug": "slack",
     "title": "From SSH to REST: A Security-Driven Modernization of Slack’s EMR Data Pipelines",
     "url": "https://slack.engineering/from-ssh-to-rest-a-security-driven-modernization-of-slacks-emr-data-pipelines",
@@ -6040,6 +6312,14 @@
     "kind": "report"
   },
   {
+    "slug": "cursor",
+    "title": "Continually improving our agent harness",
+    "url": "https://cursor.com/blog/continually-improving-agent-harness",
+    "publishedAt": "2026-04-30T12:00:00.000Z",
+    "category": "ai-agents-tooling",
+    "kind": "deep-dive"
+  },
+  {
     "slug": "vercel",
     "title": "Grok 4.3 on AI Gateway",
     "url": "https://vercel.com/changelog/grok-4-3-on-ai-gateway",
@@ -6086,6 +6366,14 @@
     "publishedAt": "2026-04-29T15:00:00.000Z",
     "category": "infrastructure",
     "kind": "deep-dive"
+  },
+  {
+    "slug": "cursor",
+    "title": "Build programmatic agents with the Cursor SDK",
+    "url": "https://cursor.com/blog/typescript-sdk",
+    "publishedAt": "2026-04-29T12:00:00.000Z",
+    "category": "ai-agents-tooling",
+    "kind": "announcement"
   },
   {
     "slug": "openai",
@@ -6224,6 +6512,14 @@
     "kind": "deep-dive"
   },
   {
+    "slug": "cursor",
+    "title": "National Australia Bank accelerates legacy migrations with Cursor",
+    "url": "https://cursor.com/blog/nab",
+    "publishedAt": "2026-04-23T12:00:00.000Z",
+    "category": "business-culture",
+    "kind": "report"
+  },
+  {
     "slug": "openai",
     "title": "GPT-5.5 System Card",
     "url": "https://openai.com/index/gpt-5-5-system-card",
@@ -6317,6 +6613,14 @@
     "url": "https://openai.com/index/introducing-openai-privacy-filter",
     "publishedAt": "2026-04-22T00:00:00.000Z",
     "category": "security",
+    "kind": "announcement"
+  },
+  {
+    "slug": "cursor",
+    "title": "Cursor partners with SpaceX on model training",
+    "url": "https://cursor.com/blog/spacex-model-training",
+    "publishedAt": "2026-04-21T22:17:00.000Z",
+    "category": "business-culture",
     "kind": "announcement"
   },
   {
@@ -6488,6 +6792,22 @@
     "kind": "announcement"
   },
   {
+    "slug": "cursor",
+    "title": "Amplitude ships 3x more production code with Cursor",
+    "url": "https://cursor.com/blog/amplitude",
+    "publishedAt": "2026-04-15T12:00:00.000Z",
+    "category": "business-culture",
+    "kind": "report"
+  },
+  {
+    "slug": "cursor",
+    "title": "Better AI models enable more ambitious work",
+    "url": "https://cursor.com/blog/better-models-ambitious-work",
+    "publishedAt": "2026-04-15T12:00:00.000Z",
+    "category": "ai-models-research",
+    "kind": "report"
+  },
+  {
     "slug": "openai",
     "title": "The next evolution of the Agents SDK",
     "url": "https://openai.com/index/the-next-evolution-of-the-agents-sdk",
@@ -6512,12 +6832,28 @@
     "kind": "release-note"
   },
   {
+    "slug": "cursor",
+    "title": "Interact with agent-created visualizations in canvases",
+    "url": "https://cursor.com/blog/canvas",
+    "publishedAt": "2026-04-15T00:00:00.000Z",
+    "category": "ai-agents-tooling",
+    "kind": "announcement"
+  },
+  {
     "slug": "vercel",
     "title": "Logs filtering for Vercel Workflows now available",
     "url": "https://vercel.com/changelog/logs-filtering-for-vercel-workflows-now-available",
     "publishedAt": "2026-04-14T16:00:00.000Z",
     "category": "data-observability",
     "kind": "release-note"
+  },
+  {
+    "slug": "cursor",
+    "title": "Speeding up GPU kernels by 38% with a multi-agent system",
+    "url": "https://cursor.com/blog/multi-agent-kernels",
+    "publishedAt": "2026-04-14T12:00:00.000Z",
+    "category": "ai-agents-tooling",
+    "kind": "deep-dive"
   },
   {
     "slug": "vercel",
@@ -6824,6 +7160,14 @@
     "kind": "report"
   },
   {
+    "slug": "cursor",
+    "title": "Bugbot now self-improves with learned rules",
+    "url": "https://cursor.com/blog/bugbot-learning",
+    "publishedAt": "2026-04-08T12:00:00.000Z",
+    "category": "ai-agents-tooling",
+    "kind": "announcement"
+  },
+  {
     "slug": "vercel",
     "title": "Zero Data Retention on AI Gateway",
     "url": "https://vercel.com/blog/zdr-on-ai-gateway",
@@ -6925,6 +7269,14 @@
     "url": "https://engineering.fb.com/2026/04/06/developer-tools/how-meta-used-ai-to-map-tribal-knowledge-in-large-scale-data-pipelines",
     "publishedAt": "2026-04-06T16:00:50.000Z",
     "category": "data-observability",
+    "kind": "deep-dive"
+  },
+  {
+    "slug": "cursor",
+    "title": "Better MoE model inference with warp decode",
+    "url": "https://cursor.com/blog/warp-decode",
+    "publishedAt": "2026-04-06T12:00:00.000Z",
+    "category": "languages-performance",
     "kind": "deep-dive"
   },
   {
@@ -7078,6 +7430,14 @@
     "publishedAt": "2026-04-02T04:00:00.000Z",
     "category": "infrastructure",
     "kind": "deep-dive"
+  },
+  {
+    "slug": "cursor",
+    "title": "Meet the new Cursor",
+    "url": "https://cursor.com/blog/cursor-3",
+    "publishedAt": "2026-04-02T00:00:00.000Z",
+    "category": "ai-agents-tooling",
+    "kind": "announcement"
   },
   {
     "slug": "vercel",
@@ -7256,6 +7616,14 @@
     "kind": "report"
   },
   {
+    "slug": "cursor",
+    "title": "A technical report on Composer 2",
+    "url": "https://cursor.com/blog/composer-2-technical-report",
+    "publishedAt": "2026-03-27T12:00:00.000Z",
+    "category": "ai-models-research",
+    "kind": "report"
+  },
+  {
     "slug": "discord",
     "title": "How Multi-Factor Authentication Helps Keep Your Discord Account Safe",
     "url": "https://discord.com/blog/keeping-discord-safe-and-sound",
@@ -7296,6 +7664,14 @@
     "kind": "release-note"
   },
   {
+    "slug": "cursor",
+    "title": "Improving Composer through real-time RL",
+    "url": "https://cursor.com/blog/real-time-rl-for-composer",
+    "publishedAt": "2026-03-26T00:00:00.000Z",
+    "category": "ai-models-research",
+    "kind": "deep-dive"
+  },
+  {
     "slug": "dropbox",
     "title": "Reducing our monorepo size to improve developer velocity",
     "url": "https://dropbox.tech/infrastructure/reducing-our-monorepo-size-to-improve-developer-velocity",
@@ -7317,6 +7693,14 @@
     "url": "https://deepmind.google/blog/lyria-3-pro-create-longer-tracks-in-more",
     "publishedAt": "2026-03-25T16:01:39.000Z",
     "category": "ai-models-research",
+    "kind": "announcement"
+  },
+  {
+    "slug": "cursor",
+    "title": "Run cloud agents in your own infrastructure",
+    "url": "https://cursor.com/blog/self-hosted-cloud-agents",
+    "publishedAt": "2026-03-25T12:00:00.000Z",
+    "category": "infrastructure",
     "kind": "announcement"
   },
   {
@@ -7422,6 +7806,14 @@
     "publishedAt": "2026-03-24T00:00:00.000Z",
     "category": "business-culture",
     "kind": "release-note"
+  },
+  {
+    "slug": "cursor",
+    "title": "Fast regex search: indexing text for agent tools",
+    "url": "https://cursor.com/blog/fast-regex-search",
+    "publishedAt": "2026-03-23T12:00:00.000Z",
+    "category": "data-observability",
+    "kind": "deep-dive"
   },
   {
     "slug": "vercel",
@@ -7544,6 +7936,14 @@
     "kind": "announcement"
   },
   {
+    "slug": "cursor",
+    "title": "Introducing Composer 2",
+    "url": "https://cursor.com/blog/composer-2",
+    "publishedAt": "2026-03-19T00:00:00.000Z",
+    "category": "ai-agents-tooling",
+    "kind": "announcement"
+  },
+  {
     "slug": "meta",
     "title": "Friend Bubbles: Enhancing Social Discovery on Facebook Reels",
     "url": "https://engineering.fb.com/2026/03/18/ml-applications/friend-bubbles-enhancing-social-discovery-on-facebook-reels",
@@ -7566,6 +7966,14 @@
     "publishedAt": "2026-03-18T13:00:00.000Z",
     "category": "ai-agents-tooling",
     "kind": "release-note"
+  },
+  {
+    "slug": "cursor",
+    "title": "Money Forward brings Cursor’s coding agents to product, design, and QA",
+    "url": "https://cursor.com/blog/money-forward",
+    "publishedAt": "2026-03-18T12:00:00.000Z",
+    "category": "business-culture",
+    "kind": "report"
   },
   {
     "slug": "vercel",
@@ -7648,6 +8056,14 @@
     "kind": "release-note"
   },
   {
+    "slug": "cursor",
+    "title": "Training Composer for longer horizons",
+    "url": "https://cursor.com/blog/self-summarization",
+    "publishedAt": "2026-03-17T12:00:00.000Z",
+    "category": "ai-models-research",
+    "kind": "deep-dive"
+  },
+  {
     "slug": "openai",
     "title": "Introducing GPT-5.4 mini and nano",
     "url": "https://openai.com/index/introducing-gpt-5-4-mini-and-nano",
@@ -7726,6 +8142,14 @@
     "publishedAt": "2026-03-16T00:00:00.000Z",
     "category": "security",
     "kind": "announcement"
+  },
+  {
+    "slug": "cursor",
+    "title": "Securing our codebase with autonomous agents",
+    "url": "https://cursor.com/blog/security-agents",
+    "publishedAt": "2026-03-16T00:00:00.000Z",
+    "category": "security",
+    "kind": "deep-dive"
   },
   {
     "slug": "meta",
@@ -7824,6 +8248,14 @@
     "kind": "release-note"
   },
   {
+    "slug": "cursor",
+    "title": "How we compare model quality in Cursor",
+    "url": "https://cursor.com/blog/cursorbench",
+    "publishedAt": "2026-03-11T12:00:00.000Z",
+    "category": "ai-models-research",
+    "kind": "deep-dive"
+  },
+  {
     "slug": "openai",
     "title": "Designing AI agents to resist prompt injection",
     "url": "https://openai.com/index/designing-agents-to-resist-prompt-injection",
@@ -7862,6 +8294,14 @@
     "publishedAt": "2026-03-11T00:00:00.000Z",
     "category": "business-culture",
     "kind": "report"
+  },
+  {
+    "slug": "cursor",
+    "title": "Over 30 new plugins join the Cursor Marketplace",
+    "url": "https://cursor.com/blog/new-plugins",
+    "publishedAt": "2026-03-11T00:00:00.000Z",
+    "category": "developer-experience",
+    "kind": "announcement"
   },
   {
     "slug": "vercel",
@@ -8120,6 +8560,14 @@
     "kind": "release-note"
   },
   {
+    "slug": "cursor",
+    "title": "Build agents that run automatically",
+    "url": "https://cursor.com/blog/automations",
+    "publishedAt": "2026-03-05T12:00:00.000Z",
+    "category": "ai-agents-tooling",
+    "kind": "announcement"
+  },
+  {
     "slug": "openai",
     "title": "Introducing GPT-5.4",
     "url": "https://openai.com/index/introducing-gpt-5-4",
@@ -8189,6 +8637,14 @@
     "url": "https://vercel.com/changelog/mcp-apps-support-on-vercel",
     "publishedAt": "2026-03-04T13:00:00.000Z",
     "category": "ai-agents-tooling",
+    "kind": "announcement"
+  },
+  {
+    "slug": "cursor",
+    "title": "Cursor is now available in JetBrains IDEs",
+    "url": "https://cursor.com/blog/jetbrains-acp",
+    "publishedAt": "2026-03-04T12:00:00.000Z",
+    "category": "developer-experience",
     "kind": "announcement"
   },
   {
@@ -8304,6 +8760,14 @@
     "kind": "release-note"
   },
   {
+    "slug": "cursor",
+    "title": "How technical support at Cursor uses Cursor",
+    "url": "https://cursor.com/blog/cursor-support",
+    "publishedAt": "2026-03-03T12:00:00.000Z",
+    "category": "business-culture",
+    "kind": "report"
+  },
+  {
     "slug": "openai",
     "title": "GPT-5.3 Instant: Smoother, more useful everyday conversations",
     "url": "https://openai.com/index/gpt-5-3-instant",
@@ -8350,6 +8814,14 @@
     "publishedAt": "2026-03-02T13:00:00.000Z",
     "category": "developer-experience",
     "kind": "announcement"
+  },
+  {
+    "slug": "cursor",
+    "title": "PlanetScale protects production reliability with Bugbot",
+    "url": "https://cursor.com/blog/planetscale",
+    "publishedAt": "2026-03-02T12:00:00.000Z",
+    "category": "business-culture",
+    "kind": "report"
   },
   {
     "slug": "spotify",
@@ -8456,6 +8928,14 @@
     "kind": "report"
   },
   {
+    "slug": "cursor",
+    "title": "The third era of AI software development",
+    "url": "https://cursor.com/blog/third-era",
+    "publishedAt": "2026-02-26T19:35:24.000Z",
+    "category": "business-culture",
+    "kind": "report"
+  },
+  {
     "slug": "dropbox",
     "title": "Using LLMs to amplify human labeling and improve Dash search relevance",
     "url": "https://dropbox.tech/machine-learning/llm-human-labeling-improving-search-relevance-dropbox-dash",
@@ -8494,6 +8974,14 @@
     "publishedAt": "2026-02-26T13:00:00.000Z",
     "category": "ai-models-research",
     "kind": "release-note"
+  },
+  {
+    "slug": "cursor",
+    "title": "Closing the code review loop with Bugbot Autofix",
+    "url": "https://cursor.com/blog/bugbot-autofix",
+    "publishedAt": "2026-02-26T12:00:00.000Z",
+    "category": "developer-experience",
+    "kind": "announcement"
   },
   {
     "slug": "openai",
@@ -8598,6 +9086,14 @@
     "publishedAt": "2026-02-24T00:00:00.000Z",
     "category": "ai-models-research",
     "kind": "deep-dive"
+  },
+  {
+    "slug": "cursor",
+    "title": "Cursor agents can now control their own computers",
+    "url": "https://cursor.com/blog/agent-computer-use",
+    "publishedAt": "2026-02-24T00:00:00.000Z",
+    "category": "ai-agents-tooling",
+    "kind": "announcement"
   },
   {
     "slug": "vercel",
@@ -8800,6 +9296,14 @@
     "kind": "release-note"
   },
   {
+    "slug": "cursor",
+    "title": "Implementing a secure sandbox for local agents",
+    "url": "https://cursor.com/blog/agent-sandboxing",
+    "publishedAt": "2026-02-18T12:00:00.000Z",
+    "category": "security",
+    "kind": "deep-dive"
+  },
+  {
     "slug": "figma",
     "title": "Redefining impact as a data scientist",
     "url": "https://figma.com/blog/redefining-impact-as-a-data-scientist",
@@ -8896,6 +9400,22 @@
     "kind": "release-note"
   },
   {
+    "slug": "cursor",
+    "title": "How Stripe rolled out a consistent Cursor experience for 3,000 engineers",
+    "url": "https://cursor.com/blog/stripe",
+    "publishedAt": "2026-02-17T12:00:00.000Z",
+    "category": "business-culture",
+    "kind": "report"
+  },
+  {
+    "slug": "cursor",
+    "title": "Extend Cursor with plugins",
+    "url": "https://cursor.com/blog/marketplace",
+    "publishedAt": "2026-02-17T00:00:00.000Z",
+    "category": "developer-experience",
+    "kind": "announcement"
+  },
+  {
     "slug": "vercel",
     "title": "Qwen 3.5 Plus is on AI Gateway",
     "url": "https://vercel.com/changelog/qwen-3-5-plus-is-on-ai-gateway",
@@ -8910,6 +9430,14 @@
     "publishedAt": "2026-02-13T13:00:00.000Z",
     "category": "infrastructure",
     "kind": "release-note"
+  },
+  {
+    "slug": "cursor",
+    "title": "Box chooses Cursor for enterprise-grade quality, security, and control",
+    "url": "https://cursor.com/blog/box",
+    "publishedAt": "2026-02-13T12:00:00.000Z",
+    "category": "business-culture",
+    "kind": "report"
   },
   {
     "slug": "openai",
@@ -8992,6 +9520,14 @@
     "kind": "announcement"
   },
   {
+    "slug": "cursor",
+    "title": "Expanding our long-running agents research preview",
+    "url": "https://cursor.com/blog/long-running-agents",
+    "publishedAt": "2026-02-12T00:00:00.000Z",
+    "category": "ai-agents-tooling",
+    "kind": "announcement"
+  },
+  {
     "slug": "meta",
     "title": "The Death of Traditional Testing: Agentic Development Broke a 50-Year-Old Field, JiTTesting Can Revive It",
     "url": "https://engineering.fb.com/2026/02/11/developer-tools/the-death-of-traditional-testing-agentic-development-jit-testing-revival",
@@ -9038,6 +9574,14 @@
     "publishedAt": "2026-02-11T05:00:00.000Z",
     "category": "languages-performance",
     "kind": "report"
+  },
+  {
+    "slug": "cursor",
+    "title": "Increased usage for agents",
+    "url": "https://cursor.com/blog/increased-agent-usage",
+    "publishedAt": "2026-02-11T00:00:00.000Z",
+    "category": "ai-agents-tooling",
+    "kind": "release-note"
   },
   {
     "slug": "vercel",
@@ -9120,6 +9664,14 @@
     "kind": "announcement"
   },
   {
+    "slug": "cursor",
+    "title": "Introducing Composer 1.5",
+    "url": "https://cursor.com/blog/composer-1-5",
+    "publishedAt": "2026-02-09T00:00:00.000Z",
+    "category": "ai-agents-tooling",
+    "kind": "announcement"
+  },
+  {
     "slug": "vercel",
     "title": "Introducing Geist Pixel",
     "url": "https://vercel.com/blog/introducing-geist-pixel",
@@ -9144,6 +9696,14 @@
     "kind": "release-note"
   },
   {
+    "slug": "cursor",
+    "title": "NVIDIA commits 3x more code across 30,000 developers with Cursor",
+    "url": "https://cursor.com/blog/nvidia",
+    "publishedAt": "2026-02-06T12:00:00.000Z",
+    "category": "business-culture",
+    "kind": "report"
+  },
+  {
     "slug": "openai",
     "title": "Making AI work for everyone, everywhere: our approach to localization",
     "url": "https://openai.com/index/our-approach-to-localization",
@@ -9166,6 +9726,14 @@
     "publishedAt": "2026-02-05T13:00:00.000Z",
     "category": "ai-models-research",
     "kind": "release-note"
+  },
+  {
+    "slug": "cursor",
+    "title": "Towards self-driving codebases",
+    "url": "https://cursor.com/blog/self-driving-codebases",
+    "publishedAt": "2026-02-05T12:00:00.000Z",
+    "category": "ai-agents-tooling",
+    "kind": "report"
   },
   {
     "slug": "openai",
@@ -9560,6 +10128,14 @@
     "kind": "announcement"
   },
   {
+    "slug": "cursor",
+    "title": "Securely indexing large codebases",
+    "url": "https://cursor.com/blog/secure-codebase-indexing",
+    "publishedAt": "2026-01-27T12:00:00.000Z",
+    "category": "security",
+    "kind": "deep-dive"
+  },
+  {
     "slug": "openai",
     "title": "PVH reimagines the future of fashion with OpenAI",
     "url": "https://openai.com/index/pvh-future-of-fashion",
@@ -9653,6 +10229,14 @@
     "url": "https://vercel.com/changelog/summary-of-cve-2026-23864",
     "publishedAt": "2026-01-26T13:00:00.000Z",
     "category": "security",
+    "kind": "report"
+  },
+  {
+    "slug": "cursor",
+    "title": "Dropbox uses Cursor to index over 550,000 files and build an AI-native SDLC",
+    "url": "https://cursor.com/blog/dropbox",
+    "publishedAt": "2026-01-26T12:00:00.000Z",
+    "category": "business-culture",
     "kind": "report"
   },
   {
@@ -9782,6 +10366,14 @@
     "publishedAt": "2026-01-21T13:00:00.000Z",
     "category": "ai-agents-tooling",
     "kind": "release-note"
+  },
+  {
+    "slug": "cursor",
+    "title": "Salesforce accelerates velocity by over 30% and ships higher-quality code with Cursor",
+    "url": "https://cursor.com/blog/salesforce",
+    "publishedAt": "2026-01-21T12:00:00.000Z",
+    "category": "business-culture",
+    "kind": "report"
   },
   {
     "slug": "openai",
@@ -9968,6 +10560,14 @@
     "kind": "announcement"
   },
   {
+    "slug": "cursor",
+    "title": "Building a better Bugbot",
+    "url": "https://cursor.com/blog/building-bugbot",
+    "publishedAt": "2026-01-15T12:00:00.000Z",
+    "category": "ai-agents-tooling",
+    "kind": "deep-dive"
+  },
+  {
     "slug": "openai",
     "title": "Investing in Merge Labs",
     "url": "https://openai.com/index/investing-in-merge-labs",
@@ -10054,6 +10654,14 @@
     "publishedAt": "2026-01-14T13:00:00.000Z",
     "category": "developer-experience",
     "kind": "release-note"
+  },
+  {
+    "slug": "cursor",
+    "title": "Scaling long-running autonomous coding",
+    "url": "https://cursor.com/blog/scaling-agents",
+    "publishedAt": "2026-01-14T12:00:00.000Z",
+    "category": "ai-agents-tooling",
+    "kind": "deep-dive"
   },
   {
     "slug": "flyio",
@@ -10184,6 +10792,14 @@
     "kind": "release-note"
   },
   {
+    "slug": "cursor",
+    "title": "Cursor agent best practices",
+    "url": "https://cursor.com/blog/agent-best-practices",
+    "publishedAt": "2026-01-09T12:00:00.000Z",
+    "category": "ai-agents-tooling",
+    "kind": "deep-dive"
+  },
+  {
     "slug": "openai",
     "title": "OpenAI and SoftBank Group partner with SB Energy",
     "url": "https://openai.com/index/stargate-sb-energy-partnership",
@@ -10294,6 +10910,14 @@
     "publishedAt": "2026-01-06T13:00:00.000Z",
     "category": "ai-agents-tooling",
     "kind": "release-note"
+  },
+  {
+    "slug": "cursor",
+    "title": "Dynamic context discovery",
+    "url": "https://cursor.com/blog/dynamic-context-discovery",
+    "publishedAt": "2026-01-06T12:00:00.000Z",
+    "category": "ai-agents-tooling",
+    "kind": "deep-dive"
   },
   {
     "slug": "jane-street",
@@ -10408,6 +11032,14 @@
     "kind": "report"
   },
   {
+    "slug": "cursor",
+    "title": "Hooks for security and platform teams",
+    "url": "https://cursor.com/blog/hooks-partners",
+    "publishedAt": "2025-12-22T00:00:00.000Z",
+    "category": "developer-experience",
+    "kind": "announcement"
+  },
+  {
     "slug": "meta",
     "title": "DrP: Meta’s Root Cause Analysis Platform at Scale",
     "url": "https://engineering.fb.com/2025/12/19/data-infrastructure/drp-metas-root-cause-analysis-platform-at-scale",
@@ -10429,6 +11061,14 @@
     "url": "https://vercel.com/changelog/vercel-ts",
     "publishedAt": "2025-12-19T13:00:00.000Z",
     "category": "developer-experience",
+    "kind": "announcement"
+  },
+  {
+    "slug": "cursor",
+    "title": "Graphite is joining Cursor",
+    "url": "https://cursor.com/blog/graphite",
+    "publishedAt": "2025-12-19T00:00:00.000Z",
+    "category": "business-culture",
     "kind": "announcement"
   },
   {
@@ -10808,6 +11448,14 @@
     "kind": "deep-dive"
   },
   {
+    "slug": "cursor",
+    "title": "A visual editor for the Cursor Browser",
+    "url": "https://cursor.com/blog/browser-visual-editor",
+    "publishedAt": "2025-12-11T00:00:00.000Z",
+    "category": "web-frontend",
+    "kind": "announcement"
+  },
+  {
     "slug": "deepmind",
     "title": "Strengthening our partnership with the UK government to support prosperity and security in the AI era",
     "url": "https://deepmind.google/blog/strengthening-our-partnership-with-the-uk-government-to-support-prosperity-and-security-in-the-ai-era",
@@ -10838,6 +11486,14 @@
     "publishedAt": "2025-12-10T12:00:00.000Z",
     "category": "security",
     "kind": "report"
+  },
+  {
+    "slug": "cursor",
+    "title": "Introducing Debug Mode: Agents with runtime logs",
+    "url": "https://cursor.com/blog/debug-mode",
+    "publishedAt": "2025-12-10T00:00:00.000Z",
+    "category": "ai-agents-tooling",
+    "kind": "announcement"
   },
   {
     "slug": "openai",
@@ -11038,6 +11694,14 @@
     "publishedAt": "2025-12-04T16:23:24.000Z",
     "category": "ai-models-research",
     "kind": "report"
+  },
+  {
+    "slug": "cursor",
+    "title": "Improving Cursor’s agent for OpenAI Codex models",
+    "url": "https://cursor.com/blog/codex-model-harness",
+    "publishedAt": "2025-12-04T16:02:50.287Z",
+    "category": "ai-agents-tooling",
+    "kind": "deep-dive"
   },
   {
     "slug": "vercel",
@@ -11824,6 +12488,14 @@
     "kind": "release-note"
   },
   {
+    "slug": "cursor",
+    "title": "Past, Present, and Future",
+    "url": "https://cursor.com/blog/series-d",
+    "publishedAt": "2025-11-13T11:27:11.894Z",
+    "category": "business-culture",
+    "kind": "report"
+  },
+  {
     "slug": "openai",
     "title": "Understanding neural networks through sparse circuits",
     "url": "https://openai.com/index/understanding-neural-networks-through-sparse-circuits",
@@ -11902,6 +12574,14 @@
     "publishedAt": "2025-11-11T17:58:20.000Z",
     "category": "web-frontend",
     "kind": "announcement"
+  },
+  {
+    "slug": "cursor",
+    "title": "The productivity impact of coding agents",
+    "url": "https://cursor.com/blog/productivity",
+    "publishedAt": "2025-11-11T17:37:00.000Z",
+    "category": "ai-agents-tooling",
+    "kind": "report"
   },
   {
     "slug": "deepmind",
@@ -12064,6 +12744,14 @@
     "kind": "release-note"
   },
   {
+    "slug": "cursor",
+    "title": "Improving agent with semantic search",
+    "url": "https://cursor.com/blog/semsearch",
+    "publishedAt": "2025-11-06T03:10:00.000Z",
+    "category": "ai-agents-tooling",
+    "kind": "deep-dive"
+  },
+  {
     "slug": "openai",
     "title": "Introducing the Teen Safety Blueprint",
     "url": "https://openai.com/index/introducing-the-teen-safety-blueprint",
@@ -12216,6 +12904,14 @@
     "kind": "announcement"
   },
   {
+    "slug": "cursor",
+    "title": "Introducing Cursor for Enterprise",
+    "url": "https://cursor.com/blog/enterprise",
+    "publishedAt": "2025-10-31T19:23:00.000Z",
+    "category": "business-culture",
+    "kind": "announcement"
+  },
+  {
     "slug": "vercel",
     "title": "BotID Deep Analysis catches a sophisticated bot network in real-time",
     "url": "https://vercel.com/blog/botid-deep-analysis-catches-a-sophisticated-bot-network-in-real-time",
@@ -12254,6 +12950,14 @@
     "publishedAt": "2025-10-31T13:00:00.000Z",
     "category": "data-observability",
     "kind": "release-note"
+  },
+  {
+    "slug": "cursor",
+    "title": "Cloud Agents",
+    "url": "https://cursor.com/blog/cloud-agents",
+    "publishedAt": "2025-10-30T15:09:14.822Z",
+    "category": "ai-agents-tooling",
+    "kind": "announcement"
   },
   {
     "slug": "openai",
@@ -12309,6 +13013,22 @@
     "url": "https://vercel.com/changelog/vercel-achieves-tisax-al2",
     "publishedAt": "2025-10-29T13:00:00.000Z",
     "category": "security",
+    "kind": "announcement"
+  },
+  {
+    "slug": "cursor",
+    "title": "Composer: Building a fast frontier model with RL",
+    "url": "https://cursor.com/blog/composer",
+    "publishedAt": "2025-10-29T06:49:00.000Z",
+    "category": "ai-models-research",
+    "kind": "deep-dive"
+  },
+  {
+    "slug": "cursor",
+    "title": "Introducing Cursor 2.0 and Composer",
+    "url": "https://cursor.com/blog/2-0",
+    "publishedAt": "2025-10-29T04:54:48.600Z",
+    "category": "ai-agents-tooling",
     "kind": "announcement"
   },
   {
@@ -13056,6 +13776,14 @@
     "kind": "announcement"
   },
   {
+    "slug": "cursor",
+    "title": "Introducing Plan Mode",
+    "url": "https://cursor.com/blog/plan-mode",
+    "publishedAt": "2025-10-07T17:00:00.000Z",
+    "category": "ai-agents-tooling",
+    "kind": "announcement"
+  },
+  {
     "slug": "slack",
     "title": "Deploy Safety: Reducing customer impact from change",
     "url": "https://slack.engineering/deploy-safety",
@@ -13214,6 +13942,14 @@
     "publishedAt": "2025-10-02T00:00:00.000Z",
     "category": "data-observability",
     "kind": "announcement"
+  },
+  {
+    "slug": "cursor",
+    "title": "Improving Java support in Cursor",
+    "url": "https://cursor.com/blog/java",
+    "publishedAt": "2025-10-01T17:20:00.000Z",
+    "category": "developer-experience",
+    "kind": "deep-dive"
   },
   {
     "slug": "meta",
@@ -13880,6 +14616,14 @@
     "kind": "report"
   },
   {
+    "slug": "cursor",
+    "title": "Improving Cursor Tab with online RL",
+    "url": "https://cursor.com/blog/tab-rl",
+    "publishedAt": "2025-09-12T01:16:00.000Z",
+    "category": "ai-models-research",
+    "kind": "deep-dive"
+  },
+  {
     "slug": "discord",
     "title": "Staff Picks, September 2025: Welcome to Our Video Game Museum",
     "url": "https://discord.com/blog/staff-picks-september-2025-welcome-to-our-video-game-museum",
@@ -14208,6 +14952,14 @@
     "kind": "release-note"
   },
   {
+    "slug": "cursor",
+    "title": "1.5x faster MoE training with custom MXFP8 kernels",
+    "url": "https://cursor.com/blog/kernels",
+    "publishedAt": "2025-08-29T02:55:25.007Z",
+    "category": "ai-models-research",
+    "kind": "deep-dive"
+  },
+  {
     "slug": "vercel",
     "title": "Preparing for the worst: Our core database failover test",
     "url": "https://vercel.com/blog/preparing-for-the-worst-our-core-database-failover-test",
@@ -14400,6 +15152,14 @@
     "kind": "report"
   },
   {
+    "slug": "cursor",
+    "title": "Bringing the Cursor Agent to Linear",
+    "url": "https://cursor.com/blog/linear",
+    "publishedAt": "2025-08-21T07:00:00.000Z",
+    "category": "ai-agents-tooling",
+    "kind": "announcement"
+  },
+  {
     "slug": "openai",
     "title": "Mixi reimagines communication with ChatGPT",
     "url": "https://openai.com/index/mixi",
@@ -14584,6 +15344,14 @@
     "kind": "release-note"
   },
   {
+    "slug": "cursor",
+    "title": "Updates to Teams and Auto",
+    "url": "https://cursor.com/blog/aug-2025-pricing",
+    "publishedAt": "2025-08-12T07:00:00.000Z",
+    "category": "business-culture",
+    "kind": "release-note"
+  },
+  {
     "slug": "openai",
     "title": "OpenAI’s letter to Governor Newsom on harmonized regulation",
     "url": "https://openai.com/global-affairs/letter-to-governor-newsom-on-harmonized-regulation",
@@ -14734,6 +15502,22 @@
     "publishedAt": "2025-08-07T10:00:00.000Z",
     "category": "business-culture",
     "kind": "report"
+  },
+  {
+    "slug": "cursor",
+    "title": "Cursor Agent CLI",
+    "url": "https://cursor.com/blog/cli",
+    "publishedAt": "2025-08-07T07:10:00.000Z",
+    "category": "ai-agents-tooling",
+    "kind": "announcement"
+  },
+  {
+    "slug": "cursor",
+    "title": "GPT-5 is now available in Cursor",
+    "url": "https://cursor.com/blog/gpt-5",
+    "publishedAt": "2025-08-07T07:00:00.000Z",
+    "category": "ai-models-research",
+    "kind": "announcement"
   },
   {
     "slug": "openai",
@@ -15093,6 +15877,14 @@
     "url": "https://vercel.com/changelog/growthbook-joins-the-vercel-marketplace",
     "publishedAt": "2025-07-24T13:00:00.000Z",
     "category": "developer-experience",
+    "kind": "announcement"
+  },
+  {
+    "slug": "cursor",
+    "title": "Bugbot is out of beta",
+    "url": "https://cursor.com/blog/bugbot-out-of-beta",
+    "publishedAt": "2025-07-24T07:00:00.000Z",
+    "category": "ai-agents-tooling",
     "kind": "announcement"
   },
   {
@@ -15464,6 +16256,14 @@
     "kind": "release-note"
   },
   {
+    "slug": "cursor",
+    "title": "Clarifying our pricing",
+    "url": "https://cursor.com/blog/june-2025-pricing",
+    "publishedAt": "2025-07-04T20:08:00.000Z",
+    "category": "business-culture",
+    "kind": "announcement"
+  },
+  {
     "slug": "vercel",
     "title": "Sandbox now supports sudo and installing RPM packages",
     "url": "https://vercel.com/changelog/sandbox-now-supports-sudo-and-installing-rpm-packages",
@@ -15541,6 +16341,14 @@
     "url": "https://openai.com/index/genspark",
     "publishedAt": "2025-07-01T10:00:00.000Z",
     "category": "ai-agents-tooling",
+    "kind": "announcement"
+  },
+  {
+    "slug": "cursor",
+    "title": "Cursor on web and mobile",
+    "url": "https://cursor.com/blog/agent-web",
+    "publishedAt": "2025-06-30T23:09:00.000Z",
+    "category": "developer-experience",
     "kind": "announcement"
   },
   {
@@ -15880,6 +16688,14 @@
     "kind": "deep-dive"
   },
   {
+    "slug": "cursor",
+    "title": "Updates to Ultra and Pro",
+    "url": "https://cursor.com/blog/new-tier",
+    "publishedAt": "2025-06-16T20:08:00.000Z",
+    "category": "business-culture",
+    "kind": "release-note"
+  },
+  {
     "slug": "vercel",
     "title": "Tray.ai cut build times from a day to minutes with Vercel",
     "url": "https://vercel.com/blog/tray-ai-cut-build-times-from-a-day-to-minutes-with-vercel",
@@ -16038,6 +16854,14 @@
     "publishedAt": "2025-06-09T10:00:00.000Z",
     "category": "security",
     "kind": "report"
+  },
+  {
+    "slug": "cursor",
+    "title": "Series C and Scale",
+    "url": "https://cursor.com/blog/series-c",
+    "publishedAt": "2025-06-06T20:08:00.000Z",
+    "category": "business-culture",
+    "kind": "announcement"
   },
   {
     "slug": "vercel",
@@ -16982,6 +17806,14 @@
     "publishedAt": "2025-04-28T16:30:19.000Z",
     "category": "data-observability",
     "kind": "deep-dive"
+  },
+  {
+    "slug": "cursor",
+    "title": "Early team",
+    "url": "https://cursor.com/blog/team",
+    "publishedAt": "2025-04-26T20:08:00.000Z",
+    "category": "business-culture",
+    "kind": "report"
   },
   {
     "slug": "vercel",
@@ -18912,6 +19744,14 @@
     "kind": "release-note"
   },
   {
+    "slug": "cursor",
+    "title": "Series B and Automating Code",
+    "url": "https://cursor.com/blog/series-b",
+    "publishedAt": "2025-01-16T21:08:00.000Z",
+    "category": "business-culture",
+    "kind": "announcement"
+  },
+  {
     "slug": "meta",
     "title": "Measuring productivity impact with Diff Authoring Time",
     "url": "https://engineering.fb.com/2025/01/16/developer-tools/measuring-productivity-impact-with-diff-authoring-time",
@@ -19021,6 +19861,14 @@
     "url": "https://openai.com/index/adebayo-ogunlesi-joins-openais-board-of-directors",
     "publishedAt": "2025-01-14T09:00:00.000Z",
     "category": "business-culture",
+    "kind": "announcement"
+  },
+  {
+    "slug": "cursor",
+    "title": "A new Tab model",
+    "url": "https://cursor.com/blog/tab-update",
+    "publishedAt": "2025-01-13T21:08:00.000Z",
+    "category": "ai-models-research",
     "kind": "announcement"
   },
   {
@@ -20560,6 +21408,14 @@
     "kind": "deep-dive"
   },
   {
+    "slug": "cursor",
+    "title": "Series A and Magic",
+    "url": "https://cursor.com/blog/series-a",
+    "publishedAt": "2024-08-22T23:58:00.000Z",
+    "category": "business-culture",
+    "kind": "announcement"
+  },
+  {
     "slug": "meta",
     "title": "Inside the hardware and co-design of MTIA",
     "url": "https://engineering.fb.com/2024/08/22/ml-applications/meta-mtia-hardware-co-design",
@@ -21549,6 +22405,14 @@
     "url": "https://engineering.fb.com/2024/05/14/web/threads-for-web-behind-the-scenes",
     "publishedAt": "2024-05-14T16:33:34.000Z",
     "category": "web-frontend",
+    "kind": "deep-dive"
+  },
+  {
+    "slug": "cursor",
+    "title": "Editing Files at 1000 Tokens per Second",
+    "url": "https://cursor.com/blog/instant-apply",
+    "publishedAt": "2024-05-14T07:00:00.000Z",
+    "category": "ai-agents-tooling",
     "kind": "deep-dive"
   },
   {
@@ -23966,6 +24830,14 @@
     "publishedAt": "2023-06-13T07:00:00.000Z",
     "category": "ai-agents-tooling",
     "kind": "announcement"
+  },
+  {
+    "slug": "cursor",
+    "title": "Prompt design",
+    "url": "https://cursor.com/blog/prompt-design",
+    "publishedAt": "2023-06-11T23:58:00.000Z",
+    "category": "ai-agents-tooling",
+    "kind": "deep-dive"
   },
   {
     "slug": "vercel",
