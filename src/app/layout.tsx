@@ -15,10 +15,16 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ??
+  (process.env.NODE_ENV === "development" ? "http://localhost:3000" : "https://www.techxiv.dev");
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: "techxiv",
   description: "Engineering posts from the companies that still write them.",
   openGraph: {
+    url: siteUrl,
     siteName: "techxiv",
     type: "website",
   },
