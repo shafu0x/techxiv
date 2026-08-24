@@ -76,14 +76,14 @@ function parseFeed(xml: string): FeedPost[] {
 }
 
 async function fetchXml(url: string) {
-  const response = await fetch(url, { headers: HEADERS });
+  const response = await fetch(url, { cache: "no-store", headers: HEADERS });
   if (!response.ok) {
-    return "";
+    throw new Error(`${url} → ${response.status}`);
   }
 
   const text = await response.text();
   if (!/<(?:item|entry)\b/i.test(text)) {
-    return "";
+    throw new Error(`${url} → not a feed`);
   }
 
   return text;
@@ -100,8 +100,9 @@ export async function fetchFeedPosts(feedUrl: string, known: Set<string> = new S
   const posts: FeedPost[] = [];
 
   const take = (xml: string) => {
+    const parsed = parseFeed(xml);
     let added = 0;
-    for (const post of parseFeed(xml)) {
+    for (const post of parsed) {
       const url = post.url.replace(/\/$/, "");
       if (seen.has(url) || known.has(url) || known.has(post.url)) {
         continue;
@@ -110,23 +111,24 @@ export async function fetchFeedPosts(feedUrl: string, known: Set<string> = new S
       posts.push(post);
       added += 1;
     }
-    return added;
+    return { added, size: parsed.length };
   };
 
-  const first = await fetchXml(feedUrl);
-  if (!first) {
+  const first = take(await fetchXml(feedUrl));
+
+  // Dumps like vercel.com/atom ignore ?page=; only walk short windows.
+  if (first.size >= 30) {
     return posts;
   }
-  take(first);
 
   for (let page = 2; page <= 80; page += 1) {
     let added = 0;
     for (const param of ["paged", "page"] as const) {
-      const xml = await fetchXml(withPage(feedUrl, param, page));
-      if (!xml) {
+      try {
+        added = take(await fetchXml(withPage(feedUrl, param, page))).added;
+      } catch {
         continue;
       }
-      added = take(xml);
       if (added > 0) {
         break;
       }
