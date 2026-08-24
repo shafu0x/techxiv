@@ -303,7 +303,8 @@ export async function ingestNewPosts() {
       });
       inserted += 1;
       if (
-        !(HIDDEN_KINDS.includes(label.kind) || HIDDEN_CATEGORIES.includes(label.category))
+        !HIDDEN_KINDS.some((kind) => kind === label.kind) &&
+        !HIDDEN_CATEGORIES.some((category) => category === label.category)
       ) {
         shown += 1;
       }
