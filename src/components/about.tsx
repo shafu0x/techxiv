@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useSyncExternalStore } from "react";
 import Image from "next/image";
 import { Heart } from "lucide-react";
 import {
@@ -16,9 +17,32 @@ type Org = {
   logo: string;
 };
 
+const SEEN_KEY = "techxiv-about-seen";
+
+// Identity must be stable or every render resubscribes. Nothing else writes the
+// key, so there is no store to subscribe to.
+const noSubscribe = () => () => {};
+
 export function About({ orgs }: { orgs: Org[] }) {
+  // localStorage is unreadable while rendering on the server, so the server
+  // snapshot claims "seen" and the first visit only resolves after hydration.
+  const seen = useSyncExternalStore(
+    noSubscribe,
+    () => localStorage.getItem(SEEN_KEY) !== null,
+    () => true,
+  );
+  const [toggled, setToggled] = useState<boolean | null>(null);
+
   return (
-    <Dialog>
+    <Dialog
+      open={toggled ?? !seen}
+      onOpenChange={(next) => {
+        setToggled(next);
+        if (!next) {
+          localStorage.setItem(SEEN_KEY, "1");
+        }
+      }}
+    >
       <DialogTrigger className="text-sm text-muted-foreground hover:text-foreground">
         About
       </DialogTrigger>

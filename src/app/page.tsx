@@ -13,6 +13,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import { getOrganizations } from "@/lib/orgs";
 import { getPrisma } from "@/lib/prisma";
 import { HIDDEN_CATEGORIES, HIDDEN_KINDS, VISIBLE_CATEGORIES, type Category } from "@/lib/taxonomy";
 import type { Category as PrismaCategory, Kind as PrismaKind } from "@/generated/prisma/client";
@@ -124,7 +125,7 @@ export default async function Home({
   const tentative = Number.isFinite(requested) ? Math.max(1, Math.trunc(requested)) : 1;
 
   const [organizations, total, firstPage] = await Promise.all([
-    prisma.organization.findMany({ orderBy: { name: "asc" } }),
+    getOrganizations(),
     prisma.post.count({ where }),
     prisma.post.findMany({
       where,

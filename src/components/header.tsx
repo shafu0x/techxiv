@@ -1,13 +1,9 @@
 import Link from "next/link";
 import { About } from "@/components/about";
-import { getPrisma } from "@/lib/prisma";
+import { getOrganizations } from "@/lib/orgs";
 
 export async function Header() {
-  const prisma = getPrisma();
-  const orgs = await prisma.organization.findMany({
-    select: { name: true, logo: true },
-    orderBy: { name: "asc" },
-  });
+  const organizations = await getOrganizations();
 
   return (
     <header className="border-b border-foreground/10 pt-[env(safe-area-inset-top)]">
@@ -21,7 +17,7 @@ export async function Header() {
           </svg>
           <span className="ml-1.5 font-semibold">techxiv</span>
         </Link>
-        <About orgs={orgs} />
+        <About orgs={organizations.map((org) => ({ name: org.name, logo: org.logo }))} />
       </div>
     </header>
   );
