@@ -301,7 +301,9 @@ export async function ingestNewPosts() {
       });
       inserted += 1;
     } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
       console.error("ingest insert failed", post.url, error);
+      errors.push(`insert ${post.url}: ${message}`);
     }
   }
 
