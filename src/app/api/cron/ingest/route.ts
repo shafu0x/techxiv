@@ -12,18 +12,15 @@ export async function GET(request: Request) {
 
   try {
     const result = await ingestNewPosts();
-    console.log("cron ingest", result);
-    await sendSyncNotification(
-      `found ${result.scanned}, inserted ${result.inserted}${
-        result.errors.length > 0 ? `, errors: ${result.errors.join("; ")}` : ""
-      }`,
-    );
+    console.log(JSON.stringify({ event: "ingest", ...result }));
+
+    const errors = result.errors.length > 0 ? `, errors: ${result.errors.join("; ")}` : "";
+    await sendSyncNotification(`found ${result.scanned}, inserted ${result.inserted}${errors}`);
     return Response.json(result);
   } catch (error) {
-    console.error("cron ingest failed", error);
-    await sendSyncNotification(
-      `ingest failed: ${error instanceof Error ? error.message : String(error)}`,
-    );
+    const message = error instanceof Error ? error.message : String(error);
+    console.error(JSON.stringify({ event: "ingest.failed", message }));
+    await sendSyncNotification(`ingest failed: ${message}`);
     return Response.json({ ok: false }, { status: 500 });
   }
 }
