@@ -1,7 +1,12 @@
-import { cache } from "react";
+import { cacheLife, cacheTag } from "next/cache";
 import { getPrisma } from "@/lib/prisma";
 
-// Cached so the header and the page share one query per request.
-export const getOrganizations = cache(() =>
-  getPrisma().organization.findMany({ orderBy: { name: "asc" } }),
-);
+// Cached so the header and the page share one query, and so both can be
+// prerendered instead of hitting the database per request.
+export async function getOrganizations() {
+  "use cache";
+  cacheTag("orgs");
+  cacheLife("days");
+
+  return getPrisma().organization.findMany({ orderBy: { name: "asc" } });
+}

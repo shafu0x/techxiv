@@ -1,8 +1,9 @@
 import { ImageResponse } from "next/og";
+import { siteName, siteTagline } from "@/lib/site";
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
-export const alt = "techxiv — Engineering posts from the companies that still write them.";
+export const alt = `${siteName}. ${siteTagline}`;
 
 export default function OpengraphImage() {
   return new ImageResponse(
@@ -33,12 +34,10 @@ export default function OpengraphImage() {
             letterSpacing: -4,
           }}
         >
-          techxiv
+          {siteName}
         </div>
       </div>
-      <div style={{ fontSize: 40, color: "#a1a1a1" }}>
-        Engineering posts from the companies that still write them.
-      </div>
+      <div style={{ fontSize: 40, color: "#a1a1a1" }}>{siteTagline}</div>
     </div>,
     { ...size },
   );

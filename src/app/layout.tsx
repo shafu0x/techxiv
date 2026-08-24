@@ -3,6 +3,7 @@ import { Analytics } from "@vercel/analytics/next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ClickNotifier } from "@/components/click-notifier";
 import { Header } from "@/components/header";
+import { siteDescription, siteName, siteUrl } from "@/lib/site";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -15,17 +16,18 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL ??
-  (process.env.NODE_ENV === "development" ? "http://localhost:3000" : "https://www.techxiv.dev");
-
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: "techxiv",
-  description: "Engineering posts from the companies that still write them.",
+  title: siteName,
+  description: siteDescription,
+  alternates: {
+    types: {
+      "application/rss+xml": `${siteUrl}/feed.xml`,
+    },
+  },
   openGraph: {
     url: siteUrl,
-    siteName: "techxiv",
+    siteName,
     type: "website",
   },
   twitter: {
