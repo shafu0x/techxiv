@@ -1,8 +1,8 @@
+import { revalidateTag } from "next/cache";
 import { sendSyncNotification } from "@/lib/discord";
 import { ingestNewPosts } from "@/lib/ingest";
 
 export const maxDuration = 300;
-export const dynamic = "force-dynamic";
 
 export async function GET(request: Request) {
   const secret = process.env.CRON_SECRET;
@@ -13,6 +13,9 @@ export async function GET(request: Request) {
   try {
     const result = await ingestNewPosts();
     console.log(JSON.stringify({ event: "ingest", ...result }));
+
+    revalidateTag("posts", "max");
+    revalidateTag("orgs", "max");
 
     const errors = result.errors.length > 0 ? `, errors: ${result.errors.join("; ")}` : "";
     await sendSyncNotification(
