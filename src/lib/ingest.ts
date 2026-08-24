@@ -1,6 +1,7 @@
 import { classifyPosts, type Label } from "./classify";
 import { FEEDS, fetchFeedPosts } from "./feeds";
 import { getPrisma } from "./prisma";
+import { HIDDEN_CATEGORIES, HIDDEN_KINDS } from "./taxonomy";
 import type { Category, Kind } from "../generated/prisma/client";
 
 /**
@@ -278,6 +279,7 @@ export async function ingestNewPosts() {
   const labels: Map<string, Label> = created.length > 0 ? await classifyPosts(created) : new Map();
 
   let inserted = 0;
+  let shown = 0;
   let unlabeled = 0;
   for (const post of created) {
     const label = labels.get(post.title);
@@ -300,6 +302,11 @@ export async function ingestNewPosts() {
         },
       });
       inserted += 1;
+      if (
+        !(HIDDEN_KINDS.includes(label.kind) || HIDDEN_CATEGORIES.includes(label.category))
+      ) {
+        shown += 1;
+      }
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
       console.error("ingest insert failed", post.url, error);
@@ -311,5 +318,5 @@ export async function ingestNewPosts() {
     errors.push(`${unlabeled} posts skipped: classification failed`);
   }
 
-  return { inserted, scanned: found.length, errors };
+  return { inserted, shown, scanned: found.length, errors };
 }

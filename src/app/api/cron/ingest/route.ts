@@ -15,7 +15,9 @@ export async function GET(request: Request) {
     console.log(JSON.stringify({ event: "ingest", ...result }));
 
     const errors = result.errors.length > 0 ? `, errors: ${result.errors.join("; ")}` : "";
-    await sendSyncNotification(`found ${result.scanned}, inserted ${result.inserted}${errors}`);
+    await sendSyncNotification(
+      `found ${result.scanned}, inserted ${result.inserted}, shown ${result.shown}${errors}`,
+    );
     return Response.json(result);
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
