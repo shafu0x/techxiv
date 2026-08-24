@@ -187,9 +187,9 @@ async function postsFromHtml(
   organizationId: string,
   existing: Set<string>,
 ) {
-  const response = await fetch(index, { headers: HEADERS });
+  const response = await fetch(index, { cache: "no-store", headers: HEADERS });
   if (!response.ok) {
-    return [];
+    throw new Error(`${index} → ${response.status}`);
   }
 
   const candidates = articleHrefs(await response.text(), index, article).filter(
@@ -198,7 +198,7 @@ async function postsFromHtml(
 
   const posts: FoundPost[] = [];
   for (const url of candidates) {
-    const response = await fetch(url, { headers: HEADERS });
+    const response = await fetch(url, { cache: "no-store", headers: HEADERS });
     if (!response.ok) {
       continue;
     }
