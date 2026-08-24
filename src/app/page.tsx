@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Heart } from "lucide-react";
 import { CategoryFilter } from "@/components/category-filter";
 import { PostFilters } from "@/components/post-filters";
 import { TitleSearch } from "@/components/title-search";
@@ -172,7 +171,7 @@ export default async function Home({
   }
 
   return (
-    <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-8 px-4 pt-4 pb-[max(2rem,env(safe-area-inset-bottom))] sm:gap-10 sm:px-6 sm:pt-6 sm:pb-16">
+    <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-8 px-4 pt-4 pb-[max(2rem,env(safe-area-inset-bottom))] sm:gap-10 sm:px-6 sm:pt-6 sm:pb-8">
       <a
         href="#posts"
         className="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-50 focus:rounded-md focus:bg-card focus:px-3 focus:py-2 focus:text-sm"
@@ -308,22 +307,6 @@ export default async function Home({
           ) : null}
         </div>
       </div>
-
-      <footer className="-mt-4 text-center text-sm text-muted-foreground sm:-mt-6">
-        <p className="inline-flex flex-wrap items-center justify-center gap-1.5">
-          Made with
-          <Heart className="size-3.5 fill-current" aria-hidden="true" />
-          by{" "}
-          <a
-            href="https://x.com/shafu0x"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-inherit underline"
-          >
-            @shafu0x
-          </a>
-        </p>
-      </footer>
     </main>
   );
 }
