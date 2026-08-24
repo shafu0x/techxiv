@@ -1,10 +1,13 @@
 import Link from "next/link";
-import { HowItWorks } from "@/components/how-it-works";
+import { About } from "@/components/about";
+import { getOrganizations } from "@/lib/orgs";
 
-export function Header() {
+export async function Header() {
+  const organizations = await getOrganizations();
+
   return (
     <header className="border-b border-foreground/10 pt-[env(safe-area-inset-top)]">
-      <div className="mx-auto flex w-full max-w-3xl items-center justify-between gap-4 px-4 py-4 sm:px-6">
+      <div className="mx-auto flex w-full max-w-3xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
         <Link href="/" className="flex items-center tracking-tight">
           <svg viewBox="0 0 32 32" className="size-5 shrink-0" aria-hidden="true">
             <path
@@ -14,7 +17,7 @@ export function Header() {
           </svg>
           <span className="ml-1.5 font-semibold">techxiv</span>
         </Link>
-        <HowItWorks />
+        <About orgs={organizations.map((org) => ({ name: org.name, logo: org.logo }))} />
       </div>
     </header>
   );
