@@ -53,7 +53,7 @@ Assign exactly one category (what the post is about):
 - languages-performance: programming languages, compilers, runtimes, profiling, and latency/throughput/memory optimization work
 - security: vulnerabilities, exploits, DDoS, auth and identity, encryption, fraud and abuse, bots, plus AI model safety and misuse
 - developer-experience: monorepos, build systems, CI/CD, testing, code review, SDKs, CLIs, APIs, open sourcing, engineering workflow
-- business-culture: hiring, internships, careers, team culture, customer stories, partnerships, funding, pricing, policy, regulation, market commentary
+- business-culture: hiring, internships, careers, team culture, customer stories, partnerships, acquisitions, funding, pricing, awards, certifications, company news, policy, regulation, market commentary
 
 Assign exactly one kind (what shape of post it is):
 - deep-dive: explains how something was built, how it works, or why it broke; has real technical substance
