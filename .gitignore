@@ -32,6 +32,7 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!.env.example
 
 # vercel
 .vercel
@@ -41,6 +42,7 @@ yarn-error.log*
 .claude/
 .windsurf/
 .cursor/
+.posthog-wizard-cache/
 skills-lock.json
 
 # typescript

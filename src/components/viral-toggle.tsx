@@ -1,9 +1,14 @@
 "use client";
 
 import { useOptimistic, useTransition } from "react";
+import posthog from "posthog-js";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Toggle } from "@/components/ui/toggle";
 import { cn } from "@/lib/utils";
+
+const posthogConfigured = Boolean(
+  process.env.NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN && process.env.NEXT_PUBLIC_POSTHOG_HOST,
+);
 
 export function ViralToggle({ viral }: { viral: boolean }) {
   const router = useRouter();
@@ -12,6 +17,10 @@ export function ViralToggle({ viral }: { viral: boolean }) {
   const [pressed, setPressed] = useOptimistic(viral);
 
   function commit(next: boolean) {
+    if (posthogConfigured) {
+      posthog.capture("viral_filter_changed", { enabled: next });
+    }
+
     const params = new URLSearchParams(searchParams);
     if (next) {
       params.set("viral", "1");
