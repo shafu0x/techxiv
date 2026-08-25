@@ -2,6 +2,7 @@ import { classifyPosts, type Label } from "./classify";
 import { FEEDS, fetchFeedPosts } from "./feeds";
 import { getPrisma } from "./prisma";
 import { HIDDEN_CATEGORIES, HIDDEN_KINDS } from "./taxonomy";
+import { canonicalPostUrl } from "./url";
 import type { Category, Kind } from "../generated/prisma/client";
 
 /**
@@ -169,7 +170,7 @@ function articleHrefs(html: string, indexUrl: string, article: RegExp) {
       continue;
     }
 
-    const href = `${url.origin}${path}`;
+    const href = canonicalPostUrl(`${url.origin}${path}`);
     if (seen.has(href)) {
       continue;
     }
@@ -234,7 +235,7 @@ export async function ingestNewPosts() {
     select: { url: true, organizationId: true },
   });
 
-  const existing = new Set(rows.map((row) => row.url.replace(/\/$/, "")));
+  const existing = new Set(rows.map((row) => canonicalPostUrl(row.url)));
   const found: FoundPost[] = [];
   const errors: string[] = [];
 
@@ -272,7 +273,7 @@ export async function ingestNewPosts() {
 
   const seen = new Set(existing);
   const created = found.filter((post) => {
-    const url = post.url.replace(/\/$/, "");
+    const url = canonicalPostUrl(post.url);
     if (seen.has(url)) {
       return false;
     }
@@ -298,7 +299,7 @@ export async function ingestNewPosts() {
       await prisma.post.create({
         data: {
           title: post.title,
-          url: post.url.replace(/\/$/, ""),
+          url: canonicalPostUrl(post.url),
           publishedAt: post.publishedAt,
           organizationId: post.organizationId,
           category: label.category.replace(/-/g, "_") as Category,

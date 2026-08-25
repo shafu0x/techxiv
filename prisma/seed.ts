@@ -4,6 +4,7 @@ import path from "node:path";
 import { config } from "dotenv";
 import { PrismaNeonHttp } from "@prisma/adapter-neon";
 import { type Category, type Kind, PrismaClient } from "../src/generated/prisma/client";
+import { canonicalPostUrl } from "../src/lib/url";
 
 config({ path: ".env.local" });
 
@@ -84,7 +85,7 @@ async function main() {
     const category = post.category.replace(/-/g, "_") as Category;
     const kind = post.kind.replace(/-/g, "_") as Kind;
 
-    const url = post.url.replace(/\/+$/, "");
+    const url = canonicalPostUrl(post.url);
 
     await prisma.post.upsert({
       where: { url },
@@ -108,7 +109,7 @@ async function main() {
 
   // The data files are the source of truth, so drop anything a re-scrape removed.
   const prunedPosts = await prisma.post.deleteMany({
-    where: { url: { notIn: posts.map((post) => post.url.replace(/\/+$/, "")) } },
+    where: { url: { notIn: posts.map((post) => canonicalPostUrl(post.url)) } },
   });
   const prunedOrgs = await prisma.organization.deleteMany({
     where: { slug: { notIn: orgs.map((org) => org.slug) } },
