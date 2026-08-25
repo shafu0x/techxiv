@@ -1,3 +1,5 @@
+import { canonicalPostUrl } from "./url";
+
 export const FEEDS: Record<string, string> = {
   openai: "https://openai.com/news/rss.xml",
   spotify: "https://engineering.atspotify.com/feed/",
@@ -65,11 +67,16 @@ function parseFeed(xml: string): FeedPost[] {
       )?.[1] ?? "";
     const publishedAt = new Date(publishedRaw);
 
-    if (!title || !url || Number.isNaN(publishedAt.getTime())) {
+    const canonical = canonicalPostUrl(url);
+    if (!title || !canonical || Number.isNaN(publishedAt.getTime())) {
       continue;
     }
 
-    posts.push({ title: title.slice(0, 160), url, publishedAt: publishedAt.toISOString() });
+    posts.push({
+      title: title.slice(0, 160),
+      url: canonical,
+      publishedAt: publishedAt.toISOString(),
+    });
   }
 
   return posts;
@@ -103,11 +110,10 @@ export async function fetchFeedPosts(feedUrl: string, known: Set<string> = new S
     const parsed = parseFeed(xml);
     let added = 0;
     for (const post of parsed) {
-      const url = post.url.replace(/\/$/, "");
-      if (seen.has(url) || known.has(url) || known.has(post.url)) {
+      if (seen.has(post.url) || known.has(post.url)) {
         continue;
       }
-      seen.add(url);
+      seen.add(post.url);
       posts.push(post);
       added += 1;
     }

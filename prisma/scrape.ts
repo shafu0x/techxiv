@@ -2,6 +2,7 @@ import { execFileSync } from "node:child_process";
 import { readFile, writeFile } from "node:fs/promises";
 import orgs from "./data/orgs.json";
 import { FEEDS, fetchFeedPosts } from "../src/lib/feeds";
+import { canonicalPostUrl } from "../src/lib/url";
 
 type Link = {
   href: string;
@@ -132,7 +133,7 @@ function pickFromLinks(slug: string, host: string, links: Link[]) {
   const posts: Post[] = [];
 
   for (const link of links) {
-    const url = link.href.split("#")[0].split("?")[0];
+    const url = canonicalPostUrl(link.href);
     const title = cleanTitle(link.title);
     if (seen.has(url) || !looksLikeArticle(host, url) || !title) {
       continue;
@@ -195,14 +196,15 @@ async function main() {
     }
 
     const already = bySlug.get(org.slug) ?? [];
-    const seen = new Set(already.map((post) => post.url));
+    const seen = new Set(already.map((post) => canonicalPostUrl(post.url)));
     const merged = [...already];
     for (const post of found) {
-      if (seen.has(post.url)) {
+      const url = canonicalPostUrl(post.url);
+      if (seen.has(url)) {
         continue;
       }
-      seen.add(post.url);
-      merged.push(post);
+      seen.add(url);
+      merged.push({ ...post, url });
     }
 
     bySlug.set(org.slug, merged);
