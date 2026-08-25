@@ -3,7 +3,6 @@
 import { useOptimistic, useTransition } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Toggle } from "@/components/ui/toggle";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 
 export function ViralToggle({ viral }: { viral: boolean }) {
@@ -29,32 +28,23 @@ export function ViralToggle({ viral }: { viral: boolean }) {
   }
 
   return (
-    <TooltipProvider delayDuration={300}>
-      <div className={cn("flex w-auto items-center transition-opacity", pending && "opacity-60")}>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Toggle
-              variant="outline"
-              size="sm"
-              pressed={pressed}
-              onPressedChange={commit}
-              aria-label="Viral on X"
-              className="h-11 border-transparent px-3 font-normal twitter-ring data-[state=on]:bg-transparent data-[state=on]:text-twitter data-[state=on]:hover:bg-transparent data-[state=on]:hover:text-twitter sm:h-9 sm:px-2.5"
-            >
-              <span className="hidden sm:inline">Viral on</span>
-              <svg viewBox="0 0 24 24" className="size-3.5 shrink-0" aria-hidden="true">
-                <path
-                  fill="currentColor"
-                  d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"
-                />
-              </svg>
-            </Toggle>
-          </TooltipTrigger>
-          <TooltipContent side="bottom" className="max-w-64 text-pretty">
-            Only shows Posts that went viral on X
-          </TooltipContent>
-        </Tooltip>
-      </div>
-    </TooltipProvider>
+    <div className={cn("flex w-auto items-center transition-opacity", pending && "opacity-60")}>
+      <Toggle
+        variant="outline"
+        size="sm"
+        pressed={pressed}
+        onPressedChange={commit}
+        aria-label="Viral on X"
+        className="h-11 border-transparent px-3 font-normal twitter-ring data-[state=on]:bg-transparent data-[state=on]:text-twitter data-[state=on]:hover:bg-transparent data-[state=on]:hover:text-twitter sm:h-9 sm:px-2.5"
+      >
+        <span className="hidden sm:inline">Viral on</span>
+        <svg viewBox="0 0 24 24" className="size-3.5 shrink-0" aria-hidden="true">
+          <path
+            fill="currentColor"
+            d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"
+          />
+        </svg>
+      </Toggle>
+    </div>
   );
 }

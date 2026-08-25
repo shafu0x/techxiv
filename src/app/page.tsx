@@ -276,10 +276,10 @@ function FeedSkeleton() {
   return (
     <div className="flex flex-col gap-2" aria-hidden>
       <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 sm:flex sm:justify-between">
-        <div className="h-9 w-full animate-pulse rounded-md bg-muted sm:w-56" />
+        <div className="h-11 w-full animate-pulse rounded-lg bg-muted sm:h-9 sm:w-56" />
         <div className="flex items-center gap-3">
-          <div className="h-9 w-24 animate-pulse rounded-md bg-muted" />
-          <div className="h-9 w-28 animate-pulse rounded-md bg-muted" />
+          <div className="h-11 w-10 shrink-0 animate-pulse rounded-md bg-muted sm:h-9 sm:w-21" />
+          <div className="h-11 w-[126px] shrink-0 animate-pulse rounded-md bg-muted sm:h-9 sm:w-40" />
         </div>
       </div>
 
