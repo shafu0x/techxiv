@@ -1,9 +1,14 @@
 import { after } from "next/server";
 import { sendDiscordNotification } from "@/lib/discord";
+import { isProductionDeployment } from "@/lib/production-traffic";
 
 const MAX_FIELD_LENGTH = 200;
 
 export async function POST(request: Request) {
+  if (!isProductionDeployment()) {
+    return new Response(null, { status: 204 });
+  }
+
   let body: unknown;
   try {
     body = await request.json();
