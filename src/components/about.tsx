@@ -75,7 +75,7 @@ export function About({ orgs }: { orgs: Org[] }) {
           ))}
         </div>
         <DialogHeader>
-          <DialogTitle>About</DialogTitle>
+          <DialogTitle>Welcome!</DialogTitle>
           <DialogDescription className="text-pretty leading-relaxed">
             The real alpha is in technical blogs. I was reading them more and more, so I built a
             central place for the organizations I enjoy most.
