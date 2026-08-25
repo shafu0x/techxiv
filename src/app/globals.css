@@ -47,6 +47,7 @@
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
   --animate-marquee: marquee 40s linear infinite;
+  --color-twitter: #1d9bf0;
 }
 
 @keyframes marquee {
@@ -56,6 +57,41 @@
   to {
     transform: translateX(calc(-100% - var(--gap)));
   }
+}
+
+@property --twitter-pulse {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0.45;
+}
+
+@keyframes twitter-pulse {
+  0%,
+  100% {
+    --twitter-pulse: 0.4;
+  }
+  50% {
+    --twitter-pulse: 0.7;
+  }
+}
+
+html {
+  animation: twitter-pulse 2.4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    animation: none;
+    --twitter-pulse: 0.5;
+  }
+}
+
+@utility twitter-glow {
+  box-shadow: 0 0 14px 3px rgb(29 155 240 / var(--twitter-pulse));
+}
+
+@utility twitter-ring {
+  box-shadow: inset 0 0 0 1px rgb(29 155 240 / calc(var(--twitter-pulse) + 0.3));
 }
 
 :root {

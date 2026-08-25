@@ -17,21 +17,6 @@ export type Kind = (typeof KINDS)[number];
 
 export const HIDDEN_KINDS = ["announcement", "release-note"] as const satisfies readonly Kind[];
 export const HIDDEN_CATEGORIES = ["business-culture"] as const satisfies readonly Category[];
-export const VISIBLE_CATEGORIES = CATEGORIES.filter(
-  (category) => !(HIDDEN_CATEGORIES as readonly Category[]).includes(category),
-);
-
-export const CATEGORY_LABELS: Record<Category, string> = {
-  "ai-models-research": "AI Models & Research",
-  "ai-agents-tooling": "AI Agents & Tooling",
-  infrastructure: "Infrastructure",
-  "data-observability": "Data & Observability",
-  "web-frontend": "Web & Frontend",
-  "languages-performance": "Languages & Performance",
-  security: "Security",
-  "developer-experience": "Developer Experience",
-  "business-culture": "Business & Culture",
-};
 
 export const KIND_LABELS: Record<Kind, string> = {
   "deep-dive": "Deep dive",

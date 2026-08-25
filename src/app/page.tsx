@@ -1,9 +1,9 @@
 import { Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { CategoryFilter } from "@/components/category-filter";
 import { PostFilters } from "@/components/post-filters";
 import { TitleSearch } from "@/components/title-search";
+import { ViralToggle } from "@/components/viral-toggle";
 import { Card } from "@/components/ui/card";
 import {
   Pagination,
@@ -15,8 +15,8 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { getOrganizations } from "@/lib/orgs";
-import { PAGE_SIZE, getPosts } from "@/lib/posts";
-import { VISIBLE_CATEGORIES, type Category } from "@/lib/taxonomy";
+import { PAGE_SIZE, VIRAL_THRESHOLD, getPosts } from "@/lib/posts";
+import { cn } from "@/lib/utils";
 
 function visiblePages(page: number, pageCount: number) {
   if (pageCount <= 7) {
@@ -100,17 +100,15 @@ async function Feed({ searchParams }: Pick<PageProps<"/">, "searchParams">) {
   const params = await searchParams;
 
   const slugs = (first(params.orgs)?.split(",") ?? []).filter(Boolean);
-  const categories = (first(params.cats)?.split(",") ?? []).filter((value): value is Category =>
-    VISIBLE_CATEGORIES.includes(value as Category),
-  );
   const q = first(params.q)?.trim() ?? "";
+  const viral = first(params.viral) === "1";
 
   const requested = Number(first(params.page));
   const requestedPage = Number.isFinite(requested) ? Math.max(1, Math.trunc(requested)) : 1;
 
   const [organizations, { posts, page, pageCount }] = await Promise.all([
     getOrganizations(),
-    getPosts({ slugs, categories, q }, requestedPage),
+    getPosts({ slugs, q, viral }, requestedPage),
   ]);
 
   const known = new Set(organizations.map((org) => org.slug));
@@ -118,14 +116,14 @@ async function Feed({ searchParams }: Pick<PageProps<"/">, "searchParams">) {
 
   function pageHref(pageNumber: number) {
     const query = new URLSearchParams();
-    if (categories.length > 0) {
-      query.set("cats", categories.join(","));
-    }
     if (slugsKnown.length > 0) {
       query.set("orgs", slugsKnown.join(","));
     }
     if (q) {
       query.set("q", q);
+    }
+    if (viral) {
+      query.set("viral", "1");
     }
     if (pageNumber > 1) {
       query.set("page", String(pageNumber));
@@ -142,9 +140,7 @@ async function Feed({ searchParams }: Pick<PageProps<"/">, "searchParams">) {
           <TitleSearch value={q} />
         </div>
         <div className="flex items-center gap-3">
-          <div className="hidden sm:contents">
-            <CategoryFilter selected={categories} />
-          </div>
+          <ViralToggle viral={viral} />
           <PostFilters
             organizations={organizations.map((org) => ({
               slug: org.slug,
@@ -175,7 +171,15 @@ async function Feed({ searchParams }: Pick<PageProps<"/">, "searchParams">) {
                     rel="noopener noreferrer"
                     className="flex min-h-16 items-center gap-3 px-3 py-3 transition-colors duration-150 hover:bg-muted/40 focus-visible:outline-none focus-visible:-outline-offset-2 focus-visible:outline-2 focus-visible:outline-ring active:bg-muted/60 sm:gap-4 sm:px-4"
                   >
-                    <span className="flex size-9 shrink-0 items-center justify-center rounded-md bg-muted p-1.5 sm:size-10 sm:p-2">
+                    <span className="flex size-11 shrink-0 items-center justify-center sm:size-12">
+                      <span
+                        className={cn(
+                          "flex size-9 items-center justify-center rounded-md bg-muted p-1.5 sm:size-10 sm:p-2",
+                          post.viralityScore != null &&
+                            post.viralityScore > VIRAL_THRESHOLD &&
+                            "twitter-glow",
+                        )}
+                      >
                       <Image
                         src={post.organization.logo}
                         alt={post.organization.name}
@@ -185,6 +189,7 @@ async function Feed({ searchParams }: Pick<PageProps<"/">, "searchParams">) {
                         unoptimized
                         priority={index < 6}
                       />
+                      </span>
                     </span>
 
                     <span className="flex min-w-0 flex-1 flex-col gap-0.5 sm:flex-row sm:items-center sm:gap-4">
@@ -273,7 +278,7 @@ function FeedSkeleton() {
       <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 sm:flex sm:justify-between">
         <div className="h-9 w-full animate-pulse rounded-md bg-muted sm:w-56" />
         <div className="flex items-center gap-3">
-          <div className="hidden h-9 w-28 animate-pulse rounded-md bg-muted sm:block" />
+          <div className="h-9 w-24 animate-pulse rounded-md bg-muted" />
           <div className="h-9 w-28 animate-pulse rounded-md bg-muted" />
         </div>
       </div>

@@ -17,14 +17,16 @@ model Organization {
 }
 
 model Post {
-  id             String       @id @default(cuid())
-  title          String
-  url            String       @unique
-  publishedAt    DateTime
-  category       Category
-  kind           Kind
-  organization   Organization @relation(fields: [organizationId], references: [id])
-  organizationId String
+  id               String       @id @default(cuid())
+  title            String
+  url              String       @unique
+  publishedAt      DateTime
+  category         Category
+  kind             Kind
+  viralityScore    Int?
+  viralityScoredAt DateTime?
+  organization     Organization @relation(fields: [organizationId], references: [id])
+  organizationId   String
 
   @@index([publishedAt])
   @@index([category, publishedAt])
