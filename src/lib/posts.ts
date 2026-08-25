@@ -39,19 +39,53 @@ export function buildWhere({ slugs, q, viral }: PostFilters) {
 async function queryPage(filters: PostFilters, page: number) {
   const where = buildWhere(filters);
   const prisma = getPrisma();
+  const include = { organization: true } as const;
 
-  const [total, posts] = await Promise.all([
+  if (filters.viral) {
+    const [total, posts] = await Promise.all([
+      prisma.post.count({ where }),
+      prisma.post.findMany({
+        where,
+        orderBy: { publishedAt: "desc" },
+        skip: (page - 1) * PAGE_SIZE,
+        take: PAGE_SIZE,
+        include,
+      }),
+    ]);
+
+    return { posts, total };
+  }
+
+  const [total, pinned] = await Promise.all([
     prisma.post.count({ where }),
-    prisma.post.findMany({
+    prisma.post.findFirst({
+      where: { ...where, viralityScore: { gt: VIRAL_THRESHOLD } },
+      orderBy: { publishedAt: "desc" },
+      include,
+    }),
+  ]);
+
+  if (!pinned) {
+    const posts = await prisma.post.findMany({
       where,
       orderBy: { publishedAt: "desc" },
       skip: (page - 1) * PAGE_SIZE,
       take: PAGE_SIZE,
-      include: { organization: true },
-    }),
-  ]);
+      include,
+    });
 
-  return { posts, total };
+    return { posts, total };
+  }
+
+  const rest = await prisma.post.findMany({
+    where: { ...where, id: { not: pinned.id } },
+    orderBy: { publishedAt: "desc" },
+    skip: page === 1 ? 0 : (page - 1) * PAGE_SIZE - 1,
+    take: page === 1 ? PAGE_SIZE - 1 : PAGE_SIZE,
+    include,
+  });
+
+  return { posts: page === 1 ? [pinned, ...rest] : rest, total };
 }
 
 async function cachedPage(slugs: string[], viral: boolean, page: number) {

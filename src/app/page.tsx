@@ -177,7 +177,7 @@ async function Feed({ searchParams }: Pick<PageProps<"/">, "searchParams">) {
                           "flex size-9 items-center justify-center rounded-md bg-muted p-1.5 sm:size-10 sm:p-2",
                           post.viralityScore != null &&
                             post.viralityScore > VIRAL_THRESHOLD &&
-                            "twitter-glow",
+                            "twitter-ring",
                         )}
                       >
                       <Image
