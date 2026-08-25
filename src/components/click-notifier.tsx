@@ -1,8 +1,12 @@
 "use client";
 
 import { useEffect } from "react";
+import posthog from "posthog-js";
 
 const MAX_LABEL_LENGTH = 200;
+const posthogConfigured = Boolean(
+  process.env.NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN && process.env.NEXT_PUBLIC_POSTHOG_HOST,
+);
 
 function labelFromElement(element: Element): string | null {
   const time = element.querySelector("time");
@@ -43,6 +47,10 @@ export function ClickNotifier() {
 
       const anchor = target.closest("a[href]");
       if (anchor instanceof HTMLAnchorElement) {
+        const isPostLink = anchor.closest("#posts") !== null;
+        if (isPostLink && posthogConfigured) {
+          posthog.capture("post_opened");
+        }
         track(labelFromElement(anchor) ?? anchor.href, true);
         return;
       }

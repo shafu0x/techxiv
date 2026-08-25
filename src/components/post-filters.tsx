@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import posthog from "posthog-js";
 import { useFilterSelection } from "@/lib/use-filter-selection";
 import { CheckIcon, ChevronDownIcon } from "lucide-react";
 import { Avatar, AvatarGroup, AvatarGroupCount, AvatarImage } from "@/components/ui/avatar";
@@ -25,6 +26,9 @@ export type FilterOrganization = {
 };
 
 const MAX_STACKED_LOGOS = 5;
+const posthogConfigured = Boolean(
+  process.env.NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN && process.env.NEXT_PUBLIC_POSTHOG_HOST,
+);
 
 export function PostFilters({
   organizations,
@@ -44,6 +48,16 @@ export function PostFilters({
   const activeOrgs = allSelected ? ordered : ordered.filter((org) => picked.includes(org.slug));
   const shownOrgs = activeOrgs.slice(0, MAX_STACKED_LOGOS);
   const singleOrg = !allSelected && activeOrgs.length === 1 ? activeOrgs[0] : null;
+
+  function changeSelection(next: string[]) {
+    if (posthogConfigured) {
+      posthog.capture("organization_filter_changed", {
+        selected_organization_count: next.length,
+        filter_mode: next.length === 0 ? "all" : "selected",
+      });
+    }
+    commit(next);
+  }
 
   return (
     <div className={cn("flex w-auto items-center transition-opacity", pending && "opacity-60")}>
@@ -88,7 +102,7 @@ export function PostFilters({
             <CommandList>
               <CommandEmpty>No organizations found.</CommandEmpty>
               <CommandGroup>
-                <CommandItem onSelect={() => commit([])} className="gap-2">
+                <CommandItem onSelect={() => changeSelection([])} className="gap-2">
                   <span
                     className={cn(
                       "flex size-4 shrink-0 items-center justify-center rounded-[4px] border",
@@ -111,7 +125,7 @@ export function PostFilters({
                       key={org.slug}
                       value={org.name}
                       onSelect={() =>
-                        commit(
+                        changeSelection(
                           checked
                             ? picked.filter((slug) => slug !== org.slug)
                             : [...picked, org.slug],
