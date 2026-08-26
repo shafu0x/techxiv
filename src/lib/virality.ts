@@ -198,7 +198,7 @@ export async function scoreRecentPosts() {
   const seeded = await seedKnownViralScores();
   const posts = await getPrisma().post.findMany({
     where: {
-      ...buildWhere({ slugs: [], q: "", viral: false }),
+      ...buildWhere({ slugs: [], viral: false }),
       publishedAt: { gte: new Date(Date.now() - LOOKBACK_MS) },
     },
     select: { id: true, url: true, publishedAt: true, viralityScore: true },
@@ -211,7 +211,7 @@ export async function scoreRecentPosts() {
 export async function scoreUnratedPosts(limit: number, concurrency = CONCURRENCY) {
   const posts = await getPrisma().post.findMany({
     where: {
-      ...buildWhere({ slugs: [], q: "", viral: false }),
+      ...buildWhere({ slugs: [], viral: false }),
       viralityScore: null,
     },
     select: { id: true, url: true, publishedAt: true, viralityScore: true },

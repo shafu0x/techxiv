@@ -1,24 +1,25 @@
 import { cacheLife, cacheTag } from "next/cache";
+import { PAGE_SIZE, VIRAL_THRESHOLD, type FeedPost } from "@/lib/feed";
 import { getPrisma } from "@/lib/prisma";
 import { HIDDEN_CATEGORIES, HIDDEN_KINDS } from "@/lib/taxonomy";
 import type { Category as PrismaCategory, Kind as PrismaKind } from "@/generated/prisma/client";
 
-export const PAGE_SIZE = 20;
-export const VIRAL_THRESHOLD = 80;
 const FEED_SIZE = 50;
 
-type PostFilters = {
+export type PostFilters = {
   slugs: string[];
-  q: string;
   viral: boolean;
 };
+
+const orderBy = [{ publishedAt: "desc" as const }, { id: "desc" as const }];
+const include = { organization: true } as const;
 
 // Enum members are snake_case in the client but kebab-case in the URL.
 function toPrismaEnum(value: string) {
   return value.replace(/-/g, "_");
 }
 
-export function buildWhere({ slugs, q, viral }: PostFilters) {
+export function buildWhere({ slugs, viral }: PostFilters) {
   return {
     ...(HIDDEN_KINDS.length > 0
       ? { kind: { notIn: HIDDEN_KINDS.map((kind) => toPrismaEnum(kind) as PrismaKind) } }
@@ -31,92 +32,135 @@ export function buildWhere({ slugs, q, viral }: PostFilters) {
           },
         }
       : {}),
-    ...(q ? { title: { contains: q, mode: "insensitive" as const } } : {}),
     ...(viral ? { viralityScore: { gt: VIRAL_THRESHOLD } } : {}),
   };
 }
 
-async function queryPage(filters: PostFilters, page: number) {
+export function parseCursor(value: string) {
+  const sep = value.lastIndexOf("_");
+  if (sep <= 0 || sep === value.length - 1) {
+    return null;
+  }
+
+  const publishedAt = new Date(value.slice(0, sep));
+  const id = value.slice(sep + 1);
+  if (!id || Number.isNaN(publishedAt.getTime())) {
+    return null;
+  }
+
+  return { publishedAt, id };
+}
+
+function encodeCursor(post: { publishedAt: Date; id: string }) {
+  return `${post.publishedAt.toISOString()}_${post.id}`;
+}
+
+function serializePost(post: {
+  id: string;
+  title: string;
+  url: string;
+  publishedAt: Date;
+  viralityScore: number | null;
+  organization: { name: string; logo: string };
+}): FeedPost {
+  return {
+    id: post.id,
+    title: post.title,
+    url: post.url,
+    publishedAt: post.publishedAt.toISOString(),
+    viralityScore: post.viralityScore,
+    organization: {
+      name: post.organization.name,
+      logo: post.organization.logo,
+    },
+  };
+}
+
+function afterCursor(cursor: { publishedAt: Date; id: string }) {
+  return {
+    OR: [
+      { publishedAt: { lt: cursor.publishedAt } },
+      { publishedAt: cursor.publishedAt, id: { lt: cursor.id } },
+    ],
+  };
+}
+
+function paginate(rows: Parameters<typeof serializePost>[0][], take: number) {
+  const hasMore = rows.length > take;
+  const kept = hasMore ? rows.slice(0, take) : rows;
+  return {
+    posts: kept.map(serializePost),
+    nextCursor: hasMore ? encodeCursor(kept[kept.length - 1]) : null,
+  };
+}
+
+async function queryChunk(filters: PostFilters, cursor: string | null) {
+  const parsed = cursor ? parseCursor(cursor) : null;
+  if (cursor && !parsed) {
+    throw new Error("Invalid cursor");
+  }
+
   const where = buildWhere(filters);
   const prisma = getPrisma();
-  const include = { organization: true } as const;
 
   if (filters.viral) {
-    const [total, posts] = await Promise.all([
-      prisma.post.count({ where }),
-      prisma.post.findMany({
-        where,
-        orderBy: { publishedAt: "desc" },
-        skip: (page - 1) * PAGE_SIZE,
-        take: PAGE_SIZE,
-        include,
-      }),
-    ]);
-
-    return { posts, total };
-  }
-
-  const [total, pinned] = await Promise.all([
-    prisma.post.count({ where }),
-    prisma.post.findFirst({
-      where: { ...where, viralityScore: { gt: VIRAL_THRESHOLD } },
-      orderBy: { publishedAt: "desc" },
-      include,
-    }),
-  ]);
-
-  if (!pinned) {
-    const posts = await prisma.post.findMany({
-      where,
-      orderBy: { publishedAt: "desc" },
-      skip: (page - 1) * PAGE_SIZE,
-      take: PAGE_SIZE,
+    const rows = await prisma.post.findMany({
+      where: parsed ? { AND: [where, afterCursor(parsed)] } : where,
+      orderBy,
+      take: PAGE_SIZE + 1,
       include,
     });
-
-    return { posts, total };
+    return paginate(rows, PAGE_SIZE);
   }
 
-  const rest = await prisma.post.findMany({
-    where: { ...where, id: { not: pinned.id } },
-    orderBy: { publishedAt: "desc" },
-    skip: page === 1 ? 0 : (page - 1) * PAGE_SIZE - 1,
-    take: page === 1 ? PAGE_SIZE - 1 : PAGE_SIZE,
+  const pinned = await prisma.post.findFirst({
+    where: { ...where, viralityScore: { gt: VIRAL_THRESHOLD } },
+    orderBy,
     include,
   });
 
-  return { posts: page === 1 ? [pinned, ...rest] : rest, total };
+  const restWhere = {
+    AND: [
+      where,
+      ...(pinned ? [{ id: { not: pinned.id } }] : []),
+      ...(parsed ? [afterCursor(parsed)] : []),
+    ],
+  };
+
+  if (!parsed && pinned) {
+    const rest = await prisma.post.findMany({
+      where: restWhere,
+      orderBy,
+      take: PAGE_SIZE,
+      include,
+    });
+    const kept = rest.slice(0, PAGE_SIZE - 1);
+    return {
+      posts: [serializePost(pinned), ...kept.map(serializePost)],
+      nextCursor:
+        rest.length > PAGE_SIZE - 1 && kept.length > 0 ? encodeCursor(kept[kept.length - 1]) : null,
+    };
+  }
+
+  const rows = await prisma.post.findMany({
+    where: restWhere,
+    orderBy,
+    take: PAGE_SIZE + 1,
+    include,
+  });
+  return paginate(rows, PAGE_SIZE);
 }
 
-async function cachedPage(slugs: string[], viral: boolean, page: number) {
+async function cachedChunk(slugs: string[], viral: boolean, cursor: string | null) {
   "use cache: remote";
   cacheTag("posts");
   cacheLife("days");
 
-  return queryPage({ slugs, q: "", viral }, page);
+  return queryChunk({ slugs, viral }, cursor);
 }
 
-function fetchPage(filters: PostFilters, page: number) {
-  // Search terms are unbounded, so caching them would create an entry per
-  // keystroke. Only the selections the filter UI can produce are cached, sorted
-  // so that equivalent selections share one entry.
-  if (filters.q) {
-    return queryPage(filters, page);
-  }
-
-  return cachedPage([...filters.slugs].sort(), filters.viral, page);
-}
-
-export async function getPosts(filters: PostFilters, requestedPage: number) {
-  const requested = await fetchPage(filters, requestedPage);
-  const pageCount = Math.max(1, Math.ceil(requested.total / PAGE_SIZE));
-
-  if (requestedPage <= pageCount) {
-    return { ...requested, page: requestedPage, pageCount };
-  }
-
-  const last = await fetchPage(filters, pageCount);
-  return { ...last, page: pageCount, pageCount };
+export async function getPosts(filters: PostFilters, cursor: string | null = null) {
+  return cachedChunk([...filters.slugs].sort(), filters.viral, cursor);
 }
 
 export async function getFeedPosts() {
@@ -125,7 +169,7 @@ export async function getFeedPosts() {
   cacheLife("days");
 
   return getPrisma().post.findMany({
-    where: buildWhere({ slugs: [], q: "", viral: false }),
+    where: buildWhere({ slugs: [], viral: false }),
     orderBy: { publishedAt: "desc" },
     take: FEED_SIZE,
     include: { organization: true },
