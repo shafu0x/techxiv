@@ -1,0 +1,47 @@
+---
+description: PostHog analytics — use the CLI for stats and reports
+alwaysApply: false
+---
+
+# PostHog
+
+Use `@posthog/cli` only. Do not use the PostHog MCP server or `NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN` (ingest-only).
+
+Auth: `~/.posthog/credentials.json` from `npx @posthog/cli login`. On auth errors, ask the user to login — no fallback.
+
+```bash
+npx --yes @posthog/cli exp query run "<SQL>"
+```
+
+Escape every `$` in the shell (`'\$pageview'`, `properties.\$device_type`). Output is unnamed arrays — map values by SELECT order.
+
+Date filter: default to today (`toDate(timestamp) = today()`). Otherwise `toDate(timestamp) = toDate('YYYY-MM-DD')` or `timestamp >= now() - INTERVAL N DAY`.
+
+## Reports
+
+When the user asks for PostHog stats or a report, run all four queries and show these sections: **pageviews**, **unique visitors**, **devices**, **countries**, **referrals**.
+
+```sql
+SELECT count() AS pageviews, uniq(person_id) AS unique_visitors
+FROM events WHERE event = '$pageview' AND <date_filter>
+```
+
+```sql
+SELECT properties.$device_type AS device, count() AS views
+FROM events WHERE event = '$pageview' AND <date_filter>
+GROUP BY device ORDER BY views DESC
+```
+
+```sql
+SELECT properties.$geoip_country_name AS country, count() AS views
+FROM events WHERE event = '$pageview' AND <date_filter>
+GROUP BY country ORDER BY views DESC LIMIT 10
+```
+
+```sql
+SELECT properties.$referring_domain AS referrer, count() AS views
+FROM events WHERE event = '$pageview' AND <date_filter>
+GROUP BY referrer ORDER BY views DESC LIMIT 10
+```
+
+Markdown tables. Never print credentials.
