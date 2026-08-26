@@ -51,6 +51,13 @@ export function TitleSearch({ value }: { value: string }) {
       startTransition(() => {
         router.replace(search ? `/?${search}` : "/", { scroll: false });
       });
+
+      if (next) {
+        navigator.sendBeacon(
+          "/api/search",
+          new Blob([JSON.stringify({ q: next })], { type: "application/json" }),
+        );
+      }
     },
     [router, searchParams],
   );
