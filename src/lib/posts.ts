@@ -9,6 +9,7 @@ const FEED_SIZE = 50;
 export type PostFilters = {
   slugs: string[];
   viral: boolean;
+  includeHidden?: boolean;
 };
 
 const orderBy = [{ publishedAt: "desc" as const }, { id: "desc" as const }];
@@ -19,13 +20,13 @@ function toPrismaEnum(value: string) {
   return value.replace(/-/g, "_");
 }
 
-export function buildWhere({ slugs, viral }: PostFilters) {
+export function buildWhere({ slugs, viral, includeHidden }: PostFilters) {
   return {
-    ...(HIDDEN_KINDS.length > 0
+    ...(!includeHidden && HIDDEN_KINDS.length > 0
       ? { kind: { notIn: HIDDEN_KINDS.map((kind) => toPrismaEnum(kind) as PrismaKind) } }
       : {}),
     ...(slugs.length > 0 ? { organization: { slug: { in: slugs } } } : {}),
-    ...(HIDDEN_CATEGORIES.length > 0
+    ...(!includeHidden && HIDDEN_CATEGORIES.length > 0
       ? {
           category: {
             notIn: HIDDEN_CATEGORIES.map((category) => toPrismaEnum(category) as PrismaCategory),
@@ -151,16 +152,26 @@ async function queryChunk(filters: PostFilters, cursor: string | null) {
   return paginate(rows, PAGE_SIZE);
 }
 
-async function cachedChunk(slugs: string[], viral: boolean, cursor: string | null) {
+async function cachedChunk(
+  slugs: string[],
+  viral: boolean,
+  cursor: string | null,
+  includeHidden: boolean,
+) {
   "use cache: remote";
   cacheTag("posts");
   cacheLife("days");
 
-  return queryChunk({ slugs, viral }, cursor);
+  return queryChunk({ slugs, viral, includeHidden }, cursor);
 }
 
 export async function getPosts(filters: PostFilters, cursor: string | null = null) {
-  return cachedChunk([...filters.slugs].sort(), filters.viral, cursor);
+  return cachedChunk(
+    [...filters.slugs].sort(),
+    filters.viral,
+    cursor,
+    filters.includeHidden ?? false,
+  );
 }
 
 export async function getFeedPosts() {
