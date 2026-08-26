@@ -1,0 +1,53 @@
+---
+description: How techxiv virality scores work and how to retrieve them for articles
+alwaysApply: false
+---
+
+# Virality
+
+techxiv scores each post 0–100 from Twitter/X link-share engagement. Implementation lives in `src/lib/virality.ts`.
+
+## Retrieving a score
+
+Always check the database first. Do not call glim.sh or compute a live score until the stored value is known.
+
+1. **Database (required first step)**
+   - Local: query `Post` via Prisma (`DATABASE_URL` in `.env.local`), match by `url` or title fragment.
+   - Production (no local DB): `GET https://www.techxiv.dev/api/posts?q={keywords}` — same DB; find the matching post by URL.
+   - Fields: `viralityScore` (`Int?`), `viralityScoredAt` (`DateTime?`).
+2. **If `viralityScore` is a number** — report it. Done. Do not recompute.
+3. **If `viralityScore` is `null`** — report unscored and `viralityScoredAt` if set. Cron rescans every 6 hours.
+4. **Live computation (last resort only)** — only if the user explicitly wants a fresh score. Use glim.sh + `scoreFromEngagement()` in `src/lib/virality.ts`, or trigger `/api/cron/virality` locally (~$0.005/search).
+
+Do not skip the DB/API lookup and jump straight to a paid Twitter search.
+
+Viral-only feed: `GET https://www.techxiv.dev/api/posts?viral=1`
+
+## How the score is computed
+
+1. Search Twitter for tweets linking to the article URL (via [glim.sh](https://glim.sh) `POST /api/v1/twitter/search`, paid via x402).
+2. Query: `url:{host}{path} OR url:www.{host}{path}` — host/path normalized (no `www.`, no trailing slash).
+3. Only tweets whose `entities.urls[].expanded_url` matches the article host + path count.
+4. Weighted engagement: `likes + 2×retweets + 2×quotes + replies`.
+5. Log scale to 0–100: `min(100, round(100 × log10(1 + engagement) / log10(10001)))`.
+
+Scores only go up; re-scoring updates `viralityScoredAt` even when the score is unchanged.
+
+## Threshold and UI
+
+- `VIRAL_THRESHOLD` is **80** (`src/lib/feed.ts`).
+- Posts with `viralityScore > 80` get a Twitter-blue ring on the org logo and can be filtered with `?viral=1`.
+- The default feed pins the top viral post to the top when not in viral-only mode.
+
+## Cron
+
+- Route: `GET /api/cron/virality` (Bearer `CRON_SECRET`).
+- Schedule: every 6 hours (`vercel.json`).
+- Scans posts published in the last **7 days** (`LOOKBACK_MS` in `virality.ts`).
+- Also seeds known high scores for a few benchmark posts (`SEED_SCORES`).
+
+## Notes
+
+- New posts often show `viralityScore: null` for hours until the next cron run.
+- Same-day posts can still have meaningful scores if shared widely; re-check after a few hours.
+- Scoring cost is ~$0.005 per Twitter search (glim.sh via x402).
