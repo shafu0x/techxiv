@@ -18,13 +18,6 @@ export type Kind = (typeof KINDS)[number];
 export const HIDDEN_KINDS = ["announcement", "release-note"] as const satisfies readonly Kind[];
 export const HIDDEN_CATEGORIES = ["business-culture"] as const satisfies readonly Category[];
 
-export const KIND_LABELS: Record<Kind, string> = {
-  "deep-dive": "Deep dive",
-  announcement: "Announcement",
-  "release-note": "Release note",
-  report: "Report",
-};
-
 export const CLASSIFIER_MODEL = "google/gemini-3.7-flash";
 
 export const CLASSIFIER_PROMPT = `You label engineering-blog posts from tech companies. For each post you get its publisher and title.

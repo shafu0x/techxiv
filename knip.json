@@ -1,7 +1,7 @@
 {
   "ignore": ["src/generated/**", "prisma/scrape.ts", "scripts/**"],
-  "ignoreDependencies": ["@prisma/client"],
+  "ignoreDependencies": ["@prisma/client", "date-fns", "react-day-picker"],
   "ignoreIssues": {
-    "src/components/ui/**": ["exports", "types", "nsExports", "nsTypes"]
+    "src/components/ui/**": ["exports", "types", "nsExports", "nsTypes", "files"]
   }
 }
