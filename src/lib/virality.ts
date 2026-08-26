@@ -15,6 +15,7 @@ const SEED_SCORES = [
 ];
 
 type Tweet = {
+  id?: string;
   public_metrics?: {
     like_count?: number;
     retweet_count?: number;
@@ -22,7 +23,39 @@ type Tweet = {
     reply_count?: number;
   };
   entities?: { urls?: { expanded_url?: string }[] };
+  quoted_tweet?: Tweet;
 };
+
+function flattenTweets(tweets: Tweet[]) {
+  const byId = new Map<string, Tweet>();
+  const extras: Tweet[] = [];
+  const seen = new Set<Tweet>();
+
+  function add(tweet: Tweet) {
+    if (seen.has(tweet)) {
+      return;
+    }
+    seen.add(tweet);
+
+    if (tweet.id) {
+      if (!byId.has(tweet.id)) {
+        byId.set(tweet.id, tweet);
+      }
+    } else {
+      extras.push(tweet);
+    }
+
+    if (tweet.quoted_tweet) {
+      add(tweet.quoted_tweet);
+    }
+  }
+
+  for (const tweet of tweets) {
+    add(tweet);
+  }
+
+  return [...byId.values(), ...extras];
+}
 
 function articleHostPath(url: string) {
   const parsed = new URL(url);
@@ -116,7 +149,7 @@ async function searchTwitter(fetchWithPay: typeof fetch, url: string, publishedA
   }
 
   const data = (await response.json()) as { tweets?: Tweet[] };
-  return scoreFromEngagement(engagement(data.tweets ?? [], url));
+  return scoreFromEngagement(engagement(flattenTweets(data.tweets ?? []), url));
 }
 
 async function seedKnownViralScores() {
