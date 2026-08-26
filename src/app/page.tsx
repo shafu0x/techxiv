@@ -1,94 +1,28 @@
 import { Suspense } from "react";
-import Image from "next/image";
 import Link from "next/link";
+import { About } from "@/components/about";
 import { PostFilters } from "@/components/post-filters";
-import { TitleSearch } from "@/components/title-search";
+import { PostList } from "@/components/post-list";
 import { ViralToggle } from "@/components/viral-toggle";
 import { Card } from "@/components/ui/card";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
 import { getOrganizations } from "@/lib/orgs";
-import { PAGE_SIZE, VIRAL_THRESHOLD, getPosts } from "@/lib/posts";
-import { cn } from "@/lib/utils";
+import { PAGE_SIZE } from "@/lib/feed";
+import { getPosts } from "@/lib/posts";
 
-function visiblePages(page: number, pageCount: number) {
-  if (pageCount <= 7) {
-    return Array.from({ length: pageCount }, (_, index) => index + 1);
-  }
-
-  const start = Math.max(2, page - 1);
-  const end = Math.min(pageCount - 1, page + 1);
-  const items: Array<number | "…"> = [1];
-
-  if (start > 2) {
-    items.push("…");
-  }
-
-  for (let number = start; number <= end; number++) {
-    items.push(number);
-  }
-
-  if (end < pageCount - 1) {
-    items.push("…");
-  }
-
-  items.push(pageCount);
-  return items;
-}
-
-const dateFormatter = new Intl.DateTimeFormat("en-US", {
-  month: "short",
-  day: "numeric",
-  year: "numeric",
-});
-
-const relativeFormatter = new Intl.RelativeTimeFormat("en-US", {
-  numeric: "always",
-});
-
-const RELATIVE_UNITS = [
-  { unit: "year", seconds: 31_536_000 },
-  { unit: "month", seconds: 2_592_000 },
-  { unit: "week", seconds: 604_800 },
-  { unit: "day", seconds: 86_400 },
-  { unit: "hour", seconds: 3_600 },
-  { unit: "minute", seconds: 60 },
-] as const;
-
-function relativeTime(date: Date) {
-  const elapsed = Math.max(0, Math.floor((Date.now() - date.getTime()) / 1000));
-
-  for (const { unit, seconds } of RELATIVE_UNITS) {
-    if (elapsed >= seconds) {
-      return relativeFormatter.format(-Math.floor(elapsed / seconds), unit);
-    }
-  }
-
-  return "just now";
-}
-
-// Next.js passes repeated query keys (?q=a&q=b) as arrays; take the first.
+// Next.js passes repeated query keys as arrays; take the first.
 function first(value: string | string[] | undefined) {
   return Array.isArray(value) ? value[0] : value;
 }
 
 export default function Home({ searchParams }: PageProps<"/">) {
   return (
-    <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-8 px-4 pt-4 pb-[max(2rem,env(safe-area-inset-bottom))] sm:gap-10 sm:px-6 sm:pt-6 sm:pb-8">
+    <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-8 px-4 pt-[max(0.5rem,env(safe-area-inset-top))] pb-[max(2rem,env(safe-area-inset-bottom))] sm:gap-10 sm:px-6 sm:pt-[max(0.75rem,env(safe-area-inset-top))] sm:pb-8">
       <a
         href="#posts"
         className="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-50 focus:rounded-md focus:bg-card focus:px-3 focus:py-2 focus:text-sm"
       >
         Skip to posts
       </a>
-      <h1 className="sr-only">techxiv</h1>
       <Suspense fallback={<FeedSkeleton />}>
         <Feed searchParams={searchParams} />
       </Suspense>
@@ -100,45 +34,28 @@ async function Feed({ searchParams }: Pick<PageProps<"/">, "searchParams">) {
   const params = await searchParams;
 
   const slugs = (first(params.orgs)?.split(",") ?? []).filter(Boolean);
-  const q = first(params.q)?.trim() ?? "";
   const viral = first(params.viral) === "1";
 
-  const requested = Number(first(params.page));
-  const requestedPage = Number.isFinite(requested) ? Math.max(1, Math.trunc(requested)) : 1;
-
-  const [organizations, { posts, page, pageCount }] = await Promise.all([
+  const [organizations, { posts, nextCursor }] = await Promise.all([
     getOrganizations(),
-    getPosts({ slugs, q, viral }, requestedPage),
+    getPosts({ slugs, viral }),
   ]);
 
   const known = new Set(organizations.map((org) => org.slug));
   const slugsKnown = slugs.filter((slug) => known.has(slug));
 
-  function pageHref(pageNumber: number) {
-    const query = new URLSearchParams();
-    if (slugsKnown.length > 0) {
-      query.set("orgs", slugsKnown.join(","));
-    }
-    if (q) {
-      query.set("q", q);
-    }
-    if (viral) {
-      query.set("viral", "1");
-    }
-    if (pageNumber > 1) {
-      query.set("page", String(pageNumber));
-    }
-
-    const search = query.toString();
-    return search ? `/?${search}` : "/";
-  }
-
   return (
     <div className="flex flex-col gap-2">
-      <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 sm:flex sm:justify-between">
-        <div className="min-w-0 sm:w-56">
-          <TitleSearch value={q} />
-        </div>
+      <div className="flex items-center justify-between gap-3">
+        <Link href="/" className="flex items-center tracking-tight">
+          <svg viewBox="0 0 32 32" className="size-5 shrink-0" aria-hidden="true">
+            <path
+              fill="currentColor"
+              d="M16 4.5 18.85 13.26H28.06L21.61 18.67 24.46 27.44 16 21.99 7.54 27.44 10.39 18.67 3.94 13.26H13.15Z"
+            />
+          </svg>
+          <h1 className="ml-1.5 font-semibold">techxiv</h1>
+        </Link>
         <div className="flex items-center gap-3">
           <ViralToggle viral={viral} />
           <PostFilters
@@ -151,123 +68,24 @@ async function Feed({ searchParams }: Pick<PageProps<"/">, "searchParams">) {
           />
         </div>
       </div>
+      <About orgs={organizations.map((org) => ({ name: org.name, logo: org.logo }))} />
 
-      <div className="flex flex-col gap-4">
-        {posts.length === 0 ? (
-          <Card className="items-center gap-2 py-12 text-center">
-            <p className="text-sm font-medium">No posts match these filters.</p>
-            <Link href="/" className="text-sm text-muted-foreground underline">
-              Clear filters
-            </Link>
-          </Card>
-        ) : (
-          <Card className="overflow-hidden py-0">
-            <ul id="posts" className="divide-y divide-border">
-              {posts.map((post, index) => (
-                <li key={post.id}>
-                  <a
-                    href={post.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex min-h-16 items-center gap-3 px-3 py-3 transition-colors duration-150 hover:bg-muted/40 focus-visible:outline-none focus-visible:-outline-offset-2 focus-visible:outline-2 focus-visible:outline-ring active:bg-muted/60 sm:gap-4 sm:px-4"
-                  >
-                    <span className="flex size-11 shrink-0 items-center justify-center sm:size-12">
-                      <span
-                        className={cn(
-                          "flex size-9 items-center justify-center rounded-md bg-muted p-1.5 sm:size-10 sm:p-2",
-                          post.viralityScore != null &&
-                            post.viralityScore > VIRAL_THRESHOLD &&
-                            "twitter-ring",
-                        )}
-                      >
-                      <Image
-                        src={post.organization.logo}
-                        alt={post.organization.name}
-                        width={24}
-                        height={24}
-                        className="size-full object-contain [color-scheme:light]"
-                        unoptimized
-                        priority={index < 6}
-                      />
-                      </span>
-                    </span>
-
-                    <span className="flex min-w-0 flex-1 flex-col gap-0.5 sm:flex-row sm:items-center sm:gap-4">
-                      <span className="min-w-0 text-[0.95rem] leading-snug font-medium text-pretty line-clamp-2 sm:flex-1 sm:truncate sm:text-base">
-                        {post.title}
-                      </span>{" "}
-                      <time
-                        dateTime={post.publishedAt.toISOString()}
-                        title={dateFormatter.format(post.publishedAt)}
-                        className="shrink-0 text-xs text-muted-foreground tabular-nums sm:text-sm"
-                      >
-                        {relativeTime(post.publishedAt)}
-                      </time>
-                    </span>
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </Card>
-        )}
-
-        {pageCount > 1 ? (
-          <Pagination className="px-0">
-            <PaginationContent className="w-full max-w-full justify-between gap-2 sm:w-auto sm:justify-center">
-              <PaginationItem>
-                <PaginationPrevious
-                  text="Prev"
-                  className="min-h-11"
-                  {...(page > 1
-                    ? { href: pageHref(page - 1) }
-                    : {
-                        "aria-disabled": true,
-                        tabIndex: -1,
-                        className: "min-h-11 pointer-events-none opacity-40",
-                      })}
-                />
-              </PaginationItem>
-
-              <PaginationItem className="sm:hidden">
-                <span className="px-2 text-sm text-muted-foreground tabular-nums">
-                  {page} / {pageCount}
-                </span>
-              </PaginationItem>
-
-              {visiblePages(page, pageCount).map((item, index) =>
-                item === "…" ? (
-                  <PaginationItem key={`ellipsis-${index}`} className="hidden sm:block">
-                    <PaginationEllipsis />
-                  </PaginationItem>
-                ) : (
-                  <PaginationItem key={item} className="hidden sm:block">
-                    <PaginationLink
-                      href={pageHref(item)}
-                      isActive={item === page}
-                      className="min-h-11 min-w-11"
-                    >
-                      {item}
-                    </PaginationLink>
-                  </PaginationItem>
-                ),
-              )}
-
-              <PaginationItem>
-                <PaginationNext
-                  className="min-h-11"
-                  {...(page < pageCount
-                    ? { href: pageHref(page + 1) }
-                    : {
-                        "aria-disabled": true,
-                        tabIndex: -1,
-                        className: "min-h-11 pointer-events-none opacity-40",
-                      })}
-                />
-              </PaginationItem>
-            </PaginationContent>
-          </Pagination>
-        ) : null}
-      </div>
+      {posts.length === 0 ? (
+        <Card className="items-center gap-2 py-12 text-center">
+          <p className="text-sm font-medium">No posts match these filters.</p>
+          <Link href="/" className="text-sm text-muted-foreground underline">
+            Clear filters
+          </Link>
+        </Card>
+      ) : (
+        <PostList
+          key={`${slugsKnown.slice().sort().join(",")}\0${viral ? "1" : "0"}`}
+          initialPosts={posts}
+          nextCursor={nextCursor}
+          slugs={slugsKnown}
+          viral={viral}
+        />
+      )}
     </div>
   );
 }
@@ -275,8 +93,8 @@ async function Feed({ searchParams }: Pick<PageProps<"/">, "searchParams">) {
 function FeedSkeleton() {
   return (
     <div className="flex flex-col gap-2" aria-hidden>
-      <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 sm:flex sm:justify-between">
-        <div className="h-11 w-full animate-pulse rounded-lg bg-muted sm:h-9 sm:w-56" />
+      <div className="flex items-center justify-between gap-3">
+        <div className="h-5 w-24 animate-pulse rounded bg-muted" />
         <div className="flex items-center gap-3">
           <div className="h-11 w-10 shrink-0 animate-pulse rounded-md bg-muted sm:h-9 sm:w-21" />
           <div className="h-11 w-[126px] shrink-0 animate-pulse rounded-md bg-muted sm:h-9 sm:w-40" />

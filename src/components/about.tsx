@@ -9,7 +9,6 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 
 type Org = {
@@ -43,9 +42,6 @@ export function About({ orgs }: { orgs: Org[] }) {
         }
       }}
     >
-      <DialogTrigger className="text-sm text-muted-foreground hover:text-foreground">
-        About
-      </DialogTrigger>
       <DialogContent className="overflow-hidden sm:max-w-md">
         <div
           aria-hidden
