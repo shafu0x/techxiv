@@ -1,0 +1,51 @@
+---
+description: How to start the techxiv app locally
+alwaysApply: false
+---
+
+# Local development
+
+Next.js 16 app. Default dev URL: http://localhost:3000
+
+## First-time setup
+
+```bash
+npm install
+```
+
+Create `.env.local` with at least `DATABASE_URL` (Neon Postgres — same production database as [techxiv.dev](https://www.techxiv.dev); see `database.mdc`). Copy optional PostHog vars from `.env.example` if needed.
+
+`postinstall` runs `prisma generate`; re-run after schema changes:
+
+```bash
+npm run db:generate
+```
+
+## Start the dev server
+
+```bash
+npm run dev
+```
+
+Next.js binds to port 3000 by default. Use a different port if 3000 is taken:
+
+```bash
+npm run dev -- -p 3002
+```
+
+Before starting, check for an existing process on the target port:
+
+```bash
+lsof -i :3000
+```
+
+Run the dev server in the background when starting it from an agent session.
+
+## Production build (optional)
+
+```bash
+npm run build
+npm start
+```
+
+`npm start` also defaults to port 3000.

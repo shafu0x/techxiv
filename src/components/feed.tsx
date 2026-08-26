@@ -68,15 +68,28 @@ async function FeedList({
   return (
     <div className="flex flex-col gap-2">
       <div className="flex items-center justify-between gap-3">
-        <Link href="/" className="flex items-center tracking-tight">
-          <svg viewBox="0 0 32 32" className="size-5 shrink-0" aria-hidden="true">
-            <path
-              fill="currentColor"
-              d="M16 4.5 18.85 13.26H28.06L21.61 18.67 24.46 27.44 16 21.99 7.54 27.44 10.39 18.67 3.94 13.26H13.15Z"
-            />
-          </svg>
-          <h1 className="ml-1.5 font-semibold">techxiv</h1>
-        </Link>
+        <div className="flex items-center gap-2">
+          <Link href="/" className="flex items-center tracking-tight">
+            <svg viewBox="0 0 32 32" className="size-5 shrink-0" aria-hidden="true">
+              <path
+                fill="currentColor"
+                d="M16 4.5 18.85 13.26H28.06L21.61 18.67 24.46 27.44 16 21.99 7.54 27.44 10.39 18.67 3.94 13.26H13.15Z"
+              />
+            </svg>
+            <h1 className="ml-1.5 font-semibold">techxiv</h1>
+          </Link>
+          <p className="text-sm text-muted-foreground">
+            by{" "}
+            <a
+              href="https://x.com/shafu0x"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="no-underline"
+            >
+              shafu
+            </a>
+          </p>
+        </div>
         <div className="flex items-center gap-3">
           <ViralToggle viral={viral} />
           <PostFilters
