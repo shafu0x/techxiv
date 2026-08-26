@@ -17,10 +17,12 @@ export async function GET(request: Request) {
     revalidateTag("posts", "max");
     revalidateTag("orgs", "max");
 
-    const errors = result.errors.length > 0 ? `, errors: ${result.errors.join("; ")}` : "";
-    await sendSyncNotification(
-      `found ${result.scanned}, inserted ${result.inserted}, shown ${result.shown}${errors}`,
-    );
+    if (result.scanned > 0 || result.errors.length > 0) {
+      const errors = result.errors.length > 0 ? `, errors: ${result.errors.join("; ")}` : "";
+      await sendSyncNotification(
+        `found ${result.scanned}, inserted ${result.inserted}, shown ${result.shown}${errors}`,
+      );
+    }
     return Response.json(result);
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
