@@ -15,9 +15,16 @@ type PostListProps = {
   nextCursor: string | null;
   slugs: string[];
   viral: boolean;
+  includeHidden?: boolean;
 };
 
-export function PostList({ initialPosts, nextCursor, slugs, viral }: PostListProps) {
+export function PostList({
+  initialPosts,
+  nextCursor,
+  slugs,
+  viral,
+  includeHidden = false,
+}: PostListProps) {
   const [posts, setPosts] = useState(initialPosts);
   const [cursor, setCursor] = useState(nextCursor);
   const [status, setStatus] = useState<"idle" | "loading" | "error">("idle");
@@ -43,6 +50,9 @@ export function PostList({ initialPosts, nextCursor, slugs, viral }: PostListPro
       }
       if (viral) {
         params.set("viral", "1");
+      }
+      if (includeHidden) {
+        params.set("includeHidden", "1");
       }
 
       const response = await fetch(`/api/posts?${params}`);
@@ -70,7 +80,7 @@ export function PostList({ initialPosts, nextCursor, slugs, viral }: PostListPro
     } finally {
       inFlight.current = false;
     }
-  }, [slugs, viral]);
+  }, [slugs, viral, includeHidden]);
 
   useEffect(() => {
     if (!cursor || status !== "idle") {

@@ -2,7 +2,7 @@
 
 import { useOptimistic, useTransition } from "react";
 import posthog from "posthog-js";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Toggle } from "@/components/ui/toggle";
 import { cn } from "@/lib/utils";
 
@@ -12,6 +12,7 @@ const posthogConfigured = Boolean(
 
 export function ViralToggle({ viral }: { viral: boolean }) {
   const router = useRouter();
+  const pathname = usePathname();
   const searchParams = useSearchParams();
   const [pending, startTransition] = useTransition();
   const [pressed, setPressed] = useOptimistic(viral);
@@ -32,7 +33,7 @@ export function ViralToggle({ viral }: { viral: boolean }) {
     const search = params.toString();
     startTransition(() => {
       setPressed(next);
-      router.replace(search ? `/?${search}` : "/", { scroll: false });
+      router.replace(search ? `${pathname}?${search}` : pathname, { scroll: false });
     });
   }
 
