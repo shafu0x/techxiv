@@ -13,6 +13,7 @@
     "knip": "knip",
     "types": "next typegen && tsc --noEmit",
     "classify": "tsx scripts/classify-posts.ts",
+    "db": "tsx scripts/db.ts",
     "db:push": "prisma db push",
     "db:seed": "prisma db seed",
     "db:generate": "prisma generate"
