@@ -11,10 +11,7 @@ techxiv scores each post 0–100 from Twitter/X link-share engagement. Implement
 
 Always check the database first. Do not call glim.sh or compute a live score until the stored value is known.
 
-1. **Database (required first step)**
-   - Local: query `Post` via Prisma (`DATABASE_URL` in `.env.local`), match by `url` or title fragment.
-   - Production (no local DB): `GET https://www.techxiv.dev/api/posts?q={keywords}` — same DB; find the matching post by URL.
-   - Fields: `viralityScore` (`Int?`), `viralityScoredAt` (`DateTime?`).
+1. **Database (required first step)** — query `Post` as in [database.mdc](database.mdc). Fields: `viralityScore` (`Int?`), `viralityScoredAt` (`DateTime?`).
 2. **If `viralityScore` is a number** — report it. Done. Do not recompute.
 3. **If `viralityScore` is `null`** — report unscored and `viralityScoredAt` if set. Cron rescans every 6 hours.
 4. **Live computation (last resort only)** — only if the user explicitly wants a fresh score. Use glim.sh + `scoreFromEngagement()` in `src/lib/virality.ts`, or trigger `/api/cron/virality` locally (~$0.005/search).

@@ -1,0 +1,27 @@
+---
+description: How to query and update the techxiv database
+alwaysApply: false
+---
+
+# Database
+
+Neon Postgres. `DATABASE_URL` in `.env.local` is production (same DB as [techxiv.dev](https://www.techxiv.dev)). There is no local database.
+
+Schema: `prisma/schema.prisma`. Client: `src/generated/prisma`. App code uses `getPrisma()` from `src/lib/prisma.ts`.
+
+## One-off queries and writes
+
+Use the `db` script. Do not write a Prisma snippet unless the script cannot do the job.
+
+```bash
+npm run db -- find <url-or-title>
+npm run db -- virality <url-or-title> <score>
+```
+
+Full URL is matched exactly (canonicalized). Otherwise title or URL contains, max 20. `virality` requires exactly one match.
+
+## Read-only fallback
+
+`GET https://www.techxiv.dev/api/posts?q={keywords}` hits the same DB. Use this only when you cannot run Prisma (no `DATABASE_URL`). It cannot write.
+
+Do not print `DATABASE_URL` or other secrets.
