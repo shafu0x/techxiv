@@ -100,11 +100,7 @@ function paidFetch() {
   return wrapFetchWithPayment(fetch, client);
 }
 
-async function searchTwitter(
-  fetchWithPay: typeof fetch,
-  url: string,
-  publishedAt: Date,
-) {
+async function searchTwitter(fetchWithPay: typeof fetch, url: string, publishedAt: Date) {
   const response = await fetchWithPay(SEARCH_URL, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -187,9 +183,7 @@ async function scorePosts(posts: ScoreTarget[], concurrency = CONCURRENCY) {
     }
   }
 
-  await Promise.all(
-    Array.from({ length: Math.min(concurrency, posts.length) }, () => worker()),
-  );
+  await Promise.all(Array.from({ length: Math.min(concurrency, posts.length) }, () => worker()));
 
   return { scanned: posts.length, scored, raised, errors };
 }
@@ -206,18 +200,4 @@ export async function scoreRecentPosts() {
   });
 
   return { ...(await scorePosts(posts)), seeded };
-}
-
-export async function scoreUnratedPosts(limit: number, concurrency = CONCURRENCY) {
-  const posts = await getPrisma().post.findMany({
-    where: {
-      ...buildWhere({ slugs: [], viral: false }),
-      viralityScore: null,
-    },
-    select: { id: true, url: true, publishedAt: true, viralityScore: true },
-    orderBy: { publishedAt: "desc" },
-    take: limit,
-  });
-
-  return scorePosts(posts, concurrency);
 }
