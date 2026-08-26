@@ -3,16 +3,18 @@ import { PrismaNeonHttp } from "@prisma/adapter-neon";
 import { PrismaClient } from "../src/generated/prisma/client";
 import { canonicalPostUrl } from "../src/lib/url";
 
-config({ path: ".env.local" });
+config({ path: ".env.local", quiet: true });
 
 const select = {
   id: true,
   title: true,
   url: true,
   publishedAt: true,
+  category: true,
+  kind: true,
   viralityScore: true,
   viralityScoredAt: true,
-  organization: { select: { name: true } },
+  organization: { select: { name: true, slug: true } },
 } as const;
 
 function client() {
@@ -48,16 +50,33 @@ async function findPosts(prisma: PrismaClient, query: string) {
 
 async function main() {
   const [command, query, value] = process.argv.slice(2);
-  if (command !== "find" && command !== "virality") {
-    console.error("Usage:\n  npm run db -- find <url-or-title>\n  npm run db -- virality <url-or-title> <score>");
+  if (command !== "recent" && command !== "find" && command !== "virality") {
+    console.error(
+      "Usage:\n  npm run db -- recent [limit]\n  npm run db -- find <url-or-title>\n  npm run db -- virality <url-or-title> <score>",
+    );
     process.exit(1);
   }
-  if (!query) {
+  if (command !== "recent" && !query) {
     throw new Error("url or title is required");
   }
 
   const prisma = client();
   try {
+    if (command === "recent") {
+      const limit = query === undefined ? 1 : Number(query);
+      if (!Number.isInteger(limit) || limit < 1 || limit > 100) {
+        throw new Error("limit must be an integer 1–100");
+      }
+
+      const posts = await prisma.post.findMany({
+        select,
+        orderBy: [{ publishedAt: "desc" }, { id: "desc" }],
+        take: limit,
+      });
+      console.log(JSON.stringify(posts, null, 2));
+      return;
+    }
+
     const posts = await findPosts(prisma, query);
     if (command === "find") {
       console.log(JSON.stringify(posts, null, 2));
