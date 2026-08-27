@@ -17,11 +17,15 @@ Use the `db` script before writing one-off Prisma code:
 npm run db -- recent [limit]
 npm run db -- find <url-or-title>
 npm run db -- virality <url-or-title> <score>
+npm run db -- backfill [limit]
+npm run db -- virality-stats
 ```
 
 - `recent` returns the newest posts by `publishedAt`; the default limit is 1 and the maximum is 100.
 - `find` canonicalizes a full URL for exact matching. Otherwise it searches title and URL case-insensitively, newest first, with a maximum of 20 results.
 - `virality` requires exactly one match and writes an integer score from 0–100.
+- `backfill` re-scores visible posts via glim.sh, newest first. Omit `limit` to score all of them. `backfill errors [limit]` retries only posts with `viralityError` set.
+- `virality-stats` prints score percentiles and the share of scored posts above candidate thresholds.
 - Quote titles or URLs containing shell-sensitive characters: `npm run db -- find "multi-word title"`.
 
 Output is JSON and includes post identity, classification, virality fields, and organization.

@@ -1,6 +1,7 @@
 import { config } from "dotenv";
 import { PrismaNeonHttp } from "@prisma/adapter-neon";
-import { PrismaClient } from "../src/generated/prisma/client";
+import { type Category, type Kind, PrismaClient } from "../src/generated/prisma/client";
+import { scoreVisiblePosts } from "../src/lib/virality";
 import { canonicalPostUrl } from "../src/lib/url";
 
 config({ path: ".env.local", quiet: true });
@@ -14,6 +15,8 @@ const select = {
   kind: true,
   viralityScore: true,
   viralityScoredAt: true,
+  viralityAttemptedAt: true,
+  viralityError: true,
   organization: { select: { name: true, slug: true } },
 } as const;
 
@@ -48,15 +51,28 @@ async function findPosts(prisma: PrismaClient, query: string) {
   });
 }
 
+function percentile(sorted: number[], q: number) {
+  if (sorted.length === 0) {
+    return null;
+  }
+  return sorted[Math.min(sorted.length - 1, Math.floor(q * sorted.length))];
+}
+
 async function main() {
   const [command, query, value] = process.argv.slice(2);
-  if (command !== "recent" && command !== "find" && command !== "virality") {
+  if (
+    command !== "recent" &&
+    command !== "find" &&
+    command !== "virality" &&
+    command !== "backfill" &&
+    command !== "virality-stats"
+  ) {
     console.error(
-      "Usage:\n  npm run db -- recent [limit]\n  npm run db -- find <url-or-title>\n  npm run db -- virality <url-or-title> <score>",
+      "Usage:\n  npm run db -- recent [limit]\n  npm run db -- find <url-or-title>\n  npm run db -- virality <url-or-title> <score>\n  npm run db -- backfill [limit]\n  npm run db -- virality-stats",
     );
     process.exit(1);
   }
-  if (command !== "recent" && !query) {
+  if ((command === "find" || command === "virality") && !query) {
     throw new Error("url or title is required");
   }
 
@@ -77,6 +93,86 @@ async function main() {
       return;
     }
 
+    if (command === "backfill") {
+      const erroredOnly = query === "errors";
+      const limitArg = erroredOnly ? value : query;
+      const limit = limitArg === undefined ? undefined : Number(limitArg);
+      if (limit !== undefined && (!Number.isInteger(limit) || limit < 1)) {
+        throw new Error("limit must be a positive integer");
+      }
+
+      console.log(JSON.stringify(await scoreVisiblePosts(limit, erroredOnly), null, 2));
+      return;
+    }
+
+    if (command === "virality-stats") {
+      const thresholds = [40, 50, 60, 65, 67, 70, 73, 75, 80, 90];
+
+      function summarize(scores: number[]) {
+        const sorted = [...scores].sort((a, b) => a - b);
+        return {
+          scored: sorted.length,
+          p50: percentile(sorted, 0.5),
+          p75: percentile(sorted, 0.75),
+          p80: percentile(sorted, 0.8),
+          p90: percentile(sorted, 0.9),
+          p95: percentile(sorted, 0.95),
+          above: Object.fromEntries(
+            thresholds.map((threshold) => {
+              const count = sorted.filter((score) => score > threshold).length;
+              return [
+                threshold,
+                {
+                  count,
+                  share:
+                    sorted.length === 0 ? 0 : Number(((100 * count) / sorted.length).toFixed(1)),
+                },
+              ];
+            }),
+          ),
+        };
+      }
+
+      const hiddenKinds: Kind[] = ["announcement", "release_note"];
+      const hiddenCategories: Category[] = ["business_culture"];
+      const visibleWhere = {
+        kind: { notIn: hiddenKinds },
+        category: { notIn: hiddenCategories },
+        viralityScore: { not: null },
+      };
+
+      const all = await prisma.post.findMany({
+        where: visibleWhere,
+        select: { viralityScore: true },
+      });
+      const feed = await prisma.post.findMany({
+        where: visibleWhere,
+        select: { viralityScore: true },
+        orderBy: { publishedAt: "desc" },
+        take: 300,
+      });
+
+      console.log(
+        JSON.stringify(
+          {
+            all: summarize(
+              all
+                .map((post) => post.viralityScore)
+                .filter((score): score is number => score != null),
+            ),
+            feed: summarize(
+              feed
+                .map((post) => post.viralityScore)
+                .filter((score): score is number => score != null),
+            ),
+          },
+          null,
+          2,
+        ),
+      );
+      return;
+    }
+
     const posts = await findPosts(prisma, query);
     if (command === "find") {
       console.log(JSON.stringify(posts, null, 2));
@@ -91,9 +187,15 @@ async function main() {
       throw new Error(`expected 1 post, found ${posts.length}`);
     }
 
+    const now = new Date();
     const updated = await prisma.post.update({
       where: { id: posts[0].id },
-      data: { viralityScore: score, viralityScoredAt: new Date() },
+      data: {
+        viralityScore: score,
+        viralityScoredAt: now,
+        viralityAttemptedAt: now,
+        viralityError: null,
+      },
       select,
     });
     console.log(JSON.stringify(updated, null, 2));

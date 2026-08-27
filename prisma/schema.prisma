@@ -23,9 +23,11 @@ model Post {
   publishedAt      DateTime
   category         Category
   kind             Kind
-  viralityScore    Int?
-  viralityScoredAt DateTime?
-  organization     Organization @relation(fields: [organizationId], references: [id])
+  viralityScore       Int?
+  viralityScoredAt    DateTime?
+  viralityAttemptedAt DateTime?
+  viralityError       String?
+  organization        Organization @relation(fields: [organizationId], references: [id])
   organizationId   String
 
   @@index([publishedAt])

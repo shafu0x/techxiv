@@ -20,7 +20,7 @@ function toPrismaEnum(value: string) {
   return value.replace(/-/g, "_");
 }
 
-export function buildWhere({ slugs, viral, includeHidden }: PostFilters) {
+function buildWhere({ slugs, viral, includeHidden }: PostFilters) {
   return {
     ...(!includeHidden && HIDDEN_KINDS.length > 0
       ? { kind: { notIn: HIDDEN_KINDS.map((kind) => toPrismaEnum(kind) as PrismaKind) } }
