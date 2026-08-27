@@ -1,18 +1,16 @@
 import { ExactEvmScheme } from "@x402/evm";
 import { wrapFetchWithPayment, x402Client } from "@x402/fetch";
 import { privateKeyToAccount } from "viem/accounts";
+import type { Category as PrismaCategory, Kind as PrismaKind } from "@/generated/prisma/client";
 import { getPrisma } from "@/lib/prisma";
-import { buildWhere } from "@/lib/posts";
+import { HIDDEN_CATEGORIES, HIDDEN_KINDS } from "@/lib/taxonomy";
 
 const SEARCH_URL = "https://glim.sh/api/v1/twitter/search";
-const LOOKBACK_MS = 7 * 24 * 60 * 60 * 1000;
+const SCORE_AFTER_MS = 6 * 60 * 60 * 1000;
 const CONCURRENCY = 3;
-
-const SEED_SCORES = [
-  { title: "Git at any scale", score: 100 },
-  { title: "Reward hacking is swamping model intelligence gains", score: 94 },
-  { title: "Asana cleared 5 years of engineering work in 2 weeks with Codex", score: 83 },
-];
+const MAX_PAGES = 5;
+const RUN_CAP = 25;
+const RETRY_BACKOFF_MS = 1000;
 
 type Tweet = {
   id?: string;
@@ -26,10 +24,25 @@ type Tweet = {
   quoted_tweet?: Tweet;
 };
 
+type SearchResponse = {
+  tweets?: Tweet[];
+  has_more?: boolean;
+  next_cursor?: string;
+};
+
 function flattenTweets(tweets: Tweet[]) {
-  const byId = new Map<string, Tweet>();
-  const extras: Tweet[] = [];
+  const byKey = new Map<string, Tweet>();
   const seen = new Set<Tweet>();
+
+  function key(tweet: Tweet) {
+    if (tweet.id) {
+      return tweet.id;
+    }
+
+    const urls = (tweet.entities?.urls ?? []).map((entry) => entry.expanded_url ?? "").join("|");
+    const metrics = tweet.public_metrics ?? {};
+    return `:${metrics.like_count ?? 0}:${metrics.retweet_count ?? 0}:${metrics.quote_count ?? 0}:${metrics.reply_count ?? 0}:${urls}`;
+  }
 
   function add(tweet: Tweet) {
     if (seen.has(tweet)) {
@@ -37,12 +50,9 @@ function flattenTweets(tweets: Tweet[]) {
     }
     seen.add(tweet);
 
-    if (tweet.id) {
-      if (!byId.has(tweet.id)) {
-        byId.set(tweet.id, tweet);
-      }
-    } else {
-      extras.push(tweet);
+    const tweetKey = key(tweet);
+    if (!byKey.has(tweetKey)) {
+      byKey.set(tweetKey, tweet);
     }
 
     if (tweet.quoted_tweet) {
@@ -54,7 +64,7 @@ function flattenTweets(tweets: Tweet[]) {
     add(tweet);
   }
 
-  return [...byId.values(), ...extras];
+  return [...byKey.values()];
 }
 
 function articleHostPath(url: string) {
@@ -133,7 +143,12 @@ function paidFetch() {
   return wrapFetchWithPayment(fetch, client);
 }
 
-async function searchTwitter(fetchWithPay: typeof fetch, url: string, publishedAt: Date) {
+async function searchPage(
+  fetchWithPay: typeof fetch,
+  url: string,
+  publishedAt: Date,
+  cursor?: string,
+) {
   const response = await fetchWithPay(SEARCH_URL, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -141,6 +156,7 @@ async function searchTwitter(fetchWithPay: typeof fetch, url: string, publishedA
       query: searchQuery(url),
       sort: "top",
       start_date: publishedAt.toISOString().slice(0, 10),
+      ...(cursor ? { cursor } : {}),
     }),
   });
 
@@ -148,32 +164,50 @@ async function searchTwitter(fetchWithPay: typeof fetch, url: string, publishedA
     throw new Error(`glim.sh ${response.status}`);
   }
 
-  const data = (await response.json()) as { tweets?: Tweet[] };
-  return scoreFromEngagement(engagement(flattenTweets(data.tweets ?? []), url));
+  return (await response.json()) as SearchResponse;
 }
 
-async function seedKnownViralScores() {
-  const prisma = getPrisma();
-  const now = new Date();
-  let seeded = 0;
-
-  for (const { title, score } of SEED_SCORES) {
-    const post = await prisma.post.findFirst({
-      where: { title },
-      select: { id: true, viralityScore: true },
-    });
-    if (!post || (post.viralityScore != null && post.viralityScore >= score)) {
-      continue;
+async function searchPageWithRetry(
+  fetchWithPay: typeof fetch,
+  url: string,
+  publishedAt: Date,
+  cursor?: string,
+) {
+  try {
+    return await searchPage(fetchWithPay, url, publishedAt, cursor);
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    if (!/^glim\.sh 5\d\d$/.test(message)) {
+      throw error;
     }
 
-    await prisma.post.update({
-      where: { id: post.id },
-      data: { viralityScore: score, viralityScoredAt: now },
-    });
-    seeded += 1;
+    await new Promise((resolve) => setTimeout(resolve, RETRY_BACKOFF_MS));
+    return searchPage(fetchWithPay, url, publishedAt, cursor);
+  }
+}
+
+async function searchTwitter(fetchWithPay: typeof fetch, url: string, publishedAt: Date) {
+  const tweets: Tweet[] = [];
+  let cursor: string | undefined;
+
+  for (let page = 0; page < MAX_PAGES; page += 1) {
+    let data: SearchResponse;
+    try {
+      data = await searchPageWithRetry(fetchWithPay, url, publishedAt, cursor);
+    } catch (error) {
+      if (page === 0) {
+        throw error;
+      }
+      break;
+    }
+    tweets.push(...(data.tweets ?? []));
+    if (!data.has_more || !data.next_cursor) {
+      break;
+    }
+    cursor = data.next_cursor;
   }
 
-  return seeded;
+  return scoreFromEngagement(engagement(flattenTweets(tweets), url));
 }
 
 type ScoreTarget = {
@@ -183,7 +217,37 @@ type ScoreTarget = {
   viralityScore: number | null;
 };
 
+const scoreSelect = {
+  id: true,
+  url: true,
+  publishedAt: true,
+  viralityScore: true,
+} as const;
+
+function visibleWhere() {
+  return {
+    ...(HIDDEN_KINDS.length > 0
+      ? {
+          kind: { notIn: HIDDEN_KINDS.map((kind) => kind.replace(/-/g, "_") as PrismaKind) },
+        }
+      : {}),
+    ...(HIDDEN_CATEGORIES.length > 0
+      ? {
+          category: {
+            notIn: HIDDEN_CATEGORIES.map(
+              (category) => category.replace(/-/g, "_") as PrismaCategory,
+            ),
+          },
+        }
+      : {}),
+  };
+}
+
 async function scorePosts(posts: ScoreTarget[], concurrency = CONCURRENCY) {
+  if (posts.length === 0) {
+    return { scanned: 0, scored: 0, raised: 0, errors: [] };
+  }
+
   const prisma = getPrisma();
   const fetchWithPay = paidFetch();
   const errors: string[] = [];
@@ -195,23 +259,31 @@ async function scorePosts(posts: ScoreTarget[], concurrency = CONCURRENCY) {
     while (next < posts.length) {
       const post = posts[next];
       next += 1;
+      const now = new Date();
 
       try {
         const score = await searchTwitter(fetchWithPay, post.url, post.publishedAt);
-        const higher = post.viralityScore == null || score > post.viralityScore;
+        const changed = post.viralityScore == null || score !== post.viralityScore;
         await prisma.post.update({
           where: { id: post.id },
-          data: higher
-            ? { viralityScore: score, viralityScoredAt: new Date() }
-            : { viralityScoredAt: new Date() },
+          data: {
+            viralityScore: score,
+            viralityScoredAt: now,
+            viralityAttemptedAt: now,
+            viralityError: null,
+          },
         });
         scored += 1;
-        if (higher) {
+        if (changed) {
           raised += 1;
         }
       } catch (error) {
         const message = error instanceof Error ? error.message : String(error);
         errors.push(`${post.url}: ${message}`);
+        await prisma.post.update({
+          where: { id: post.id },
+          data: { viralityAttemptedAt: now, viralityError: message },
+        });
       }
     }
   }
@@ -222,15 +294,30 @@ async function scorePosts(posts: ScoreTarget[], concurrency = CONCURRENCY) {
 }
 
 export async function scoreRecentPosts() {
-  const seeded = await seedKnownViralScores();
   const posts = await getPrisma().post.findMany({
     where: {
-      ...buildWhere({ slugs: [], viral: false }),
-      publishedAt: { gte: new Date(Date.now() - LOOKBACK_MS) },
+      ...visibleWhere(),
+      publishedAt: { lte: new Date(Date.now() - SCORE_AFTER_MS) },
+      viralityScoredAt: null,
     },
-    select: { id: true, url: true, publishedAt: true, viralityScore: true },
-    orderBy: { publishedAt: "desc" },
+    select: scoreSelect,
+    orderBy: { publishedAt: "asc" },
+    take: RUN_CAP,
   });
 
-  return { ...(await scorePosts(posts)), seeded };
+  return scorePosts(posts);
+}
+
+export async function scoreVisiblePosts(limit?: number, erroredOnly = false) {
+  const posts = await getPrisma().post.findMany({
+    where: {
+      ...visibleWhere(),
+      ...(erroredOnly ? { viralityError: { not: null } } : {}),
+    },
+    select: scoreSelect,
+    orderBy: { publishedAt: "desc" },
+    ...(limit != null ? { take: limit } : {}),
+  });
+
+  return scorePosts(posts);
 }

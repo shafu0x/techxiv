@@ -1,5 +1,5 @@
 export const PAGE_SIZE = 20;
-export const VIRAL_THRESHOLD = 80;
+export const VIRAL_THRESHOLD = 73;
 
 export type FeedPost = {
   id: string;

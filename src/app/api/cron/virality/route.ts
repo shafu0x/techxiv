@@ -14,7 +14,9 @@ export async function GET(request: Request) {
     const result = await scoreRecentPosts();
     console.log(JSON.stringify({ event: "virality", ...result }));
 
-    revalidateTag("posts", "max");
+    if (result.raised > 0) {
+      revalidateTag("posts", "max");
+    }
 
     if (result.errors.length > 0) {
       await sendSyncNotification(

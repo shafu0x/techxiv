@@ -11,10 +11,10 @@ techxiv scores each post 0–100 from Twitter/X link-share engagement. Implement
 
 Always check the database first. Do not call glim.sh or compute a live score until the stored value is known.
 
-1. **Database (required first step)** — query `Post` as in [database.mdc](database.mdc). Fields: `viralityScore` (`Int?`), `viralityScoredAt` (`DateTime?`).
+1. **Database (required first step)** — query `Post` as in [database.mdc](database.mdc). Fields: `viralityScore` (`Int?`), `viralityScoredAt` (`DateTime?`), `viralityAttemptedAt` (`DateTime?`), `viralityError` (`String?`).
 2. **If `viralityScore` is a number** — report it. Done. Do not recompute.
-3. **If `viralityScore` is `null`** — report unscored and `viralityScoredAt` if set. Cron rescans every 6 hours.
-4. **Live computation (last resort only)** — only if the user explicitly wants a fresh score. Use glim.sh + `scoreFromEngagement()` in `src/lib/virality.ts`, or trigger `/api/cron/virality` locally (~$0.005/search).
+3. **If `viralityScore` is `null`** — report unscored (and `viralityAttemptedAt` / `viralityError` if set). Cron scores once after the post is 6 hours old.
+4. **Live computation (last resort only)** — only if the user explicitly wants a fresh score. Use glim.sh + `scoreFromEngagement()` in `src/lib/virality.ts`, or `npm run db -- backfill 1` / trigger `/api/cron/virality` locally (~$0.005/search page).
 
 Do not skip the DB/API lookup and jump straight to a paid Twitter search.
 
@@ -24,27 +24,31 @@ Viral-only feed: `GET https://www.techxiv.dev/api/posts?viral=1`
 
 1. Search Twitter for tweets linking to the article URL (via [glim.sh](https://glim.sh) `POST /api/v1/twitter/search`, paid via x402).
 2. Query: `url:{host}{path} OR url:www.{host}{path}` — host/path normalized (no `www.`, no trailing slash).
-3. Only tweets whose `entities.urls[].expanded_url` matches the article host + path count.
-4. Weighted engagement: `likes + 2×retweets + 2×quotes + replies`.
-5. Log scale to 0–100: `min(100, round(100 × log10(1 + engagement) / log10(10001)))`.
+3. Follow `next_cursor` while `has_more` is true, up to **5 pages**. If a later page fails, keep tweets from successful pages.
+4. Only tweets whose `entities.urls[].expanded_url` matches the article host + path count.
+5. Weighted engagement: `likes + 2×retweets + 2×quotes + replies`.
+6. Log scale to 0–100: `min(100, round(100 × log10(1 + engagement) / log10(10001)))`.
 
-Scores only go up; re-scoring updates `viralityScoredAt` even when the score is unchanged.
+Cron writes the score once and never overwrites it. `npm run db -- backfill` can re-score. Failures set `viralityError` and `viralityAttemptedAt` without changing `viralityScore`, and the post stays eligible until a success.
 
 ## Threshold and UI
 
-- `VIRAL_THRESHOLD` is **80** (`src/lib/feed.ts`).
-- Posts with `viralityScore > 80` get a Twitter-blue ring on the org logo and can be filtered with `?viral=1`.
+- `VIRAL_THRESHOLD` is **73** (`src/lib/feed.ts`) — about 10% of the current feed.
+- Posts with `viralityScore > 73` get a Twitter-blue ring on the org logo and can be filtered with `?viral=1`.
 - The default feed pins the top viral post to the top when not in viral-only mode.
+- Recalibrate with `npm run db -- virality-stats` after a backfill if the distribution shifts.
 
 ## Cron
 
 - Route: `GET /api/cron/virality` (Bearer `CRON_SECRET`).
 - Schedule: every 6 hours (`vercel.json`).
-- Scans posts published in the last **7 days** (`LOOKBACK_MS` in `virality.ts`).
-- Also seeds known high scores for a few benchmark posts (`SEED_SCORES`).
+- Eligible: visible posts at least **6 hours** old with `viralityScoredAt` null (hidden kinds/categories skipped). Oldest first, up to **25** per run.
+- Each post is scored once. Failed attempts stay eligible until they succeed.
+- 5xx from glim.sh is retried once after 1s.
+- Cache revalidation runs only when a score changes.
 
 ## Notes
 
-- New posts often show `viralityScore: null` for hours until the next cron run.
-- Same-day posts can still have meaningful scores if shared widely; re-check after a few hours.
-- Scoring cost is ~$0.005 per Twitter search (glim.sh via x402).
+- New posts stay `viralityScore: null` until they are at least 6 hours old and a cron run picks them up.
+- Scoring cost is ~$0.005 per Twitter search page (glim.sh via x402).
+- `npm run db -- backfill [limit]` re-scores visible posts newest-first. `backfill errors [limit]` retries failed rows.
