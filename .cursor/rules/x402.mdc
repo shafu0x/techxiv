@@ -1,0 +1,42 @@
+---
+description: Paid x402 / glim.sh spend — wallets, 402s, and backfill cost
+alwaysApply: false
+---
+
+# x402 spend
+
+Scoring pays glim.sh via x402 on **Base** (~$0.005 per search page, up to 5 pages). Implementation: `paidFetch()` in `src/lib/virality.ts`. Scoring semantics live in [virality.mdc](virality.mdc).
+
+## Two different wallets
+
+- **Cron / app** — `X402_PRIVATE_KEY` in `.env.local` (and Vercel). This is what `/api/cron/virality` and `npm run db -- backfill` use.
+- **AgentCash** — `~/.agentcash/wallet.json`. Used only for agent-paid MCP calls. A funded AgentCash balance does **not** mean the cron can pay.
+
+`glim.sh 402` means the **cron** wallet is empty or the payment failed. Do not treat it as a search bug.
+
+## Before any live score or backfill
+
+1. Confirm `X402_PRIVATE_KEY` is set (boolean / length only). Never print the key.
+2. Derive the address with `privateKeyToAccount` and read Base USDC `balanceOf` on `0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913`.
+3. If the balance is `0`, stop. Fund it, then retry.
+
+```ts
+// Derive, don't assume a hardcoded address — the key can rotate.
+const account = privateKeyToAccount(process.env.X402_PRIVATE_KEY as `0x${string}`);
+```
+
+## Funding the cron wallet
+
+Send USDC on Base from AgentCash:
+
+`POST https://x402scan.com/api/x402/send` `{ amount, address, chain: "base" }`
+
+`maxAmount` on the AgentCash fetch must be at least the transfer amount.
+
+## Backfill cost
+
+- Always pass a `limit`. Never `npm run db -- backfill` with no cap.
+- The feed is ~300 recent **visible** posts. The visible archive is ~2k. Scoring posts that never appear in the feed is wasted spend.
+- Prefer `backfill <n>` or `backfill errors <n>`. Re-check `virality-stats` / feed coverage before continuing.
+
+Never print `X402_PRIVATE_KEY`, AgentCash keys, or `DATABASE_URL`.
