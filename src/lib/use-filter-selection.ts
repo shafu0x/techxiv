@@ -17,7 +17,6 @@ export function useFilterSelection<T extends string>(selected: T[], param: strin
     } else {
       params.delete(param);
     }
-    params.delete("q");
     params.delete("page");
     const query = params.toString();
     startTransition(() => {
