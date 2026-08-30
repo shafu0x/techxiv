@@ -1,0 +1,42 @@
+---
+description: Vercel production logs and metrics — CLI only, metrics first
+alwaysApply: false
+---
+
+# Vercel logs / metrics
+
+CLI only (`vercel --scope shafu`). Never the Vercel MCP. Project: `techxiv` (see `.vercel/project.json`).
+
+`vercel logs` is a debugger (default **100** rows), not a warehouse. Aggregates go through `vercel metrics`.
+
+## Decision
+
+| User wants | Tool |
+|---|---|
+| Volume, routes, countries, referrers, devices, status codes, "what are people doing" | `vercel metrics` first |
+| A `console.log` payload, error, or click **label** | `vercel logs` — short window, `--limit 100` |
+
+Do **not** start with `vercel logs --since 5h --limit 10000`.
+
+## Metrics
+
+```bash
+vercel metrics vercel.request.count --group-by route --since 2026-08-26 --limit 50 --prod --format=json --scope shafu
+vercel metrics vercel.request.count --group-by http_status --since 2026-08-26 --prod --format=json --scope shafu
+vercel metrics vercel.analytics_pageview.count --since 2026-08-26 --prod --format=json --scope shafu
+vercel metrics vercel.analytics_pageview.count -a unique/visitor_id --since 2026-08-26 --prod --format=json --scope shafu
+```
+
+`--limit` is groups per bucket, not rows. Filter noise: `-f "not contains(route, '_next')"`. `--since` accepts relative (`5h`) or ISO dates.
+
+User-facing routes: `/`, `/api/posts` (feed scroll), `/api/click` (clicks), `/api/search`. Ignore cron, robots, scanner 404s (`/wp-admin`, etc.).
+
+## Logs — only when you need a line
+
+```bash
+vercel logs --project techxiv --environment production --query 'requestPath:"/api/click"' --since 1h --limit 100 --json --expand --scope shafu
+```
+
+`--query` is full-text search, not a structured filter. Use `requestPath:"/api/click"`. Clicks log as `{"event":"click","label":"...","path":"..."}`. Stay at `--limit 100`. One `vercel logs` at a time. Dedupe by `id` — pages overlap.
+
+Cite metrics for volume; cite logs only for labels / errors.

@@ -13,13 +13,16 @@ export type Preview = {
 };
 
 // Bumping this discards cached previews, including failures cached by earlier versions.
-const VERSION = 4;
+const VERSION = 7;
 
 const HEADERS = {
   "user-agent": "Mozilla/5.0 (compatible; TechBlogsBot/1.0)",
   accept: "text/html,application/xhtml+xml",
 };
 const TIMEOUT_MS = 8_000;
+const READER_TIMEOUT_MS = 25_000;
+// Renders pages in a real browser, for hosts that refuse server-side clients (openai.com, Medium).
+const READER = "https://r.jina.ai/";
 const MAX_INPUT = 2_000_000;
 const MAX_OUTPUT = 400_000;
 const MIN_TEXT = 500;
@@ -164,18 +167,38 @@ function textLength(html: string) {
     .trim().length;
 }
 
-async function fromPage(url: string): Promise<Omit<Preview, "summary"> | null> {
-  const response = await fetch(url, {
+async function fetchPage(url: string): Promise<{ html: string; base: string } | null> {
+  const direct = await fetch(url, {
     cache: "no-store",
     headers: HEADERS,
     signal: AbortSignal.timeout(TIMEOUT_MS),
   });
-  if (!response.ok) {
+  if (direct.ok) {
+    return { html: await direct.text(), base: direct.url || url };
+  }
+
+  console.warn("preview direct fetch", url, direct.status);
+  const key = process.env.JINA_API_KEY;
+  const proxied = await fetch(READER + url, {
+    cache: "no-store",
+    headers: { "x-return-format": "html", ...(key ? { authorization: `Bearer ${key}` } : {}) },
+    signal: AbortSignal.timeout(READER_TIMEOUT_MS),
+  });
+  if (!proxied.ok) {
+    console.error("preview reader fetch", url, proxied.status);
+    return null;
+  }
+  return { html: await proxied.text(), base: url };
+}
+
+async function fromPage(url: string): Promise<Omit<Preview, "summary"> | null> {
+  const page = await fetchPage(url);
+  if (!page) {
     return null;
   }
 
-  const base = response.url || url;
-  const raw = (await response.text()).slice(0, MAX_INPUT);
+  const base = page.base;
+  const raw = page.html.slice(0, MAX_INPUT);
   const { document } = parseHTML(raw);
 
   // Readability resolves relative links against the document's base; linkedom has none.
@@ -188,11 +211,13 @@ async function fromPage(url: string): Promise<Omit<Preview, "summary"> | null> {
     charThreshold: 200,
   }).parse();
   if (!article?.content) {
+    console.error("preview no content", url, raw.length);
     return null;
   }
 
   const html = sanitize(article.content, base).trim();
   if (textLength(html) < MIN_TEXT) {
+    console.error("preview too short", url, article.content.length, html.length, textLength(html));
     return null;
   }
 
@@ -271,12 +296,18 @@ async function fromFeed(slug: string, url: string): Promise<FeedItem | null> {
 }
 
 async function extract(slug: string, url: string): Promise<Preview> {
-  const page = await fromPage(url).catch(() => null);
+  const page = await fromPage(url).catch((error: unknown) => {
+    console.error("preview page failed", url, error);
+    return null;
+  });
   if (page) {
     return { ...page, summary: null };
   }
 
-  const item = await fromFeed(slug, url).catch(() => null);
+  const item = await fromFeed(slug, url).catch((error: unknown) => {
+    console.error("preview feed failed", url, error);
+    return null;
+  });
   return {
     title: item?.title ?? null,
     html: item?.body ?? null,
