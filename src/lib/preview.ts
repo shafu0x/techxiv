@@ -19,6 +19,8 @@ const TIMEOUT_MS = 8_000;
 const MAX_INPUT = 2_000_000;
 const MAX_OUTPUT = 400_000;
 const MIN_TEXT = 500;
+const ANCHOR_TEXT =
+  /^(?:#|¶|§|link|copy link.*|permalink|anchor|link to (?:this )?(?:heading|section))?$/i;
 const HIDDEN_CLASS = /\b(?:sr-only|visually-hidden|screen-reader(?:-only)?|a11y-hidden)\b/i;
 
 const SANITIZE: sanitizeHtml.IOptions = {
@@ -99,6 +101,14 @@ function resolve(raw: string | undefined, base: string) {
   }
 }
 
+// Heading permalinks ("#", "Copy link to heading") are site chrome, not article text.
+function isHeadingAnchor(href: string | undefined, text: string, base: string) {
+  if (!href || !href.includes("#")) {
+    return false;
+  }
+  return href.split("#")[0] === base.split("#")[0] && ANCHOR_TEXT.test(text.trim());
+}
+
 function sanitize(html: string, base: string) {
   const link: sanitizeHtml.Transformer = (tagName, attribs) => {
     const href = resolve(attribs.href, base);
@@ -119,7 +129,9 @@ function sanitize(html: string, base: string) {
     ...SANITIZE,
     transformTags: { a: link, img: image },
     exclusiveFilter: (frame) =>
-      (frame.tag === "img" && !frame.attribs.src) || HIDDEN_CLASS.test(frame.attribs.class ?? ""),
+      (frame.tag === "img" && !frame.attribs.src) ||
+      (frame.tag === "a" && isHeadingAnchor(frame.attribs.href, frame.text, base)) ||
+      HIDDEN_CLASS.test(frame.attribs.class ?? ""),
   });
 }
 

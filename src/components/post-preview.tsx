@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useState, type MouseEvent, type ReactNode } from "react";
 import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
-import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
+import { Slot } from "radix-ui";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import type { FeedPost } from "@/lib/feed";
 import type { Preview } from "@/lib/preview";
 
@@ -18,6 +19,11 @@ function loadPreview(id: string) {
     cache.set(id, pending);
   }
   return pending;
+}
+
+// Plain left clicks open the modal; modified clicks and middle clicks still open the source.
+function isPlainClick(event: MouseEvent) {
+  return event.button === 0 && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey;
 }
 
 export function PostPreview({ post, children }: { post: FeedPost; children: ReactNode }) {
@@ -43,16 +49,26 @@ export function PostPreview({ post, children }: { post: FeedPost; children: Reac
   const loading = preview === undefined;
 
   return (
-    <HoverCard open={open} onOpenChange={setOpen} openDelay={500} closeDelay={150}>
-      <HoverCardTrigger asChild>{children}</HoverCardTrigger>
-      <HoverCardContent
-        side="bottom"
-        align="start"
-        sideOffset={4}
-        collisionPadding={16}
-        className="hidden max-h-[75vh] w-[min(40rem,calc(100vw-2rem))] p-0 sm:flex sm:flex-col"
+    <Dialog open={open} onOpenChange={setOpen}>
+      <Slot.Root
+        aria-haspopup="dialog"
+        aria-expanded={open}
+        onClick={(event: MouseEvent) => {
+          if (!isPlainClick(event)) {
+            return;
+          }
+          event.preventDefault();
+          setOpen(true);
+        }}
       >
-        <header className="flex items-center gap-2.5 border-b px-5 py-3">
+        {children}
+      </Slot.Root>
+      <DialogContent
+        aria-describedby={undefined}
+        showCloseButton={false}
+        className="flex max-h-[calc(100dvh-2rem)] w-[calc(100%-1rem)] max-w-none flex-col gap-0 p-0 sm:max-h-[88dvh] sm:w-[calc(100%-2rem)] sm:max-w-3xl"
+      >
+        <header className="flex items-center gap-2.5 border-b px-4 py-3 sm:px-6">
           <span className="flex size-6 shrink-0 items-center justify-center rounded bg-muted p-1">
             <Image
               src={post.organization.logo}
@@ -75,39 +91,52 @@ export function PostPreview({ post, children }: { post: FeedPost; children: Reac
             Open
             <ArrowUpRight className="size-3.5" aria-hidden="true" />
           </a>
+          <button
+            type="button"
+            onClick={() => setOpen(false)}
+            className="ml-2 shrink-0 text-xs text-muted-foreground transition-colors hover:text-foreground"
+          >
+            Close
+          </button>
         </header>
 
-        <div className="min-h-0 overflow-y-auto overscroll-contain px-5 py-4">
+        <div className="min-h-0 overflow-y-auto overscroll-contain px-4 py-5 sm:px-6 sm:py-6">
           {loading ? (
-            <div className="flex flex-col gap-2.5" aria-hidden>
-              <span className="h-5 w-3/4 animate-pulse rounded bg-muted" />
-              <span className="mt-2 h-3 w-full animate-pulse rounded bg-muted" />
-              <span className="h-3 w-full animate-pulse rounded bg-muted" />
-              <span className="h-3 w-5/6 animate-pulse rounded bg-muted" />
-              <span className="h-3 w-full animate-pulse rounded bg-muted" />
-              <span className="h-3 w-2/3 animate-pulse rounded bg-muted" />
+            <div className="flex flex-col gap-2.5">
+              <DialogTitle className="sr-only">{post.title}</DialogTitle>
+              <span className="h-6 w-3/4 animate-pulse rounded bg-muted" aria-hidden />
+              <span className="mt-3 h-3 w-full animate-pulse rounded bg-muted" aria-hidden />
+              <span className="h-3 w-full animate-pulse rounded bg-muted" aria-hidden />
+              <span className="h-3 w-5/6 animate-pulse rounded bg-muted" aria-hidden />
+              <span className="h-3 w-full animate-pulse rounded bg-muted" aria-hidden />
+              <span className="h-3 w-2/3 animate-pulse rounded bg-muted" aria-hidden />
             </div>
           ) : preview?.html ? (
-            <article className="prose prose-sm prose-invert max-w-none prose-headings:font-medium prose-headings:tracking-tight prose-a:text-foreground prose-a:underline-offset-4 prose-img:rounded-md prose-pre:bg-muted prose-pre:text-foreground prose-code:before:content-none prose-code:after:content-none">
-              <h1>{preview.title ?? post.title}</h1>
+            <article className="prose prose-invert max-w-none prose-headings:font-medium prose-headings:tracking-tight prose-a:text-foreground prose-a:underline-offset-4 prose-img:rounded-md prose-pre:bg-muted prose-pre:text-foreground prose-code:before:content-none prose-code:after:content-none">
+              <DialogTitle asChild className="text-2xl leading-tight font-medium tracking-tight">
+                <h1>{preview.title ?? post.title}</h1>
+              </DialogTitle>
               <div dangerouslySetInnerHTML={{ __html: preview.html }} />
             </article>
           ) : (
-            <p className="text-sm text-muted-foreground">
-              Couldn&apos;t load this article here.{" "}
-              <a
-                href={post.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="underline underline-offset-4"
-              >
-                Read it on {post.organization.name}
-              </a>
-              .
-            </p>
+            <>
+              <DialogTitle className="text-lg font-medium tracking-tight">{post.title}</DialogTitle>
+              <p className="mt-3 text-sm text-muted-foreground">
+                Couldn&apos;t load this article here.{" "}
+                <a
+                  href={post.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline underline-offset-4"
+                >
+                  Read it on {post.organization.name}
+                </a>
+                .
+              </p>
+            </>
           )}
         </div>
-      </HoverCardContent>
-    </HoverCard>
+      </DialogContent>
+    </Dialog>
   );
 }
