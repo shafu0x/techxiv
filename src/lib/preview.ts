@@ -9,7 +9,11 @@ import { canonicalPostUrl } from "./url";
 export type Preview = {
   title: string | null;
   html: string | null;
+  summary: string | null;
 };
+
+// Bumping this discards cached previews, including failures cached by earlier versions.
+const VERSION = 2;
 
 const HEADERS = {
   "user-agent": "Mozilla/5.0 (compatible; TechBlogsBot/1.0)",
@@ -142,7 +146,7 @@ function textLength(html: string) {
     .trim().length;
 }
 
-async function fromPage(url: string): Promise<Preview | null> {
+async function fromPage(url: string): Promise<Omit<Preview, "summary"> | null> {
   const response = await fetch(url, {
     cache: "no-store",
     headers: HEADERS,
@@ -190,8 +194,14 @@ function unwrap(value: string) {
     .replace(/&amp;/g, "&");
 }
 
-/** Some hosts refuse non-browser clients, but their feed often carries the whole post. */
-async function fromFeed(slug: string, url: string): Promise<Preview | null> {
+type FeedItem = {
+  title: string | null;
+  body: string | null;
+  description: string | null;
+};
+
+/** Some hosts refuse non-browser clients, but their feed carries the whole post or at least a blurb. */
+async function fromFeed(slug: string, url: string): Promise<FeedItem | null> {
   const feed = FEEDS[slug];
   if (!feed) {
     return null;
@@ -217,22 +227,25 @@ async function fromFeed(slug: string, url: string): Promise<Preview | null> {
       continue;
     }
 
+    const title = item.match(/<title[^>]*>([\s\S]*?)<\/title>/i)?.[1];
     const body =
       item.match(/<content:encoded[^>]*>([\s\S]*?)<\/content:encoded>/i)?.[1] ??
       item.match(/<content[^>]*>([\s\S]*?)<\/content>/i)?.[1];
-    if (!body) {
-      return null;
-    }
+    const description = item.match(
+      /<(?:description|summary)[^>]*>([\s\S]*?)<\/(?:description|summary)>/i,
+    )?.[1];
 
-    const html = sanitize(unwrap(body), url).trim();
-    if (textLength(html) < MIN_TEXT) {
-      return null;
-    }
+    const html = body ? sanitize(unwrap(body), url).trim() : "";
+    const blurb = description
+      ? sanitizeHtml(unwrap(description), { allowedTags: [], allowedAttributes: {} })
+          .replace(/\s+/g, " ")
+          .trim()
+      : "";
 
-    const title = item.match(/<title[^>]*>([\s\S]*?)<\/title>/i)?.[1];
     return {
       title: title ? unwrap(title).replace(/\s+/g, " ").trim() || null : null,
-      html: html.slice(0, MAX_OUTPUT),
+      body: textLength(html) >= MIN_TEXT ? html.slice(0, MAX_OUTPUT) : null,
+      description: blurb || null,
     };
   }
 
@@ -242,25 +255,40 @@ async function fromFeed(slug: string, url: string): Promise<Preview | null> {
 async function extract(slug: string, url: string): Promise<Preview> {
   const page = await fromPage(url).catch(() => null);
   if (page) {
-    return page;
+    return { ...page, summary: null };
   }
 
-  const feed = await fromFeed(slug, url).catch(() => null);
-  return feed ?? { title: null, html: null };
+  const item = await fromFeed(slug, url).catch(() => null);
+  return {
+    title: item?.title ?? null,
+    html: item?.body ?? null,
+    summary: item?.body ? null : (item?.description ?? null),
+  };
 }
 
-export async function getPreview(id: string): Promise<Preview | null> {
+async function cachedPreview(id: string, _version: number): Promise<Preview | null> {
   "use cache: remote";
   cacheTag("preview", `preview:${id}`);
-  cacheLife("days");
 
   const post = await getPrisma().post.findUnique({
     where: { id },
     select: { url: true, organization: { select: { slug: true } } },
   });
   if (!post) {
+    cacheLife("hours");
     return null;
   }
 
-  return extract(post.organization.slug, canonicalPostUrl(post.url));
+  const preview = await extract(post.organization.slug, canonicalPostUrl(post.url));
+  // Hosts block or rate-limit unpredictably, so a miss gets retried soon rather than pinned for days.
+  if (preview.html || preview.summary) {
+    cacheLife("days");
+  } else {
+    cacheLife("hours");
+  }
+  return preview;
+}
+
+export function getPreview(id: string) {
+  return cachedPreview(id, VERSION);
 }

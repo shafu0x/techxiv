@@ -119,21 +119,29 @@ export function PostPreview({ post, children }: { post: FeedPost; children: Reac
               <div dangerouslySetInnerHTML={{ __html: preview.html }} />
             </article>
           ) : (
-            <>
-              <DialogTitle className="text-lg font-medium tracking-tight">{post.title}</DialogTitle>
-              <p className="mt-3 text-sm text-muted-foreground">
-                Couldn&apos;t load this article here.{" "}
-                <a
-                  href={post.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="underline underline-offset-4"
-                >
-                  Read it on {post.organization.name}
-                </a>
-                .
-              </p>
-            </>
+            <div className="flex flex-col gap-4">
+              <DialogTitle className="text-2xl leading-tight font-medium tracking-tight">
+                {preview?.title ?? post.title}
+              </DialogTitle>
+              {preview?.summary ? (
+                <p className="text-pretty text-base leading-relaxed text-muted-foreground">
+                  {preview.summary}
+                </p>
+              ) : (
+                <p className="text-sm text-muted-foreground">
+                  {post.organization.name} doesn&apos;t let us load this article here.
+                </p>
+              )}
+              <a
+                href={post.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex w-fit items-center gap-1 text-sm underline underline-offset-4 transition-colors hover:text-foreground"
+              >
+                Read the full article on {post.organization.name}
+                <ArrowUpRight className="size-3.5" aria-hidden="true" />
+              </a>
+            </div>
           )}
         </div>
       </DialogContent>
