@@ -28,7 +28,6 @@ export function ViralToggle({ viral }: { viral: boolean }) {
     } else {
       params.delete("viral");
     }
-    params.delete("q");
     params.delete("page");
     const search = params.toString();
     startTransition(() => {

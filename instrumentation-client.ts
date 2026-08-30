@@ -15,11 +15,10 @@ if (!projectToken) {
       "NEXT_PUBLIC_POSTHOG_HOST variable required by PostHog is missing or un-configured, this causes events to be silently missed. This error stops appearing once NEXT_PUBLIC_POSTHOG_HOST is configured",
     );
   }
-} else {
+} else if (process.env.NODE_ENV === "production") {
   posthog.init(projectToken, {
     api_host: host,
     defaults: "2026-01-30",
     capture_exceptions: true,
-    debug: process.env.NODE_ENV === "development",
   });
 }
