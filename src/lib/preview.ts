@@ -13,7 +13,7 @@ export type Preview = {
 };
 
 // Bumping this discards cached previews, including failures cached by earlier versions.
-const VERSION = 2;
+const VERSION = 4;
 
 const HEADERS = {
   "user-agent": "Mozilla/5.0 (compatible; TechBlogsBot/1.0)",
@@ -25,7 +25,16 @@ const MAX_OUTPUT = 400_000;
 const MIN_TEXT = 500;
 const ANCHOR_TEXT =
   /^(?:#|¶|§|link|copy link.*|permalink|anchor|link to (?:this )?(?:heading|section))?$/i;
-const HIDDEN_CLASS = /\b(?:sr-only|visually-hidden|screen-reader(?:-only)?|a11y-hidden)\b/i;
+const HIDDEN_SELECTOR = [
+  "sr-only",
+  "visually-hidden",
+  "visuallyhidden",
+  "screen-reader-text",
+  "screen-reader-only",
+  "a11y-hidden",
+]
+  .map((name) => `[class~="${name}"]`)
+  .join(", ");
 
 const SANITIZE: sanitizeHtml.IOptions = {
   allowedTags: [
@@ -113,6 +122,16 @@ function isHeadingAnchor(href: string | undefined, text: string, base: string) {
   return href.split("#")[0] === base.split("#")[0] && ANCHOR_TEXT.test(text.trim());
 }
 
+// Visually hidden helpers ("(opens in a new window)") read as noise once the styling is gone.
+function stripHidden(html: string) {
+  const { document } = parseHTML(`<!doctype html><html><body>${html}</body></html>`);
+  for (const node of document.querySelectorAll(HIDDEN_SELECTOR)) {
+    node.remove();
+  }
+  const body = document.body?.innerHTML;
+  return body ? body : html;
+}
+
 function sanitize(html: string, base: string) {
   const link: sanitizeHtml.Transformer = (tagName, attribs) => {
     const href = resolve(attribs.href, base);
@@ -129,13 +148,12 @@ function sanitize(html: string, base: string) {
     return { tagName, attribs: next };
   };
 
-  return sanitizeHtml(html, {
+  return sanitizeHtml(stripHidden(html), {
     ...SANITIZE,
     transformTags: { a: link, img: image },
     exclusiveFilter: (frame) =>
       (frame.tag === "img" && !frame.attribs.src) ||
-      (frame.tag === "a" && isHeadingAnchor(frame.attribs.href, frame.text, base)) ||
-      HIDDEN_CLASS.test(frame.attribs.class ?? ""),
+      (frame.tag === "a" && isHeadingAnchor(frame.attribs.href, frame.text, base)),
   });
 }
 
