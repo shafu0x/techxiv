@@ -30,11 +30,10 @@ function labelFromElement(element: Element): string | null {
  * survive the navigation they trigger, and Next.js dispatches server actions
  * one at a time per client, which would queue every click behind the last one.
  */
-function track(label: string, notify: boolean) {
+function track(label: string) {
   const body = JSON.stringify({
     label: label.slice(0, MAX_LABEL_LENGTH),
     path: window.location.pathname,
-    notify,
   });
   navigator.sendBeacon("/api/click", new Blob([body], { type: "application/json" }));
 }
@@ -51,18 +50,17 @@ export function ClickNotifier() {
         if (isPostLink && posthogConfigured) {
           posthog.capture("post_opened");
         }
-        track(labelFromElement(anchor) ?? anchor.href, true);
+        track(labelFromElement(anchor) ?? anchor.href);
         return;
       }
 
       const button = target.closest("button");
       if (button instanceof HTMLButtonElement) {
-        const label = labelFromElement(button);
-        track(label ?? "button", !button.disabled && label !== null);
+        track(labelFromElement(button) ?? "button");
         return;
       }
 
-      track(labelFromElement(target) ?? target.tagName.toLowerCase(), false);
+      track(labelFromElement(target) ?? target.tagName.toLowerCase());
     }
 
     document.addEventListener("click", handleClick);
