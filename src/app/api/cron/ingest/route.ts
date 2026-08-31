@@ -19,8 +19,12 @@ export async function GET(request: Request) {
 
     if (result.shown > 0 || result.errors.length > 0) {
       const errors = result.errors.length > 0 ? `, errors: ${result.errors.join("; ")}` : "";
+      const names =
+        result.titles.length > 0
+          ? `\n${result.titles.map((title) => `- ${title}`).join("\n")}`
+          : "";
       await sendSyncNotification(
-        `found ${result.scanned}, inserted ${result.inserted}, shown ${result.shown}${errors}`,
+        `found ${result.scanned}, inserted ${result.inserted}, shown ${result.shown}${errors}${names}`,
       );
     }
     return Response.json(result);
