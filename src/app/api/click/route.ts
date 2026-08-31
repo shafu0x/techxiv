@@ -1,5 +1,3 @@
-import { after } from "next/server";
-import { sendDiscordNotification } from "@/lib/discord";
 import { isProductionDeployment } from "@/lib/production-traffic";
 
 const MAX_FIELD_LENGTH = 200;
@@ -17,7 +15,7 @@ export async function POST(request: Request) {
   }
 
   // `body ?? {}` because a bare `null` payload is valid JSON and would throw here.
-  const { label, path, notify } = (body ?? {}) as Record<string, unknown>;
+  const { label, path } = (body ?? {}) as Record<string, unknown>;
   if (typeof label !== "string" || typeof path !== "string") {
     return new Response(null, { status: 400 });
   }
@@ -27,10 +25,6 @@ export async function POST(request: Request) {
   console.log(
     JSON.stringify({ event: "click", label: clicked, path: path.slice(0, MAX_FIELD_LENGTH) }),
   );
-
-  if (notify === true) {
-    after(() => sendDiscordNotification(`clicked ${clicked}`));
-  }
 
   return new Response(null, { status: 204 });
 }
