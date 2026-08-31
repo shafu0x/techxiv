@@ -286,6 +286,7 @@ export async function ingestNewPosts() {
   let inserted = 0;
   let shown = 0;
   let unlabeled = 0;
+  const titles: string[] = [];
   for (const post of created) {
     const label = labels.get(post.title);
     if (!label) {
@@ -312,6 +313,7 @@ export async function ingestNewPosts() {
         !HIDDEN_CATEGORIES.some((category) => category === label.category)
       ) {
         shown += 1;
+        titles.push(post.title);
       }
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
@@ -324,5 +326,5 @@ export async function ingestNewPosts() {
     errors.push(`${unlabeled} posts skipped: classification failed`);
   }
 
-  return { inserted, shown, scanned: found.length, errors };
+  return { inserted, shown, scanned: found.length, titles, errors };
 }
