@@ -7,7 +7,7 @@ import { ViralToggle } from "@/components/viral-toggle";
 import { Card } from "@/components/ui/card";
 import { getOrganizations } from "@/lib/orgs";
 import { PAGE_SIZE } from "@/lib/feed";
-import { getPosts } from "@/lib/posts";
+import { getPosts, type FeedView } from "@/lib/posts";
 
 // Next.js passes repeated query keys as arrays; take the first.
 function first(value: string | string[] | undefined) {
@@ -21,11 +21,11 @@ type FeedSearchParams = Promise<{
 
 export function Feed({
   searchParams,
-  includeHidden = false,
+  view = "feed",
   basePath,
 }: {
   searchParams: FeedSearchParams;
-  includeHidden?: boolean;
+  view?: FeedView;
   basePath: string;
 }) {
   return (
@@ -37,7 +37,7 @@ export function Feed({
         Skip to posts
       </a>
       <Suspense fallback={<FeedSkeleton />}>
-        <FeedList searchParams={searchParams} includeHidden={includeHidden} basePath={basePath} />
+        <FeedList searchParams={searchParams} view={view} basePath={basePath} />
       </Suspense>
     </main>
   );
@@ -45,21 +45,21 @@ export function Feed({
 
 async function FeedList({
   searchParams,
-  includeHidden,
+  view,
   basePath,
 }: {
   searchParams: FeedSearchParams;
-  includeHidden: boolean;
+  view: FeedView;
   basePath: string;
 }) {
   const params = await searchParams;
 
   const slugs = (first(params.orgs)?.split(",") ?? []).filter(Boolean);
-  const viral = first(params.viral) === "1";
+  const viral = view !== "news" && first(params.viral) === "1";
 
   const [organizations, { posts, nextCursor }] = await Promise.all([
     getOrganizations(),
-    getPosts({ slugs, viral, includeHidden }),
+    getPosts({ slugs, viral, view }),
   ]);
 
   const known = new Set(organizations.map((org) => org.slug));
@@ -91,7 +91,16 @@ async function FeedList({
           </p>
         </div>
         <div className="flex items-center gap-3">
-          <ViralToggle viral={viral} />
+          {view === "news" ? (
+            <Link href="/" className="text-sm text-muted-foreground hover:text-foreground">
+              Engineering
+            </Link>
+          ) : (
+            <Link href="/news" className="text-sm text-muted-foreground hover:text-foreground">
+              News
+            </Link>
+          )}
+          {view !== "news" ? <ViralToggle viral={viral} /> : null}
           <PostFilters
             organizations={organizations.map((org) => ({
               slug: org.slug,
@@ -113,12 +122,12 @@ async function FeedList({
         </Card>
       ) : (
         <PostList
-          key={`${slugsKnown.slice().sort().join(",")}\0${viral ? "1" : "0"}\0${includeHidden ? "1" : "0"}`}
+          key={`${slugsKnown.slice().sort().join(",")}\0${viral ? "1" : "0"}\0${view}`}
           initialPosts={posts}
           nextCursor={nextCursor}
           slugs={slugsKnown}
           viral={viral}
-          includeHidden={includeHidden}
+          view={view}
         />
       )}
     </div>

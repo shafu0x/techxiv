@@ -5,41 +5,66 @@ import { HIDDEN_CATEGORIES, HIDDEN_KINDS } from "./taxonomy";
 import { canonicalPostUrl } from "./url";
 import type { Category, Kind } from "../generated/prisma/client";
 
+type HtmlIndex = { index: string; article: RegExp; date?: RegExp };
+
 /**
- * Orgs without a feed have to be scraped from an index page. `article` is an
+ * Orgs without a feed have to be scraped from index pages. `article` is an
  * allowlist: only same-host paths matching it are followed, because a blocklist
  * of junk paths always loses to the next marketing page a company ships.
+ * `date` captures the publish date on sources whose article pages state it
+ * without any of the signals `publishedFromHtml` accepts.
  */
-const HTML_INDEXES: Record<string, { index: string; article: RegExp }> = {
-  anthropic: {
-    index: "https://www.anthropic.com/engineering",
-    article: /^\/engineering\/[a-z0-9-]+$/i,
-  },
-  shopify: {
-    index: "https://shopify.engineering/latest",
-    article: /^\/[a-z0-9-]+$/i,
-  },
-  figma: {
-    index: "https://www.figma.com/blog/engineering/",
-    article: /^\/blog\/[a-z0-9-]+$/i,
-  },
-  uber: {
-    // Uber serves the same posts under /<country>/<language>/blog/<slug>.
-    index: "https://www.uber.com/blog/engineering/",
-    article: /^(?:\/[a-z]{2}\/[a-z]{2})?\/blog\/[a-z0-9-]+$/,
-  },
-  linkedin: {
-    index: "https://www.linkedin.com/blog/engineering",
-    article: /^\/blog\/engineering\/[a-z0-9-]+\/[a-z0-9-]+$/i,
-  },
-  notion: {
-    index: "https://www.notion.com/blog/topic/tech",
-    article: /^\/blog\/[a-z0-9-]+$/i,
-  },
-  cursor: {
-    index: "https://cursor.com/blog",
-    article: /^\/blog\/[a-z0-9-]+$/i,
-  },
+const HTML_INDEXES: Record<string, HtmlIndex[]> = {
+  anthropic: [
+    {
+      index: "https://www.anthropic.com/engineering",
+      article: /^\/engineering\/[a-z0-9-]+$/i,
+    },
+    {
+      // News pages carry no date metadata or "Published" label, only a bare
+      // date in a styled div right under the title.
+      index: "https://www.anthropic.com/news",
+      article: /^\/news\/[a-z0-9-]+$/i,
+      date: /class="body-3 agate">([A-Z][a-z]+ \d{1,2},? \d{4})</,
+    },
+  ],
+  shopify: [
+    {
+      index: "https://shopify.engineering/latest",
+      article: /^\/[a-z0-9-]+$/i,
+    },
+  ],
+  figma: [
+    {
+      index: "https://www.figma.com/blog/engineering/",
+      article: /^\/blog\/[a-z0-9-]+$/i,
+    },
+  ],
+  uber: [
+    {
+      // Uber serves the same posts under /<country>/<language>/blog/<slug>.
+      index: "https://www.uber.com/blog/engineering/",
+      article: /^(?:\/[a-z]{2}\/[a-z]{2})?\/blog\/[a-z0-9-]+$/,
+    },
+  ],
+  linkedin: [
+    {
+      index: "https://www.linkedin.com/blog/engineering",
+      article: /^\/blog\/engineering\/[a-z0-9-]+\/[a-z0-9-]+$/i,
+    },
+  ],
+  notion: [
+    {
+      index: "https://www.notion.com/blog/topic/tech",
+      article: /^\/blog\/[a-z0-9-]+$/i,
+    },
+  ],
+  cursor: [
+    {
+      index: "https://cursor.com/blog",
+      article: /^\/blog\/[a-z0-9-]+$/i,
+    },
+  ],
 };
 
 const HEADERS = { "user-agent": "Mozilla/5.0 (compatible; TechBlogsBot/1.0)" };
@@ -183,7 +208,7 @@ function articleHrefs(html: string, indexUrl: string, article: RegExp) {
 }
 
 async function postsFromHtml(
-  { index, article }: { index: string; article: RegExp },
+  { index, article, date }: HtmlIndex,
   slug: string,
   organizationId: string,
   existing: Set<string>,
@@ -217,7 +242,7 @@ async function postsFromHtml(
     }
 
     // A page that never states a publish date is a landing page, not a post.
-    const publishedAt = publishedFromHtml(html, url);
+    const publishedAt = publishedFromHtml(html, url) ?? parseDate(date && html.match(date)?.[1]);
     if (!publishedAt) {
       continue;
     }
@@ -259,9 +284,8 @@ export async function ingestNewPosts() {
           return;
         }
 
-        const html = HTML_INDEXES[org.slug];
-        if (html) {
-          found.push(...(await postsFromHtml(html, org.slug, org.id, existing)));
+        for (const htmlIndex of HTML_INDEXES[org.slug] ?? []) {
+          found.push(...(await postsFromHtml(htmlIndex, org.slug, org.id, existing)));
         }
       } catch (error) {
         const message = error instanceof Error ? error.message : String(error);
