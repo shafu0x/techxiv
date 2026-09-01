@@ -313,7 +313,8 @@ export async function ingestNewPosts() {
         !HIDDEN_CATEGORIES.some((category) => category === label.category)
       ) {
         shown += 1;
-        titles.push(post.title);
+        const orgName = orgs.find((org) => org.id === post.organizationId)?.name ?? post.slug;
+        titles.push(`${post.title} (${orgName})`);
       }
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
