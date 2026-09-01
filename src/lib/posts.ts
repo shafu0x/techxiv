@@ -6,10 +6,12 @@ import type { Category as PrismaCategory, Kind as PrismaKind } from "@/generated
 
 const FEED_SIZE = 50;
 
+export type FeedView = "feed" | "all" | "news";
+
 export type PostFilters = {
   slugs: string[];
   viral: boolean;
-  includeHidden?: boolean;
+  view?: FeedView;
 };
 
 const orderBy = [{ publishedAt: "desc" as const }, { id: "desc" as const }];
@@ -20,19 +22,20 @@ function toPrismaEnum(value: string) {
   return value.replace(/-/g, "_");
 }
 
-function buildWhere({ slugs, viral, includeHidden }: PostFilters) {
+const hiddenKinds = HIDDEN_KINDS.map((kind) => toPrismaEnum(kind) as PrismaKind);
+const hiddenCategories = HIDDEN_CATEGORIES.map(
+  (category) => toPrismaEnum(category) as PrismaCategory,
+);
+
+function buildWhere({ slugs, viral, view = "feed" }: PostFilters) {
   return {
-    ...(!includeHidden && HIDDEN_KINDS.length > 0
-      ? { kind: { notIn: HIDDEN_KINDS.map((kind) => toPrismaEnum(kind) as PrismaKind) } }
+    ...(view === "feed"
+      ? { kind: { notIn: hiddenKinds }, category: { notIn: hiddenCategories } }
+      : {}),
+    ...(view === "news"
+      ? { OR: [{ kind: { in: hiddenKinds } }, { category: { in: hiddenCategories } }] }
       : {}),
     ...(slugs.length > 0 ? { organization: { slug: { in: slugs } } } : {}),
-    ...(!includeHidden && HIDDEN_CATEGORIES.length > 0
-      ? {
-          category: {
-            notIn: HIDDEN_CATEGORIES.map((category) => toPrismaEnum(category) as PrismaCategory),
-          },
-        }
-      : {}),
     ...(viral ? { viralityScore: { gt: VIRAL_THRESHOLD } } : {}),
   };
 }
@@ -152,26 +155,16 @@ async function queryChunk(filters: PostFilters, cursor: string | null) {
   return paginate(rows, PAGE_SIZE);
 }
 
-async function cachedChunk(
-  slugs: string[],
-  viral: boolean,
-  cursor: string | null,
-  includeHidden: boolean,
-) {
+async function cachedChunk(slugs: string[], viral: boolean, cursor: string | null, view: FeedView) {
   "use cache: remote";
   cacheTag("posts");
   cacheLife("days");
 
-  return queryChunk({ slugs, viral, includeHidden }, cursor);
+  return queryChunk({ slugs, viral, view }, cursor);
 }
 
 export async function getPosts(filters: PostFilters, cursor: string | null = null) {
-  return cachedChunk(
-    [...filters.slugs].sort(),
-    filters.viral,
-    cursor,
-    filters.includeHidden ?? false,
-  );
+  return cachedChunk([...filters.slugs].sort(), filters.viral, cursor, filters.view ?? "feed");
 }
 
 export async function getFeedPosts() {

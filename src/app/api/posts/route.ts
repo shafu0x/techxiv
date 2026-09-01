@@ -9,8 +9,9 @@ export async function GET(request: Request) {
 
   const slugs = (searchParams.get("orgs")?.split(",") ?? []).filter(Boolean);
   const viral = searchParams.get("viral") === "1";
-  const includeHidden = searchParams.get("includeHidden") === "1";
+  const viewParam = searchParams.get("view");
+  const view = viewParam === "all" || viewParam === "news" ? viewParam : "feed";
 
-  const { posts, nextCursor } = await getPosts({ slugs, viral, includeHidden }, cursor);
+  const { posts, nextCursor } = await getPosts({ slugs, viral, view }, cursor);
   return Response.json({ posts, nextCursor });
 }

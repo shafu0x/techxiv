@@ -5,6 +5,7 @@ import posthog from "posthog-js";
 import { PostRow } from "@/components/post-row";
 import { Card } from "@/components/ui/card";
 import type { FeedPost } from "@/lib/feed";
+import type { FeedView } from "@/lib/posts";
 
 const posthogConfigured = Boolean(
   process.env.NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN && process.env.NEXT_PUBLIC_POSTHOG_HOST,
@@ -15,16 +16,10 @@ type PostListProps = {
   nextCursor: string | null;
   slugs: string[];
   viral: boolean;
-  includeHidden?: boolean;
+  view?: FeedView;
 };
 
-export function PostList({
-  initialPosts,
-  nextCursor,
-  slugs,
-  viral,
-  includeHidden = false,
-}: PostListProps) {
+export function PostList({ initialPosts, nextCursor, slugs, viral, view = "feed" }: PostListProps) {
   const [posts, setPosts] = useState(initialPosts);
   const [cursor, setCursor] = useState(nextCursor);
   const [status, setStatus] = useState<"idle" | "loading" | "error">("idle");
@@ -51,8 +46,8 @@ export function PostList({
       if (viral) {
         params.set("viral", "1");
       }
-      if (includeHidden) {
-        params.set("includeHidden", "1");
+      if (view !== "feed") {
+        params.set("view", view);
       }
 
       const response = await fetch(`/api/posts?${params}`);
@@ -80,7 +75,7 @@ export function PostList({
     } finally {
       inFlight.current = false;
     }
-  }, [slugs, viral, includeHidden]);
+  }, [slugs, viral, view]);
 
   useEffect(() => {
     if (!cursor || status !== "idle") {
