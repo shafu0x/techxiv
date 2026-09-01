@@ -55,7 +55,7 @@ async function FeedList({
   const params = await searchParams;
 
   const slugs = (first(params.orgs)?.split(",") ?? []).filter(Boolean);
-  const viral = first(params.viral) === "1";
+  const viral = view !== "news" && first(params.viral) === "1";
 
   const [organizations, { posts, nextCursor }] = await Promise.all([
     getOrganizations(),
@@ -100,7 +100,7 @@ async function FeedList({
               News
             </Link>
           )}
-          <ViralToggle viral={viral} />
+          {view !== "news" ? <ViralToggle viral={viral} /> : null}
           <PostFilters
             organizations={organizations.map((org) => ({
               slug: org.slug,
