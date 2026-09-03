@@ -78,7 +78,7 @@ async function FeedList({
             </svg>
             <h1 className="ml-1.5 font-semibold">techxiv</h1>
           </Link>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-xs text-muted-foreground sm:text-sm">
             by{" "}
             <a
               href="https://x.com/shafu0x"
