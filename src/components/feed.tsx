@@ -68,7 +68,7 @@ async function FeedList({
   return (
     <div className="flex flex-col gap-2">
       <div className="flex items-center justify-between gap-3">
-        <div className="flex items-center gap-2">
+        <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
           <Link href="/" className="flex items-center tracking-tight">
             <svg viewBox="0 0 32 32" className="size-5 shrink-0" aria-hidden="true">
               <path
@@ -78,19 +78,19 @@ async function FeedList({
             </svg>
             <h1 className="ml-1.5 font-semibold">techxiv</h1>
           </Link>
-          <p className="text-xs text-muted-foreground sm:text-sm">
+          <p className="hidden text-xs whitespace-nowrap text-muted-foreground min-[400px]:block sm:text-sm">
             by{" "}
             <a
               href="https://x.com/shafu0x"
               target="_blank"
               rel="noopener noreferrer"
-              className="no-underline"
+              className="no-underline hover:text-foreground"
             >
               shafu
             </a>
           </p>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3">
           {view === "news" ? (
             <Link href="/" className="text-sm text-muted-foreground hover:text-foreground">
               Engineering
