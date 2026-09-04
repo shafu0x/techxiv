@@ -21,6 +21,13 @@ async function postToDiscord(webhookUrl: string, content: string) {
   }
 }
 
+export async function sendDiscordNotification(content: string): Promise<void> {
+  const webhookUrl = process.env.DISCORD_WEBHOOK_URL?.trim();
+  if (!webhookUrl) return;
+
+  await postToDiscord(webhookUrl, content);
+}
+
 export async function sendSyncNotification(content: string): Promise<void> {
   const webhookUrl = process.env.DISCORD_SYNC_WEBHOOK_URL?.trim();
   if (!webhookUrl) return;
