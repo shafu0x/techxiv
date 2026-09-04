@@ -26,6 +26,7 @@ export type FilterOrganization = {
 };
 
 const MAX_STACKED_LOGOS = 5;
+const MAX_STACKED_LOGOS_MOBILE = 3;
 const posthogConfigured = Boolean(
   process.env.NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN && process.env.NEXT_PUBLIC_POSTHOG_HOST,
 );
@@ -70,7 +71,7 @@ export function PostFilters({
             aria-expanded={open}
             aria-label="Filter by organization"
             // Fixed width so changing the selection never reflows the toolbar.
-            className="h-11 w-auto justify-center px-3 font-normal sm:h-9 sm:w-40 sm:justify-between sm:gap-2 sm:px-2.5"
+            className="h-11 w-auto justify-center px-2.5 font-normal sm:h-9 sm:w-40 sm:justify-between sm:gap-2 sm:px-2.5"
           >
             {singleOrg ? (
               <span className="flex min-w-0 items-center gap-1.5">
@@ -81,13 +82,24 @@ export function PostFilters({
               </span>
             ) : (
               <AvatarGroup className="-space-x-1">
-                {shownOrgs.map((org) => (
-                  <Avatar key={org.slug} className="size-5 bg-muted">
+                {shownOrgs.map((org, index) => (
+                  <Avatar
+                    key={org.slug}
+                    className={cn(
+                      "size-5 bg-muted",
+                      index >= MAX_STACKED_LOGOS_MOBILE && "hidden sm:flex",
+                    )}
+                  >
                     <AvatarImage src={org.logo} alt={org.name} className="object-contain p-0.5" />
                   </Avatar>
                 ))}
+                {activeOrgs.length > MAX_STACKED_LOGOS_MOBILE ? (
+                  <AvatarGroupCount className="size-5 text-[0.625rem] sm:hidden">
+                    +{activeOrgs.length - MAX_STACKED_LOGOS_MOBILE}
+                  </AvatarGroupCount>
+                ) : null}
                 {activeOrgs.length > shownOrgs.length ? (
-                  <AvatarGroupCount className="size-5 text-[0.625rem]">
+                  <AvatarGroupCount className="hidden size-5 text-[0.625rem] sm:flex">
                     +{activeOrgs.length - shownOrgs.length}
                   </AvatarGroupCount>
                 ) : null}

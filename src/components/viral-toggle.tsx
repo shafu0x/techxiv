@@ -44,7 +44,7 @@ export function ViralToggle({ viral }: { viral: boolean }) {
         pressed={pressed}
         onPressedChange={commit}
         aria-label="Viral on X"
-        className="h-11 border-transparent px-3 font-normal twitter-ring data-[state=on]:bg-transparent data-[state=on]:text-twitter data-[state=on]:hover:bg-transparent data-[state=on]:hover:text-twitter sm:h-9 sm:px-2.5"
+        className="h-11 border-transparent px-2.5 font-normal twitter-ring data-[state=on]:bg-transparent data-[state=on]:text-twitter data-[state=on]:hover:bg-transparent data-[state=on]:hover:text-twitter sm:h-9 sm:px-2.5"
       >
         <span className="hidden sm:inline">Viral on</span>
         <svg viewBox="0 0 24 24" className="size-3.5 shrink-0" aria-hidden="true">
