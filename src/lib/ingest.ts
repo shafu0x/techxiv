@@ -1,5 +1,6 @@
 import { classifyPosts, type Label } from "./classify";
 import { FEEDS, fetchFeedPosts } from "./feeds";
+import { IngestCache } from "./ingest-cache";
 import { getPrisma } from "./prisma";
 import { HIDDEN_CATEGORIES, HIDDEN_KINDS } from "./taxonomy";
 import { canonicalPostUrl } from "./url";
@@ -66,8 +67,6 @@ const HTML_INDEXES: Record<string, HtmlIndex[]> = {
     },
   ],
 };
-
-const HEADERS = { "user-agent": "Mozilla/5.0 (compatible; TechBlogsBot/1.0)" };
 
 /** Amazon Science's feed mixes award and press announcements in with the research posts. */
 const FEED_EXCLUDE: Record<string, RegExp> = {
@@ -211,25 +210,16 @@ async function postsFromHtml(
   { index, article, date }: HtmlIndex,
   slug: string,
   organizationId: string,
-  existing: Set<string>,
+  known: (urls: string[]) => Promise<Set<string>>,
+  source: IngestCache,
 ) {
-  const response = await fetch(index, { cache: "no-store", headers: HEADERS });
-  if (!response.ok) {
-    throw new Error(`${index} → ${response.status}`);
-  }
+  const hrefs = await source.read("index-v1", index, (html) => articleHrefs(html, index, article));
+  const existing = await known(hrefs);
+  const candidates = hrefs.filter((href) => !existing.has(href));
+  await source.prime("article-v1", candidates);
 
-  const candidates = articleHrefs(await response.text(), index, article).filter(
-    (href) => !existing.has(href),
-  );
-
-  const posts: FoundPost[] = [];
-  for (const url of candidates) {
-    const response = await fetch(url, { cache: "no-store", headers: HEADERS });
-    if (!response.ok) {
-      continue;
-    }
-
-    const html = await response.text();
+  type Article = { title: string; publishedAt: string };
+  const parseArticle = (html: string, url: string): Article | null => {
     const title = cleanTitle(
       decode(
         html.match(/<meta[^>]+property="og:title"[^>]+content="([^"]+)"/i)?.[1] ??
@@ -237,17 +227,20 @@ async function postsFromHtml(
           "",
       ),
     );
-    if (!title) {
-      continue;
-    }
-
-    // A page that never states a publish date is a landing page, not a post.
     const publishedAt = publishedFromHtml(html, url) ?? parseDate(date && html.match(date)?.[1]);
-    if (!publishedAt) {
-      continue;
-    }
+    return title && publishedAt ? { title, publishedAt: publishedAt.toISOString() } : null;
+  };
 
-    posts.push({ slug, title, url, publishedAt, organizationId });
+  const posts: FoundPost[] = [];
+  for (const url of candidates) {
+    const post = await source.read<Article | null>(
+      "article-v1",
+      url,
+      (html) => parseArticle(html, url),
+      { isRejected: (value) => value === null, onFailure: () => null },
+    );
+    if (post)
+      posts.push({ ...post, slug, url, publishedAt: new Date(post.publishedAt), organizationId });
   }
 
   return posts;
@@ -255,12 +248,29 @@ async function postsFromHtml(
 
 export async function ingestNewPosts() {
   const prisma = getPrisma();
-  const orgs = await prisma.organization.findMany();
-  const rows = await prisma.post.findMany({
-    select: { url: true, organizationId: true },
+  const source = new IngestCache({
+    getMany: (keys) => prisma.ingestCache.findMany({ where: { key: { in: keys } } }),
+    set: async (key, state) => {
+      await prisma.ingestCache.upsert({ where: { key }, create: { key, ...state }, update: state });
+    },
   });
-
-  const existing = new Set(rows.map((row) => canonicalPostUrl(row.url)));
+  // Candidate lookups use Post.url's unique index; historical rows are never
+  // transferred just to decide whether today's index/feed links are new.
+  const existing = new Set<string>();
+  const checked = new Set<string>();
+  const known = async (urls: string[]) => {
+    const unchecked = [...new Set(urls.map(canonicalPostUrl))].filter((url) => !checked.has(url));
+    if (unchecked.length > 0) {
+      const rows = await prisma.post.findMany({
+        where: { url: { in: unchecked } },
+        select: { url: true },
+      });
+      for (const row of rows) existing.add(canonicalPostUrl(row.url));
+      for (const url of unchecked) checked.add(url);
+    }
+    return existing;
+  };
+  const orgs = await prisma.organization.findMany();
   const found: FoundPost[] = [];
   const errors: string[] = [];
 
@@ -269,7 +279,7 @@ export async function ingestNewPosts() {
       try {
         if (FEEDS[org.slug]) {
           const exclude = FEED_EXCLUDE[org.slug];
-          const posts = (await fetchFeedPosts(FEEDS[org.slug], existing)).filter(
+          const posts = (await fetchFeedPosts(FEEDS[org.slug], known, source)).filter(
             (post) => !exclude?.test(post.url),
           );
           found.push(
@@ -285,7 +295,7 @@ export async function ingestNewPosts() {
         }
 
         for (const htmlIndex of HTML_INDEXES[org.slug] ?? []) {
-          found.push(...(await postsFromHtml(htmlIndex, org.slug, org.id, existing)));
+          found.push(...(await postsFromHtml(htmlIndex, org.slug, org.id, known, source)));
         }
       } catch (error) {
         const message = error instanceof Error ? error.message : String(error);
@@ -351,5 +361,5 @@ export async function ingestNewPosts() {
     errors.push(`${unlabeled} posts skipped: classification failed`);
   }
 
-  return { inserted, shown, scanned: found.length, titles, errors };
+  return { inserted, shown, scanned: found.length, titles, errors, sources: source.stats };
 }

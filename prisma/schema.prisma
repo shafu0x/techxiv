@@ -16,6 +16,17 @@ model Organization {
   posts   Post[]
 }
 
+// Derived crawler data only. Version the key when extraction rules change.
+model IngestCache {
+  key          String    @id
+  etag         String?
+  lastModified String?
+  contentHash  String?
+  payload      String
+  failures     Int       @default(0)
+  retryAt      DateTime?
+}
+
 model Post {
   id               String       @id @default(cuid())
   title            String

@@ -14,8 +14,7 @@ export async function GET(request: Request) {
     const result = await ingestNewPosts();
     console.log(JSON.stringify({ event: "ingest", ...result }));
 
-    revalidateTag("posts", "max");
-    revalidateTag("orgs", "max");
+    if (result.inserted > 0) revalidateTag("posts", "max");
 
     if (result.shown > 0 || result.errors.length > 0) {
       const errors = result.errors.length > 0 ? `, errors: ${result.errors.join("; ")}` : "";

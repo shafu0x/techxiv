@@ -1,4 +1,5 @@
 import { canonicalPostUrl } from "./url";
+import type { IngestCache } from "./ingest-cache";
 
 export const FEEDS: Record<string, string> = {
   openai: "https://openai.com/news/rss.xml",
@@ -82,18 +83,21 @@ function parseFeed(xml: string): FeedPost[] {
   return posts;
 }
 
-async function fetchXml(url: string) {
+async function fetchPosts(url: string, source?: IngestCache) {
+  const parse = (text: string) => {
+    if (!/<(?:item|entry)\b/i.test(text)) {
+      throw new Error(`${url} → not a feed`);
+    }
+    return parseFeed(text);
+  };
+  if (source) return source.read("feed-v1", url, parse);
+
   const response = await fetch(url, { cache: "no-store", headers: HEADERS });
   if (!response.ok) {
     throw new Error(`${url} → ${response.status}`);
   }
 
-  const text = await response.text();
-  if (!/<(?:item|entry)\b/i.test(text)) {
-    throw new Error(`${url} → not a feed`);
-  }
-
-  return text;
+  return parse(await response.text());
 }
 
 function withPage(feedUrl: string, param: string, page: number) {
@@ -102,15 +106,20 @@ function withPage(feedUrl: string, param: string, page: number) {
   return url.href;
 }
 
-export async function fetchFeedPosts(feedUrl: string, known: Set<string> = new Set()) {
+export async function fetchFeedPosts(
+  feedUrl: string,
+  known: Set<string> | ((urls: string[]) => Promise<Set<string>>) = new Set(),
+  source?: IngestCache,
+) {
   const seen = new Set<string>();
   const posts: FeedPost[] = [];
 
-  const take = (xml: string) => {
-    const parsed = parseFeed(xml);
+  const take = async (parsed: FeedPost[]) => {
+    const stored =
+      typeof known === "function" ? await known(parsed.map((post) => post.url)) : known;
     let added = 0;
     for (const post of parsed) {
-      if (seen.has(post.url) || known.has(post.url)) {
+      if (seen.has(post.url) || stored.has(post.url)) {
         continue;
       }
       seen.add(post.url);
@@ -120,7 +129,7 @@ export async function fetchFeedPosts(feedUrl: string, known: Set<string> = new S
     return { added, size: parsed.length };
   };
 
-  const first = take(await fetchXml(feedUrl));
+  const first = await take(await fetchPosts(feedUrl, source));
 
   // Dumps like vercel.com/atom ignore ?page=; only walk short windows.
   if (first.size >= 30) {
@@ -131,7 +140,7 @@ export async function fetchFeedPosts(feedUrl: string, known: Set<string> = new S
     let added = 0;
     for (const param of ["paged", "page"] as const) {
       try {
-        added = take(await fetchXml(withPage(feedUrl, param, page))).added;
+        added = (await take(await fetchPosts(withPage(feedUrl, param, page), source))).added;
       } catch {
         continue;
       }
